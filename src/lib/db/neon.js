@@ -21,7 +21,7 @@ import { neon } from "@neondatabase/serverless";
  * const comment = "Đây là bình luận mẫu";
  * await sql("INSERT INTO comments (comment) VALUES ($1)", [comment]);
  */
-export function getConnBingo() {
+export function getConnection() {
   const { DATABASE_URL } = process.env;
 
   if (!DATABASE_URL) {
