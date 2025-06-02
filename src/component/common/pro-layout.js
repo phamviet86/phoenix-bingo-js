@@ -5,7 +5,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ProLayout as AntProLayout } from "@ant-design/pro-components";
-import { LAYOUT_CONFIG } from "@/component/config/layout-config";
+import { LAYOUT_CONFIG } from "@/component/config";
 
 export function ProLayout({ menu = [], ...props }) {
   const pathname = usePathname();

@@ -3,7 +3,7 @@
 import { useCallback } from "react";
 import { message } from "antd";
 import { ProTable as AntProTable } from "@ant-design/pro-components";
-import { TABLE_CONFIG } from "@/component/config/table-config";
+import { TABLE_CONFIG } from "@/component/config";
 
 export function ProTable({
   onDataRequest = undefined,

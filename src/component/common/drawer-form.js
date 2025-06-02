@@ -3,7 +3,7 @@
 import { useCallback } from "react";
 import { message } from "antd";
 import { DrawerForm as AntDrawerForm } from "@ant-design/pro-components";
-import { DRAWER_CONFIG } from "@/component/config/drawer-config";
+import { FORM_CONFIG, DRAWER_CONFIG } from "@/component/config";
 
 export function DrawerForm({
   fields = null,
@@ -30,6 +30,7 @@ export function DrawerForm({
 
       try {
         const result = await onDataRequest(params);
+        // result: { success, message, data: array }
         onDataRequestSuccess?.(result);
         return result.data[0] || {};
       } catch (error) {
@@ -51,6 +52,7 @@ export function DrawerForm({
 
       try {
         const result = await onDataSubmit(values);
+        // result: { success, message, data: array }
         messageApi.success(result.message);
         onDataSubmitSuccess?.(result);
         return true;
@@ -69,16 +71,14 @@ export function DrawerForm({
       {contextHolder}
       <AntDrawerForm
         {...props}
+        {...FORM_CONFIG}
+        drawerProps={DRAWER_CONFIG}
+        {...formHook}
         formRef={formRef}
         open={visible}
         onOpenChange={setVisible}
         request={onDataRequest ? handleDataRequest : undefined}
         onFinish={onDataSubmit ? handleDataSubmit : undefined}
-        drawerProps={DRAWER_CONFIG}
-        width={width}
-        autoFocusFirstInput={false}
-        omitNil={false}
-        grid={true}
       >
         {fields}
       </AntDrawerForm>

@@ -3,8 +3,7 @@
 import { useCallback } from "react";
 import { message, Drawer } from "antd";
 import { ProDescriptions } from "@ant-design/pro-components";
-import { DRAWER_CONFIG } from "@/component/config/drawer-config";
-import { INFO_CONFIG } from "@/component/config/desc-config";
+import { DRAWER_CONFIG, INFO_CONFIG } from "@/component/config";
 
 export function DrawerInfo({
   onDataRequest = undefined,
