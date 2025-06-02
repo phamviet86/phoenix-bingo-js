@@ -27,7 +27,6 @@ description: "Tạo page component hoàn chỉnh cho quản lý entity với ch�
   - pageButton: Create button với `PlusOutlined` icon
   - Left columns: Info button với `InfoCircleOutlined` icon
   - Right columns: Edit button với `EditOutlined` icon
-  - Proper responsive breakpoints (`responsive: ["md"]`)
 - Sử dụng các quy ước đặt tên:
   - PascalCase cho entity component names (ví dụ: `OptionTable`, `OptionFormCreate`)
   - Vietnamese labels cho UI text
