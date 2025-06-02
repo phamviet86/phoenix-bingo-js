@@ -54,6 +54,21 @@ export function buildApiResponse(
   return response;
 }
 
+/**
+ * Xử lý dữ liệu trả về từ database, chuẩn hóa về dạng { data, count, total }
+ * @param {Array} result - Mảng kết quả truy vấn từ database
+ * @returns {{ data: Array, count: number, total: number }} Đối tượng chứa dữ liệu đã xử lý
+ *
+ * @example
+ * // Khi có dữ liệu
+ * handleData([{ id: 1, name: "A", total: 10 }, { id: 2, name: "B", total: 10 }])
+ * // => { data: [{ id: 1, name: "A" }, { id: 2, name: "B" }], count: 2, total: 10 }
+ *
+ * @example
+ * // Khi không có dữ liệu
+ * handleData([])
+ * // => { data: [], count: 0, total: 0 }
+ */
 export function handleData(result) {
   if (!Array.isArray(result)) {
     return {
