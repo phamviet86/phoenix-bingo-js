@@ -8,4 +8,4 @@ export * from "./pro-table";
 export * from "./pro-descriptions";
 export * from "./drawer-info";
 export * from "./drawer-form";
-// export * from "./result";
+export * from "./result";
