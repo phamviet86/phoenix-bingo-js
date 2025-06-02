@@ -13,11 +13,10 @@ export function DrawerForm({
   onDataSubmit = undefined,
   onDataSubmitError = undefined,
   onDataSubmitSuccess = undefined,
-  width = 520,
   formHook = {},
   ...props
 }) {
-  const { formRef, visible, setVisible } = formHook;
+  const { formRef, visible, setVisible, title = undefined } = formHook;
   const [messageApi, contextHolder] = message.useMessage();
 
   // Handlers
@@ -72,13 +71,13 @@ export function DrawerForm({
       <AntDrawerForm
         {...props}
         {...FORM_CONFIG}
-        drawerProps={DRAWER_CONFIG}
-        {...formHook}
         formRef={formRef}
-        open={visible}
-        onOpenChange={setVisible}
         request={onDataRequest ? handleDataRequest : undefined}
         onFinish={onDataSubmit ? handleDataSubmit : undefined}
+        open={visible}
+        onOpenChange={setVisible}
+        drawerProps={DRAWER_CONFIG}
+        title={title}
       >
         {fields}
       </AntDrawerForm>
