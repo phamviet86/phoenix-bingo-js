@@ -46,7 +46,8 @@ description: "Tạo các file API route hoàn chỉnh cho một service với c�
   - Request body cho các thao tác POST và PUT
   - Tham số đường dẫn URL cho các thao tác [id] sử dụng `await context.params`
 - Pattern kiểm tra kết quả service:
-  - Sử dụng `if (!result || !result.count)` để kiểm tra thành công/thất bại
+  - Sử dụng `if (!result || !result.length)` để kiểm tra thành công/thất bại cho getById, create, update, delete
+  - Sử dụng `handleData(result)` và kiểm tra `data, total` cho getAll operations
   - Trả về 404 cho các trường hợp không tìm thấy
   - Trả về 500 cho các trường hợp creation/update failed
 - Các response thành công nên bao gồm:
@@ -120,7 +121,7 @@ export async function POST(request) {
     const result = await createOption(data);
 
     if (!result || !result.length)
-      return buildApiResponse(404, false, "Không thể thực hiện thao tác.");
+      return buildApiResponse(500, false, "Không thể thực hiện thao tác.");
 
     return buildApiResponse(201, true, "Tạo tùy chọn thành công.", {
       data: result,
