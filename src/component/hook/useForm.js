@@ -6,7 +6,6 @@ export function useForm() {
   const formRef = useRef();
   const [visible, setVisible] = useState(false);
   const [record, setRecord] = useState({});
-  const [title, setTitle] = useState(null);
 
   const open = (record) => {
     setRecord(record);
@@ -16,7 +15,6 @@ export function useForm() {
   const close = () => {
     setVisible(false);
     setRecord({});
-    setTitle(null);
   };
 
   const reset = () => {
@@ -32,8 +30,6 @@ export function useForm() {
     setVisible,
     record,
     setRecord,
-    title,
-    setTitle,
     open,
     close,
   };

@@ -16,7 +16,7 @@ export function DrawerForm({
   formHook = {},
   ...props
 }) {
-  const { formRef, visible, setVisible, title = undefined } = formHook;
+  const { formRef, visible, setVisible } = formHook;
   const [messageApi, contextHolder] = message.useMessage();
 
   // Handlers
@@ -77,7 +77,6 @@ export function DrawerForm({
         open={visible}
         onOpenChange={setVisible}
         drawerProps={DRAWER_CONFIG}
-        title={title}
       >
         {fields}
       </AntDrawerForm>

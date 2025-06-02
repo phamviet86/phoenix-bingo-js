@@ -7,7 +7,8 @@ import {
   OptionTable,
   OptionInfo,
   OptionsColumns,
-  OptionForm,
+  OptionFormCreate,
+  OptionFormEdit,
   OptionsFields,
 } from "@/component/custom";
 import { useTable, useInfo, useForm } from "@/component/hook";
@@ -18,13 +19,10 @@ export default function Page() {
   const optionForm = useForm();
 
   const pageButton = [
-    <Button
-      key="create-button"
-      label="Tạo mới"
-      onClick={() => {
-        optionForm.setTitle("Tạo tùy chọn");
-        optionForm.open({});
-      }}
+    <OptionFormCreate
+      fields={OptionsFields()}
+      onDataSubmitSuccess={() => optionTable.reload()}
+      trigger={<Button key="create-button" label="Tạo mới" />}
     />,
   ];
 
@@ -57,7 +55,6 @@ export default function Page() {
                 icon={<EditOutlined />}
                 variant="link"
                 onClick={() => {
-                  optionForm.setTitle("Sửa tùy chọn");
                   optionForm.open(record);
                 }}
               />
@@ -78,19 +75,18 @@ export default function Page() {
               label="Sửa"
               onClick={() => {
                 optionInfo.close();
-                optionForm.setTitle("Sửa tùy chọn");
                 optionForm.open(optionInfo.record);
               }}
             />,
           ],
         }}
       />
-      <OptionForm
+      <OptionFormEdit
         formHook={optionForm}
         fields={OptionsFields()}
         onDataSubmitSuccess={() => optionTable.reload()}
         initialValues={optionForm.record}
-        title={optionForm.title}
+        id={optionForm.record.id}
       />
     </ProCard>
   );

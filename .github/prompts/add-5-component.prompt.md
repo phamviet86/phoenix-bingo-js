@@ -1,120 +1,119 @@
-# Table Component Generator
+---
+mode: "edit"
+description: "Tạo một file component hoàn chỉnh với các thao tác CRUD dựa trên tên bảng được cung cấp."
+---
 
-## Objective
+## Yêu cầu
 
-Generate a set of component functions for performing CRUD operations based on a provided table name.
+- Tạo file component từ tên bảng:
+  - `{table-name}-component.js` trong thư mục `/src/component/custom/{tableName}/`
+  - Export năm functions: `{TableName}Table`, `{TableName}Desc`, `{TableName}Info`, `{TableName}FormCreate`, `{TableName}FormEdit`
+- Bao gồm các thao tác CRUD hoàn chỉnh:
+  - Table: Component hiển thị danh sách dữ liệu với pagination, filtering và sorting
+  - Desc: Component hiển thị thông tin chi tiết bản ghi
+  - Info: Component hiển thị modal dialog thông tin
+  - FormCreate: Component tạo bản ghi mới
+  - FormEdit: Component chỉnh sửa bản ghi hiện có
+- Tuân theo các mẫu đã thiết lập của dự án cho:
+  - Import statements từ common components và fetch utilities
+  - Props spreading sử dụng destructuring pattern
+  - API endpoint paths nhất quán với `/api/{tableName}`
+  - Vietnamese titles cho forms và actions
+- Bao gồm cấu hình component phù hợp:
+  - Table component: sử dụng `onDataRequest` với `fetchList`
+  - Form components: sử dụng `onDataSubmit` với `fetchPost`/`fetchPut`
+  - Info component: sử dụng `DrawerInfo` wrapper
+  - Description component: sử dụng `ProDescriptions` wrapper
+- Sử dụng các quy ước đặt tên:
+  - File names: kebab-case (ví dụ: `options-component.js`)
+  - Function names: PascalCase với table name (ví dụ: `OptionTable`, `OptionFormCreate`)
+  - Component titles: Vietnamese với proper context (ví dụ: "Tạo tùy chọn", "Sửa tùy chọn")
+- Triển khai pattern component:
+  - Destructuring cho id parameter trong edit forms: `{ id, ...props }`
+  - Props spreading: `{...props}` cho tất cả components
+  - Consistent API endpoint format: `/api/{tableName}` và `/api/{tableName}/${id}`
 
-## Requirements
+## Ghi chú
 
-- Accept a table name as input (e.g., "options", "resources", "roles").
-- Use `/api/{tableName}` as the base URL for all API operations.
-- Generate six component functions with PascalCase naming based on the table name:
-  - `{TableName}Table`: Component for displaying data
-  - `{TableName}Description`: Component for showing detailed record information
-  - `{TableName}Info`: Component for displaying a modal dialog
-  - `{TableName}FormCreate`: Component for creating new records
-  - `{TableName}FormEdit`: Component for editing existing records
-  - `{TableName}DeleteButton`: Component for deleting records
-- Import standard components from `@/components/common`: `ProTable`, `ProDescriptions`, `DrawerForm`, `ModalDescriptions`, `DeleteConfirm`, `Button`.
-- Import fetch utilities from `@/lib/helpers/fetch-helper`: `fetchLIST`, `fetchPOST`, `fetchPUT`, `fetchGET`, `fetchDELETE`.
-- Use Vietnamese labels: "Tạo" for create actions, "Xoá" for delete actions.
-- Apply appropriate button styling: primary/solid for create, danger/solid for delete.
-- Handle props spreading consistently using destructuring.
-- Use `DrawerForm` component for form operations (not `ModalForm`).
-- Include Vietnamese titles for forms: "Tạo [item]" for create, "Sửa [item]" for edit.
-- Save the generated file to `/src/components/{tableName}/{tableName}-component.js`.
-- Create or update `/src/components/{tableName}/index.js` to export the component.
+- Sử dụng tên bảng để:
+  - Tạo PascalCase function names (ví dụ: "options" → "OptionTable")
+  - Xác định API endpoints phù hợp
+  - Tạo Vietnamese titles có ý nghĩa cho forms
+- Import patterns:
+  - Common components từ `@/component/common`: `ProTable`, `ProDescriptions`, `DrawerInfo`, `DrawerForm`
+  - Fetch utilities từ `@/lib/util/fetch-util`: `fetchList`, `fetchPost`, `fetchPut`
+- Component structure patterns:
+  - Table: nhận `params, sort, filter` từ `onDataRequest`
+  - Forms: nhận `values` từ `onDataSubmit`
+  - Edit forms: nhận `id` riêng biệt và spread remaining props
+- API call patterns:
+  - GET list: `fetchList("/api/{tableName}", params, sort, filter)`
+  - POST: `fetchPost("/api/{tableName}", values)`
+  - PUT: `fetchPut(\`/api/{tableName}/${id}\`, values)`
+- Vietnamese terminology:
+  - Create: "Tạo [item name in Vietnamese]"
+  - Edit: "Sửa [item name in Vietnamese]"
+  - Use appropriate Vietnamese terms for each table context
 
-## Notes
+## Ví dụ
 
-- Ensure each component function is independently exported.
-- The API endpoint paths should be consistent as `/api/{tableName}` across all operations.
-- Keep the component structure simple and focused on specific functionality.
-- The index.js file should export all functions from the component file.
+### Đầu vào
 
-## Example:
+```
+Table: options
+```
 
-### Input: "rooms"
-
-### Output rooms-component.js:
+### Đầu ra (options-component.js)
 
 ```javascript
 import {
   ProTable,
   ProDescriptions,
+  DrawerInfo,
   DrawerForm,
-  ModalDescriptions,
-  DeleteConfirm,
-  Button,
-} from "@/components/common";
+} from "@/component/common";
 import {
-  fetchLIST,
-  fetchPOST,
-  fetchPUT,
-  fetchGET,
-  fetchDELETE,
-} from "@/lib/helpers/fetch-helper";
+  fetchList,
+  fetchPost,
+  fetchPut,
+} from "@/lib/util/fetch-util";
 
-export function RoomTable(props) {
+export function OptionTable(props) {
   return (
     <ProTable
       {...props}
-      fetch={async (params, sort, filter) =>
-        await fetchLIST("/api/rooms", params, sort, filter)
+      onDataRequest={(params, sort, filter) =>
+        fetchList("/api/options", params, sort, filter)
       }
     />
   );
 }
 
-export function RoomDescription({ id, ...props }) {
-  return (
-    <ProDescriptions
-      {...props}
-      fetch={async () => await fetchGET("/api/rooms", id)}
-    />
-  );
+export function OptionDesc(props) {
+  return <ProDescriptions {...props} />;
 }
 
-export function RoomInfo(props) {
-  return <ModalDescriptions {...props} title="Thông tin" />;
+export function OptionInfo(props) {
+  return <DrawerInfo {...props} />;
 }
 
-export function RoomFormCreate(props) {
+export function OptionFormCreate(props) {
   return (
     <DrawerForm
       {...props}
-      submit={async (values) => await fetchPOST("/api/rooms", values)}
-      title="Tạo phòng học"
+      onDataSubmit={(values) => fetchPost("/api/options", values)}
+      title="Tạo tùy chọn"
     />
   );
 }
 
-export function RoomFormEdit({ id, ...props }) {
+export function OptionFormEdit({ id, ...props }) {
   return (
     <DrawerForm
       {...props}
-      fetch={async () => await fetchGET("/api/rooms", id)}
-      submit={async (values) => await fetchPUT("/api/rooms", id, values)}
-      title="Sửa phòng học"
+      onDataSubmit={(values) => fetchPut(`/api/options/${id}`, values)}
+      title="Sửa tùy chọn"
     />
   );
 }
-
-export function RoomDeleteButton({ id, ...props }) {
-  return (
-    <DeleteConfirm
-      {...props}
-      accept={async () => await fetchDELETE("/api/rooms", id)}
-    >
-      <Button label="Xoá" color="danger" variant="solid" />
-    </DeleteConfirm>
-  );
-}
-```
-
-### Output index.js:
-
-```javascript
-export * from "@/components/rooms/rooms-component";
-export * from "@/components/rooms/rooms-schema";
 ```
