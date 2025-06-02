@@ -32,8 +32,8 @@ export function RolesFields() {
       <ProFormText name="id" label="ID" hidden disabled />
       <ProFormText
         name="role_name"
-        label="Vai trò"
-        placeholder="Nhập vai trò"
+        label="Tên vai trò"
+        placeholder="Nhập tên vai trò"
         rules={[{ required: true }]}
       />
       <ProFormText
@@ -45,7 +45,7 @@ export function RolesFields() {
       <ProFormSelect
         name="role_color"
         label="Màu sắc"
-        placeholder="Nhập mã màu"
+        placeholder="Chọn màu sắc"
         rules={[{ required: true }]}
         valueEnum={COLORS}
       />

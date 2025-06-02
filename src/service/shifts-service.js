@@ -1,9 +1,9 @@
-// path: @/service/rooms-service.js
+// path: @/service/shifts-service.js
 
 import { getConnection } from "@/lib/db/neon";
 import { parseSearchParams } from "@/lib/util/query-util";
 
-export async function getRooms(searchParams) {
+export async function getShifts(searchParams) {
   try {
     const ignoredSearchColumns = [];
     const { whereClause, orderByClause, limitClause, queryValues } =
@@ -11,12 +11,12 @@ export async function getRooms(searchParams) {
 
     const sqlValue = [...queryValues];
     const sqlText = `
-      SELECT id, room_name, room_desc,
+      SELECT id, shift_name, shift_start_time, shift_end_time,
         COUNT(*) OVER() AS total
-      FROM rooms
+      FROM shifts
       WHERE deleted_at IS NULL
       ${whereClause}
-      ${orderByClause || "ORDER BY room_name"}
+      ${orderByClause || "ORDER BY shift_start_time, shift_end_time"}
       ${limitClause};
     `;
 
@@ -27,12 +27,12 @@ export async function getRooms(searchParams) {
   }
 }
 
-export async function getRoom(id) {
+export async function getShift(id) {
   try {
     const sql = getConnection();
     return await sql`
-      SELECT id, room_name, room_desc
-      FROM rooms
+      SELECT id, shift_name, shift_start_time, shift_end_time
+      FROM shifts
       WHERE deleted_at IS NULL AND id = ${id};
     `;
   } catch (error) {
@@ -40,48 +40,48 @@ export async function getRoom(id) {
   }
 }
 
-export async function createRoom(data) {
+export async function createShift(data) {
   try {
-    const { room_name, room_desc } = data;
+    const { shift_name, shift_start_time, shift_end_time } = data;
 
     const sql = getConnection();
     return await sql`
-      INSERT INTO rooms (
-        room_name, room_desc
+      INSERT INTO shifts (
+        shift_name, shift_start_time, shift_end_time
       ) VALUES (
-        ${room_name}, ${room_desc}
+        ${shift_name}, ${shift_start_time}, ${shift_end_time}
       )
-      RETURNING id, room_name, room_desc;
+      RETURNING id, shift_name, shift_start_time, shift_end_time;
     `;
   } catch (error) {
     throw new Error(error.message);
   }
 }
 
-export async function updateRoom(data, id) {
+export async function updateShift(data, id) {
   try {
-    const { room_name, room_desc } = data;
+    const { shift_name, shift_start_time, shift_end_time } = data;
 
     const sql = getConnection();
     return await sql`
-      UPDATE rooms
-      SET room_name = ${room_name}, room_desc = ${room_desc}
+      UPDATE shifts
+      SET shift_name = ${shift_name}, shift_start_time = ${shift_start_time}, shift_end_time = ${shift_end_time}
       WHERE deleted_at IS NULL AND id = ${id}
-      RETURNING id, room_name, room_desc;
+      RETURNING id, shift_name, shift_start_time, shift_end_time;
     `;
   } catch (error) {
     throw new Error(error.message);
   }
 }
 
-export async function deleteRoom(id) {
+export async function deleteShift(id) {
   try {
     const sql = getConnection();
     return await sql`
-      UPDATE rooms
+      UPDATE shifts
       SET deleted_at = NOW()
       WHERE deleted_at IS NULL AND id = ${id}
-      RETURNING id, room_name, room_desc;
+      RETURNING id, shift_name, shift_start_time, shift_end_time;
     `;
   } catch (error) {
     throw new Error(error.message);

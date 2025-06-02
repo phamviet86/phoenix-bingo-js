@@ -16,7 +16,7 @@ export async function getRoles(searchParams) {
       FROM roles
       WHERE deleted_at IS NULL
       ${whereClause}
-      ${orderByClause || "ORDER BY created_at"}
+      ${orderByClause || "ORDER BY role_name"}
       ${limitClause};
     `;
 

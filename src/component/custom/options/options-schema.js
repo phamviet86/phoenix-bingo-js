@@ -54,31 +54,31 @@ export function OptionsFields() {
       <ProFormText name="id" label="ID" hidden disabled />
       <ProFormText
         name="option_table"
-        label="Bảng"
+        label="Tên bảng"
         placeholder="Nhập tên bảng"
         rules={[{ required: true }]}
       />
       <ProFormText
         name="option_column"
-        label="Cột"
+        label="Tên cột"
         placeholder="Nhập tên cột"
         rules={[{ required: true }]}
       />
       <ProFormText
         name="option_label"
-        label="Nhãn"
-        placeholder="Nhập nhãn"
+        label="Tên nhãn"
+        placeholder="Nhập tên nhãn"
         rules={[{ required: true }]}
       />
       <ProFormSelect
         name="option_color"
         label="Màu sắc"
-        placeholder="Nhập mã màu"
+        placeholder="Chọn màu sắc"
         valueEnum={COLORS}
       />
       <ProFormText
         name="option_group"
-        label="Nhóm"
+        label="Tên nhóm"
         placeholder="Nhập tên nhóm"
       />
     </ProForm.Group>

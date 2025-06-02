@@ -23,7 +23,7 @@ export function RoomsFields() {
       <ProFormText name="id" label="ID" hidden disabled />
       <ProFormText
         name="room_name"
-        label="Phòng"
+        label="Tên phòng"
         placeholder="Nhập tên phòng"
         rules={[{ required: true }]}
       />

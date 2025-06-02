@@ -11,3 +11,7 @@ export * from "./roles/roles-schema";
 // rooms
 export * from "./rooms/rooms-component";
 export * from "./rooms/rooms-schema";
+
+// shifts
+export * from "./shifts/shifts-component";
+export * from "./shifts/shifts-schema";
