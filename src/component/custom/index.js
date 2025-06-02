@@ -15,3 +15,7 @@ export * from "./rooms/rooms-schema";
 // shifts
 export * from "./shifts/shifts-component";
 export * from "./shifts/shifts-schema";
+
+// courses
+export * from "./courses/courses-component";
+export * from "./courses/courses-schema";
