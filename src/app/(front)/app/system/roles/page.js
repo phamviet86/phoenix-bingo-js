@@ -8,24 +8,24 @@ import {
 import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button } from "@/component/common";
 import {
-  OptionTable,
-  OptionInfo,
-  OptionFormCreate,
-  OptionFormEdit,
-  OptionsColumns,
-  OptionsFields,
+  RoleTable,
+  RoleInfo,
+  RoleFormCreate,
+  RoleFormEdit,
+  RolesColumns,
+  RolesFields,
 } from "@/component/custom";
 import { useTable, useInfo, useForm } from "@/component/hook";
 
 export default function Page() {
-  const optionTable = useTable();
-  const optionInfo = useInfo();
-  const optionForm = useForm();
+  const roleTable = useTable();
+  const roleInfo = useInfo();
+  const roleForm = useForm();
 
   const pageButton = [
-    <OptionFormCreate
-      fields={OptionsFields()}
-      onDataSubmitSuccess={() => optionTable.reload()}
+    <RoleFormCreate
+      fields={RolesFields()}
+      onDataSubmitSuccess={() => roleTable.reload()}
       trigger={
         <Button key="create-button" label="Tạo mới" icon={<PlusOutlined />} />
       }
@@ -34,9 +34,9 @@ export default function Page() {
 
   const pageContent = (
     <ProCard boxShadow>
-      <OptionTable
-        tableHook={optionTable}
-        columns={OptionsColumns()}
+      <RoleTable
+        tableHook={roleTable}
+        columns={RolesColumns()}
         leftColumns={[
           {
             width: 56,
@@ -46,7 +46,7 @@ export default function Page() {
               <Button
                 icon={<InfoCircleOutlined />}
                 variant="link"
-                onClick={() => optionInfo.open(record)}
+                onClick={() => roleInfo.open(record)}
               />
             ),
           },
@@ -61,7 +61,7 @@ export default function Page() {
                 icon={<EditOutlined />}
                 variant="link"
                 onClick={() => {
-                  optionForm.open(record);
+                  roleForm.open(record);
                 }}
               />
             ),
@@ -69,38 +69,38 @@ export default function Page() {
           },
         ]}
       />
-      <OptionInfo
-        infoHook={optionInfo}
-        columns={OptionsColumns()}
-        dataSource={optionInfo.record}
+      <RoleInfo
+        infoHook={roleInfo}
+        columns={RolesColumns()}
+        dataSource={roleInfo.record}
         drawerProps={{
-          title: "Thông tin tùy chọn",
+          title: "Thông tin vai trò",
           footer: [
             <Button
               key="edit-button"
               label="Sửa"
               onClick={() => {
-                optionInfo.close();
-                optionForm.open(optionInfo.record);
+                roleInfo.close();
+                roleForm.open(roleInfo.record);
               }}
             />,
           ],
         }}
       />
-      <OptionFormEdit
-        formHook={optionForm}
-        fields={OptionsFields()}
-        onDataSubmitSuccess={() => optionTable.reload()}
-        initialValues={optionForm.record}
-        id={optionForm.record.id}
+      <RoleFormEdit
+        formHook={roleForm}
+        fields={RolesFields()}
+        onDataSubmitSuccess={() => roleTable.reload()}
+        initialValues={roleForm.record}
+        id={roleForm.record.id}
       />
     </ProCard>
   );
 
   return (
     <PageContainer
-      items={[{ title: "Hệ thống" }, { title: "Tùy chọn" }]}
-      title="Quản lý tùy chọn"
+      items={[{ title: "Hệ thống" }, { title: "Vai trò" }]}
+      title="Quản lý vai trò"
       extra={pageButton}
       content={pageContent}
     />

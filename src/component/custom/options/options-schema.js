@@ -16,7 +16,7 @@ export function OptionsColumns() {
       dataIndex: "option_table",
       valueType: "text",
       sorter: { multiple: 1 },
-      responsive: ["md"],
+      responsive: ["lg"],
     },
     {
       title: "Cột",
@@ -36,7 +36,7 @@ export function OptionsColumns() {
       valueType: "text",
       filters: true,
       sorter: { multiple: 1 },
-      responsive: ["lg"],
+      responsive: ["xl"],
     },
   ];
 }
