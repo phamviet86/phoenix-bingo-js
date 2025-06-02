@@ -3,7 +3,7 @@ import { ProForm, ProFormText, ProFormTextArea } from "@ant-design/pro-form";
 export function RoomsColumns() {
   return [
     {
-      title: "Tên phòng",
+      title: "Phòng",
       dataIndex: "room_name",
       valueType: "text",
       sorter: { multiple: 1 },
@@ -23,7 +23,7 @@ export function RoomsFields() {
       <ProFormText name="id" label="ID" hidden disabled />
       <ProFormText
         name="room_name"
-        label="Tên phòng"
+        label="Phòng"
         placeholder="Nhập tên phòng"
         rules={[{ required: true }]}
       />
