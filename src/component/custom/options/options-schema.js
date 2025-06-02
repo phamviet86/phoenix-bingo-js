@@ -31,12 +31,19 @@ export function OptionsColumns() {
       sorter: { multiple: 1 },
     },
     {
+      title: "Màu sắc",
+      dataIndex: "option_color",
+      valueType: "select",
+      valueEnum: COLORS,
+      sorter: { multiple: 1 },
+      responsive: ["xl"],
+    },
+    {
       title: "Nhóm",
       dataIndex: "option_group",
       valueType: "text",
-      filters: true,
       sorter: { multiple: 1 },
-      responsive: ["xl"],
+      responsive: ["xxl"],
     },
   ];
 }

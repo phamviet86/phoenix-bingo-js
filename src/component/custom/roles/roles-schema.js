@@ -1,4 +1,5 @@
-import { ProForm, ProFormText } from "@ant-design/pro-form";
+import { ProForm, ProFormText, ProFormSelect } from "@ant-design/pro-form";
+import { COLORS } from "@/component/config";
 
 export function RolesColumns() {
   return [
@@ -17,7 +18,8 @@ export function RolesColumns() {
     {
       title: "Màu sắc",
       dataIndex: "role_color",
-      valueType: "text",
+      valueType: "select",
+      valueEnum: COLORS,
       sorter: { multiple: 1 },
       responsive: ["md"],
     },
@@ -40,11 +42,12 @@ export function RolesFields() {
         placeholder="Nhập đường dẫn"
         rules={[{ required: true }]}
       />
-      <ProFormText
+      <ProFormSelect
         name="role_color"
         label="Màu sắc"
         placeholder="Nhập mã màu"
         rules={[{ required: true }]}
+        valueEnum={COLORS}
       />
     </ProForm.Group>
   );
