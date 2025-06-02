@@ -85,12 +85,12 @@ export function handleData(result) {
   const formattedData = result.map(
     ({ total, ...remainingData }) => remainingData
   );
-  const recordCount = result.length;
+  // const recordCount = result.length;
   const totalRecords = parseInt(result[0]?.total, 10) || recordCount;
 
   const processedResult = {
     data: formattedData,
-    count: recordCount,
+    // count: recordCount,
     total: totalRecords,
   };
 

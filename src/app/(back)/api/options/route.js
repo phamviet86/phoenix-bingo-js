@@ -5,10 +5,9 @@ export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const result = await getOptions(searchParams);
-    const { data, count, total } = handleData(result);
+    const { data, total } = handleData(result);
     return buildApiResponse(200, true, "Lấy danh sách tùy chọn thành công", {
       data,
-      count,
       total,
     });
   } catch (error) {
@@ -43,7 +42,9 @@ export async function POST(request) {
     if (!result || !result.length)
       return buildApiResponse(404, false, "Không thể thực hiện thao tác.");
 
-    return buildApiResponse(201, true, "Tạo tùy chọn thành công.", result);
+    return buildApiResponse(201, true, "Tạo tùy chọn thành công.", {
+      data: result,
+    });
   } catch (error) {
     return buildApiResponse(500, false, error.message);
   }

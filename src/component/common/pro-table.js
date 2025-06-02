@@ -6,9 +6,6 @@ import { ProTable as AntProTable } from "@ant-design/pro-components";
 import { TABLE_CONFIG } from "@/component/config/table-config";
 
 export function ProTable({
-  columns = [],
-  leftColumns = [],
-  rightColumns = [],
   onDataRequest = undefined,
   onDataRequestError = undefined,
   onDataRequestSuccess = undefined,
@@ -16,6 +13,9 @@ export function ProTable({
   onRowsSelectError = undefined,
   onRowClick = undefined,
   onRowClickError = undefined,
+  columns = [],
+  leftColumns = [],
+  rightColumns = [],
   showSearch = true,
   showOptions = false,
   showPagination = true,
@@ -28,23 +28,19 @@ export function ProTable({
 
   // Handlers
   const handleDataRequest = useCallback(
-    async (requestParams, sortConfig, filterConfig) => {
+    async (params, sort, filter) => {
       if (!onDataRequest) {
         messageApi.error("Data request handler not provided");
         return false;
       }
 
       try {
-        const result = await onDataRequest(
-          requestParams,
-          sortConfig,
-          filterConfig
-        );
+        const result = await onDataRequest(params, sort, filter);
+        // result: { success, message , data: array, total }
         onDataRequestSuccess?.(result);
         return result;
       } catch (error) {
-        const errorMessage = error?.message || "Đã xảy ra lỗi";
-        messageApi.error(errorMessage);
+        messageApi.error(error?.message || "Đã xảy ra lỗi");
         onDataRequestError?.(error);
         return false;
       }
@@ -60,8 +56,7 @@ export function ProTable({
         onRowsSelect(selectedRowsData);
         return true;
       } catch (error) {
-        const errorMessage = error?.message || "Đã xảy ra lỗi";
-        messageApi.error(errorMessage);
+        messageApi.error(error?.message || "Đã xảy ra lỗi");
         onRowsSelectError?.(error);
         return false;
       }
@@ -77,8 +72,7 @@ export function ProTable({
         onRowClick(rowRecord);
         return true;
       } catch (error) {
-        const errorMessage = error?.message || "Đã xảy ra lỗi";
-        messageApi.error(errorMessage);
+        messageApi.error(error?.message || "Đã xảy ra lỗi");
         onRowClickError?.(error);
         return false;
       }

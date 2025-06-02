@@ -14,18 +14,21 @@ export function ProDescriptions({
   const { descRef } = descHook;
   const [messageApi, contextHolder] = message.useMessage();
 
+  // Handlers
   const handleDataRequest = useCallback(
     async (params) => {
       if (!onDataRequest) {
         messageApi.error("Data request handler not provided");
         return false;
       }
+
       try {
         const result = await onDataRequest(params);
-        const record = result?.data?.[0] || {};
+        // result: { success, message, data: array }
         onDataRequestSuccess?.(result);
-        return { success: true, data: record };
+        return { success: true, data: result?.data?.[0] || {} };
       } catch (error) {
+        messageApi.error(error?.message || "Đã xảy ra lỗi");
         onDataRequestError?.(error);
         return false;
       }
@@ -33,6 +36,7 @@ export function ProDescriptions({
     [onDataRequest, onDataRequestSuccess, onDataRequestError, messageApi]
   );
 
+  // Render the component
   return (
     <>
       {contextHolder}
