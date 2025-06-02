@@ -11,7 +11,7 @@ export async function getOptions(searchParams) {
 
     const sqlValue = [...queryValues];
     const sqlText = `
-      SELECT id, updated_at, option_table, option_column, option_label, option_color, option_group,
+      SELECT id, option_table, option_column, option_label, option_color, option_group,
         COUNT(*) OVER() AS total
       FROM options
       WHERE deleted_at IS NULL
@@ -31,7 +31,7 @@ export async function getOption(id) {
   try {
     const sql = getConnection();
     return await sql`
-      SELECT id, updated_at, option_table, option_column, option_label, option_color, option_group
+      SELECT id, option_table, option_column, option_label, option_color, option_group
       FROM options
       WHERE deleted_at IS NULL AND id = ${id};
     `;
@@ -57,7 +57,7 @@ export async function createOption(data) {
       ) VALUES (
         ${option_table}, ${option_column}, ${option_label}, ${option_color}, ${option_group}
       )
-      RETURNING id, updated_at, option_table, option_column, option_label, option_color, option_group;
+      RETURNING id, option_table, option_column, option_label, option_color, option_group;
     `;
   } catch (error) {
     throw new Error(error.message);
@@ -79,7 +79,7 @@ export async function updateOption(data, id) {
       UPDATE options
       SET option_table = ${option_table}, option_column = ${option_column}, option_label = ${option_label}, option_color = ${option_color}, option_group = ${option_group}
       WHERE deleted_at IS NULL AND id = ${id}
-      RETURNING id, updated_at, option_table, option_column, option_label, option_color, option_group;
+      RETURNING id, option_table, option_column, option_label, option_color, option_group;
     `;
   } catch (error) {
     throw new Error(error.message);
@@ -93,7 +93,7 @@ export async function deleteOption(id) {
       UPDATE options
       SET deleted_at = NOW()
       WHERE deleted_at IS NULL AND id = ${id}
-      RETURNING id, updated_at, option_table, option_column, option_label, option_color, option_group;
+      RETURNING id, option_table, option_column, option_label, option_color, option_group;
     `;
   } catch (error) {
     throw new Error(error.message);

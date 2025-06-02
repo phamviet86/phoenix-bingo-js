@@ -1,9 +1,9 @@
-// path: @/service/roles-service.js
+// path: @/service/rooms-service.js
 
 import { getConnection } from "@/lib/db/neon";
 import { parseSearchParams } from "@/lib/util/query-util";
 
-export async function getRoles(searchParams) {
+export async function getRooms(searchParams) {
   try {
     const ignoredSearchColumns = [];
     const { whereClause, orderByClause, limitClause, queryValues } =
@@ -11,9 +11,9 @@ export async function getRoles(searchParams) {
 
     const sqlValue = [...queryValues];
     const sqlText = `
-      SELECT id, role_name, role_path, role_color,
+      SELECT id, room_name, room_desc,
         COUNT(*) OVER() AS total
-      FROM roles
+      FROM rooms
       WHERE deleted_at IS NULL
       ${whereClause}
       ${orderByClause || "ORDER BY created_at"}
@@ -27,12 +27,12 @@ export async function getRoles(searchParams) {
   }
 }
 
-export async function getRole(id) {
+export async function getRoom(id) {
   try {
     const sql = getConnection();
     return await sql`
-      SELECT id, role_name, role_path, role_color
-      FROM roles
+      SELECT id, room_name, room_desc
+      FROM rooms
       WHERE deleted_at IS NULL AND id = ${id};
     `;
   } catch (error) {
@@ -40,48 +40,48 @@ export async function getRole(id) {
   }
 }
 
-export async function createRole(data) {
+export async function createRoom(data) {
   try {
-    const { role_name, role_path, role_color } = data;
+    const { room_name, room_desc } = data;
 
     const sql = getConnection();
     return await sql`
-      INSERT INTO roles (
-        role_name, role_path, role_color
+      INSERT INTO rooms (
+        room_name, room_desc
       ) VALUES (
-        ${role_name}, ${role_path}, ${role_color}
+        ${room_name}, ${room_desc}
       )
-      RETURNING id, role_name, role_path, role_color;
+      RETURNING id, room_name, room_desc;
     `;
   } catch (error) {
     throw new Error(error.message);
   }
 }
 
-export async function updateRole(data, id) {
+export async function updateRoom(data, id) {
   try {
-    const { role_name, role_path, role_color } = data;
+    const { room_name, room_desc } = data;
 
     const sql = getConnection();
     return await sql`
-      UPDATE roles
-      SET role_name = ${role_name}, role_path = ${role_path}, role_color = ${role_color}
+      UPDATE rooms
+      SET room_name = ${room_name}, room_desc = ${room_desc}
       WHERE deleted_at IS NULL AND id = ${id}
-      RETURNING id, role_name, role_path, role_color;
+      RETURNING id, room_name, room_desc;
     `;
   } catch (error) {
     throw new Error(error.message);
   }
 }
 
-export async function deleteRole(id) {
+export async function deleteRoom(id) {
   try {
     const sql = getConnection();
     return await sql`
-      UPDATE roles
+      UPDATE rooms
       SET deleted_at = NOW()
       WHERE deleted_at IS NULL AND id = ${id}
-      RETURNING id, role_name, role_path, role_color;
+      RETURNING id, room_name, room_desc;
     `;
   } catch (error) {
     throw new Error(error.message);
