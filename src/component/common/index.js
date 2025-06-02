@@ -1,3 +1,5 @@
+// path: @/src/component/common/index.js
+
 export * from "./config-provider";
 export * from "./loading";
 export * from "./pro-layout";

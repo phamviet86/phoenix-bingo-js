@@ -1,3 +1,5 @@
+// path: @/src/component/config/index.js
+
 export * from "./provider-config";
 export * from "./layout-config";
 export * from "./table-config";
