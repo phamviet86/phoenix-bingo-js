@@ -1,6 +1,10 @@
 "use client";
 
-import { EditOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import {
+  PlusOutlined,
+  EditOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button } from "@/component/common";
 import {
@@ -22,7 +26,9 @@ export default function Page() {
     <OptionFormCreate
       fields={OptionsFields()}
       onDataSubmitSuccess={() => optionTable.reload()}
-      trigger={<Button key="create-button" label="Tạo mới" />}
+      trigger={
+        <Button key="create-button" label="Tạo mới" icon={<PlusOutlined />} />
+      }
     />,
   ];
 
