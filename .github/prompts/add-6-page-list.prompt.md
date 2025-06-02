@@ -6,7 +6,7 @@ description: "Tạo page component hoàn chỉnh cho quản lý entity với ch�
 ## Yêu cầu
 
 - Tạo file page component:
-  - `page.js` trong thư mục `/src/app/(front)/app/system/{tableName}/`
+  - `page.js` trong thư mục `/src/app/(front)/app/{tableName}/`
   - Sử dụng `"use client";` directive ở đầu file
   - Import các component từ thư mục `/src/component/custom/`
 - Bao gồm state management sử dụng các hooks:
