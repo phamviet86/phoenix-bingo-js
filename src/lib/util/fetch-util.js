@@ -1,6 +1,6 @@
 // path: @/lib/util/fetch-util.js
 
-import { buildSearchParams } from "@/lib/util/query-helper";
+import { buildSearchParams } from "@/lib/util/query-util";
 
 /**
  * Thực hiện fetch request và xử lý response
