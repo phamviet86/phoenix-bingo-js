@@ -25,7 +25,7 @@ export const MENU_CONFIG = [
     icon: <SettingOutlined />,
     routes: [
       { path: "/app/system/options", name: "Tuỳ chọn" },
-      { path: "/app/system/resources", name: "Tài nguyên" },
+      // { path: "/app/system/resources", name: "Tài nguyên" },
       { path: "/app/system/roles", name: "Vai trò" },
     ],
   },
