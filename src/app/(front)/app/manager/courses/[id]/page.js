@@ -1,14 +1,24 @@
 "use client";
 
 import { use } from "react";
-import { EditOutlined } from "@ant-design/icons";
+import {
+  PlusOutlined,
+  EditOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 import { ProCard } from "@ant-design/pro-components";
-import { PageContainer, Button } from "@/component/common";
+import { PageContainer, Button, BackButton } from "@/component/common";
 import {
   CourseDesc,
   CourseFormEdit,
   CoursesColumns,
   CoursesFields,
+  ModuleTable,
+  ModuleInfo,
+  ModuleFormCreate,
+  ModuleFormEdit,
+  ModulesColumns,
+  ModulesFields,
 } from "@/component/custom";
 import { useTable, useDesc, useInfo, useForm } from "@/component/hook";
 import { PageProvider, usePageContext } from "../provider";
@@ -31,6 +41,7 @@ function PageContent({ params }) {
   document.title = `Khóa học - ${pageTitle}`;
 
   const pageButton = [
+    <BackButton key="back-button" />,
     <CourseFormEdit
       formHook={courseForm}
       fields={CoursesFields({ courseStatus })}
@@ -53,6 +64,99 @@ function PageContent({ params }) {
     </ProCard>
   );
 
+  // modules sections
+  const moduleTable = useTable();
+  const moduleInfo = useInfo();
+  const moduleForm = useForm();
+
+  const moduleTab = {
+    key: "modules",
+    tab: "Học phần",
+    children: (
+      <ProCard
+        boxShadow
+        extra={[
+          <ModuleFormCreate
+            key="create-module-form"
+            fields={ModulesFields()}
+            onDataSubmitSuccess={() => moduleTable.reload()}
+            initialValues={{ course_id: courseId }}
+            trigger={
+              <Button
+                key="create-button"
+                label="Tạo mới"
+                variant="filled"
+                icon={<PlusOutlined />}
+              />
+            }
+          />,
+        ]}
+      >
+        <ModuleTable
+          tableHook={moduleTable}
+          columns={ModulesColumns()}
+          leftColumns={[
+            {
+              width: 56,
+              align: "center",
+              search: false,
+              render: (_, record) => (
+                <Button
+                  icon={<InfoCircleOutlined />}
+                  variant="link"
+                  onClick={() => moduleInfo.open(record)}
+                />
+              ),
+            },
+          ]}
+          rightColumns={[
+            {
+              width: 56,
+              align: "center",
+              search: false,
+              render: (_, record) => (
+                <Button
+                  icon={<EditOutlined />}
+                  variant="link"
+                  onClick={() => {
+                    moduleForm.open(record);
+                  }}
+                />
+              ),
+              responsive: ["md"],
+            },
+          ]}
+          params={{ course_id: courseId }}
+          showSearch={false}
+        />
+        <ModuleInfo
+          infoHook={moduleInfo}
+          columns={ModulesColumns()}
+          dataSource={moduleInfo.record}
+          drawerProps={{
+            title: "Thông tin học phần",
+            footer: [
+              <Button
+                key="edit-button"
+                label="Sửa"
+                onClick={() => {
+                  moduleInfo.close();
+                  moduleForm.open(moduleInfo.record);
+                }}
+              />,
+            ],
+          }}
+        />
+        <ModuleFormEdit
+          formHook={moduleForm}
+          fields={ModulesFields()}
+          onDataSubmitSuccess={() => moduleTable.reload()}
+          id={moduleForm.record.id}
+        />
+      </ProCard>
+    ),
+  };
+
   return (
     <PageContainer
       items={[
@@ -63,6 +167,7 @@ function PageContent({ params }) {
       title={pageTitle}
       extra={pageButton}
       content={pageContent}
+      tabList={[moduleTab]}
     />
   );
 }

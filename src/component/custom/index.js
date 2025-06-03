@@ -19,3 +19,7 @@ export * from "./shifts/shifts-schema";
 // courses
 export * from "./courses/courses-component";
 export * from "./courses/courses-schema";
+
+// modules
+export * from "./modules/modules-component";
+export * from "./modules/modules-schema";
