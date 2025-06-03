@@ -1,8 +1,7 @@
 import { ProForm, ProFormText, ProFormSelect } from "@ant-design/pro-form";
+import { fetchOption } from "@/lib/util/fetch-util";
 
-export function CoursesColumns(params) {
-  const { courseStatus } = params;
-  console.log("CoursesColumns", courseStatus);
+export function CoursesColumns() {
   return [
     {
       title: "Tên khóa học",
@@ -14,14 +13,21 @@ export function CoursesColumns(params) {
       title: "Trạng thái",
       dataIndex: "course_status_id",
       valueType: "select",
-      valueEnum: courseStatus?.enums,
       sorter: { multiple: 1 },
+      request: (params) =>
+        fetchOption("/api/options", params, {
+          value: "id",
+          label: "option_label",
+        }),
+      params: {
+        option_table_e: "courses",
+        option_column_e: "course_status_id",
+      },
     },
   ];
 }
 
-export function CoursesFields(params) {
-  const { courseStatus } = params;
+export function CoursesFields() {
   return (
     <ProForm.Group>
       <ProFormText name="id" label="ID" hidden disabled />
@@ -36,7 +42,16 @@ export function CoursesFields(params) {
         label="Trạng thái"
         placeholder="Chọn trạng thái"
         rules={[{ required: true }]}
-        options={courseStatus?.options}
+        request={(params) =>
+          fetchOption("/api/options", params, {
+            label: "option_label",
+            value: "id",
+          })
+        }
+        params={{
+          option_table_e: "courses",
+          option_column_e: "course_status_id",
+        }}
       />
     </ProForm.Group>
   );

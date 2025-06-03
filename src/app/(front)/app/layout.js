@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { LoadingSpin } from "@/component/common";
+import { AppProvider } from "./provider";
 import { MENU_CONFIG } from "@/component/config";
 
 const ProLayout = dynamic(
@@ -13,5 +14,9 @@ const ProLayout = dynamic(
 );
 
 export default function Layout({ children }) {
-  return <ProLayout menu={MENU_CONFIG}>{children}</ProLayout>;
+  return (
+    <AppProvider>
+      <ProLayout menu={MENU_CONFIG}>{children}</ProLayout>
+    </AppProvider>
+  );
 }

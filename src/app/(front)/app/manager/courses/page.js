@@ -16,15 +16,25 @@ import {
   CoursesFields,
 } from "@/component/custom";
 import { useTable, useInfo, useForm } from "@/component/hook";
+import { PageProvider, usePageContext } from "./provider";
 
-export default function Page() {
+export default function Page(props) {
+  return (
+    <PageProvider>
+      <PageContent {...props} />
+    </PageProvider>
+  );
+}
+
+function PageContent() {
   const courseTable = useTable();
   const courseInfo = useInfo();
   const courseForm = useForm();
+  const { courseStatus } = usePageContext();
 
   const pageButton = [
     <CourseFormCreate
-      fields={CoursesFields()}
+      fields={CoursesFields({ courseStatus })}
       onDataSubmitSuccess={() => courseTable.reload()}
       trigger={
         <Button key="create-button" label="Tạo mới" icon={<PlusOutlined />} />
@@ -36,7 +46,7 @@ export default function Page() {
     <ProCard boxShadow>
       <CourseTable
         tableHook={courseTable}
-        columns={CoursesColumns()}
+        columns={CoursesColumns({ courseStatus })}
         leftColumns={[
           {
             width: 56,
@@ -71,7 +81,7 @@ export default function Page() {
       />
       <CourseInfo
         infoHook={courseInfo}
-        columns={CoursesColumns()}
+        columns={CoursesColumns({ courseStatus })}
         dataSource={courseInfo.record}
         drawerProps={{
           title: "Thông tin khóa học",
@@ -89,7 +99,7 @@ export default function Page() {
       />
       <CourseFormEdit
         formHook={courseForm}
-        fields={CoursesFields()}
+        fields={CoursesFields({ courseStatus })}
         onDataSubmitSuccess={() => courseTable.reload()}
         initialValues={courseForm.record}
         id={courseForm.record.id}
