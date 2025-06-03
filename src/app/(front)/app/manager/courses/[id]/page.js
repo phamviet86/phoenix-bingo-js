@@ -32,11 +32,13 @@ export default function Page(props) {
 }
 
 function PageContent({ params }) {
+  const { id: courseId } = use(params);
   const { courseStatus } = usePageContext();
+
+  // course sections
   const courseDesc = useDesc();
   const courseForm = useForm();
 
-  const { id: courseId } = use(params);
   const pageTitle = courseDesc?.record?.course_name || "Chi tiết";
   document.title = `Khóa học - ${pageTitle}`;
 
