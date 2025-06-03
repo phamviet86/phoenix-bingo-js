@@ -2,7 +2,6 @@ import { ProForm, ProFormText, ProFormSelect } from "@ant-design/pro-form";
 
 export function CoursesColumns(params) {
   const { courseStatus } = params;
-  console.log("CoursesColumns", courseStatus);
   return [
     {
       title: "Tên khóa học",
