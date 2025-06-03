@@ -2,20 +2,19 @@
 
 import {
   PlusOutlined,
-  EditOutlined,
+  EyeOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
 import { ProCard } from "@ant-design/pro-components";
-import { PageContainer, Button } from "@/component/common";
+import { PageContainer, Button, DetailButton } from "@/component/common";
 import {
   CourseTable,
   CourseInfo,
   CourseFormCreate,
-  CourseFormEdit,
   CoursesColumns,
   CoursesFields,
 } from "@/component/custom";
-import { useTable, useInfo, useForm } from "@/component/hook";
+import { useTable, useInfo } from "@/component/hook";
 import { PageProvider, usePageContext } from "./provider";
 
 export default function Page(props) {
@@ -27,10 +26,9 @@ export default function Page(props) {
 }
 
 function PageContent() {
+  const { courseStatus } = usePageContext();
   const courseTable = useTable();
   const courseInfo = useInfo();
-  const courseForm = useForm();
-  const { courseStatus } = usePageContext();
 
   const pageButton = [
     <CourseFormCreate
@@ -67,12 +65,10 @@ function PageContent() {
             align: "center",
             search: false,
             render: (_, record) => (
-              <Button
-                icon={<EditOutlined />}
+              <DetailButton
+                id={record.id}
+                icon={<EyeOutlined />}
                 variant="link"
-                onClick={() => {
-                  courseForm.open(record);
-                }}
               />
             ),
             responsive: ["md"],
@@ -86,23 +82,15 @@ function PageContent() {
         drawerProps={{
           title: "Thông tin khóa học",
           footer: [
-            <Button
-              key="edit-button"
-              label="Sửa"
-              onClick={() => {
-                courseInfo.close();
-                courseForm.open(courseInfo.record);
-              }}
+            <DetailButton
+              key="detail-button"
+              id={courseInfo.record.id}
+              label="Chi tiết"
+              icon={<EyeOutlined />}
+              onClick={() => courseInfo.close()}
             />,
           ],
         }}
-      />
-      <CourseFormEdit
-        formHook={courseForm}
-        fields={CoursesFields({ courseStatus })}
-        onDataSubmitSuccess={() => courseTable.reload()}
-        initialValues={courseForm.record}
-        id={courseForm.record.id}
       />
     </ProCard>
   );

@@ -92,7 +92,6 @@ export default function Page() {
         formHook={roomForm}
         fields={RoomsFields()}
         onDataSubmitSuccess={() => roomTable.reload()}
-        initialValues={roomForm.record}
         id={roomForm.record.id}
       />
     </ProCard>

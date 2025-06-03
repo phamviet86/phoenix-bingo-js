@@ -91,7 +91,6 @@ export default function Page() {
         formHook={roleForm}
         fields={RolesFields()}
         onDataSubmitSuccess={() => roleTable.reload()}
-        initialValues={roleForm.record}
         id={roleForm.record.id}
       />
     </ProCard>

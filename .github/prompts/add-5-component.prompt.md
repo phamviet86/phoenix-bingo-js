@@ -72,11 +72,7 @@ import {
   DrawerInfo,
   DrawerForm,
 } from "@/component/common";
-import {
-  fetchList,
-  fetchPost,
-  fetchPut,
-} from "@/lib/util/fetch-util";
+import { fetchList, fetchPost, fetchPut } from "@/lib/util/fetch-util";
 
 export function OptionTable(props) {
   return (
@@ -111,6 +107,7 @@ export function OptionFormEdit({ id, ...props }) {
   return (
     <DrawerForm
       {...props}
+      onDataRequest={() => fetchList(`/api/options/${id}`)}
       onDataSubmit={(values) => fetchPut(`/api/options/${id}`, values)}
       title="Sửa tùy chọn"
     />

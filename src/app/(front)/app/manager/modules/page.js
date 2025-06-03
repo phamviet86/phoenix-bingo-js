@@ -8,25 +8,34 @@ import {
 import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button } from "@/component/common";
 import {
-  ShiftTable,
-  ShiftInfo,
-  ShiftFormCreate,
-  ShiftFormEdit,
-  ShiftsColumns,
-  ShiftsFields,
+  ModuleTable,
+  ModuleInfo,
+  ModuleFormCreate,
+  ModuleFormEdit,
+  ModulesColumns,
+  ModulesFields,
 } from "@/component/custom";
 import { useTable, useInfo, useForm } from "@/component/hook";
+import { PageProvider, usePageContext } from "./provider";
 
-export default function Page() {
-  const shiftTable = useTable();
-  const shiftInfo = useInfo();
-  const shiftForm = useForm();
+export default function Page(props) {
+  return (
+    <PageProvider>
+      <PageContent {...props} />
+    </PageProvider>
+  );
+}
+
+function PageContent() {
+  const moduleTable = useTable();
+  const moduleInfo = useInfo();
+  const moduleForm = useForm();
+  const { courses } = usePageContext();
 
   const pageButton = [
-    <ShiftFormCreate
-      key="shift-form-create"
-      fields={ShiftsFields()}
-      onDataSubmitSuccess={() => shiftTable.reload()}
+    <ModuleFormCreate
+      fields={ModulesFields({ courses })}
+      onDataSubmitSuccess={() => moduleTable.reload()}
       trigger={
         <Button key="create-button" label="Tạo mới" icon={<PlusOutlined />} />
       }
@@ -35,9 +44,9 @@ export default function Page() {
 
   const pageContent = (
     <ProCard boxShadow>
-      <ShiftTable
-        tableHook={shiftTable}
-        columns={ShiftsColumns()}
+      <ModuleTable
+        tableHook={moduleTable}
+        columns={ModulesColumns({ courses })}
         leftColumns={[
           {
             width: 56,
@@ -47,7 +56,7 @@ export default function Page() {
               <Button
                 icon={<InfoCircleOutlined />}
                 variant="link"
-                onClick={() => shiftInfo.open(record)}
+                onClick={() => moduleInfo.open(record)}
               />
             ),
           },
@@ -62,7 +71,7 @@ export default function Page() {
                 icon={<EditOutlined />}
                 variant="link"
                 onClick={() => {
-                  shiftForm.open(record);
+                  moduleForm.open(record);
                 }}
               />
             ),
@@ -70,37 +79,37 @@ export default function Page() {
           },
         ]}
       />
-      <ShiftInfo
-        infoHook={shiftInfo}
-        columns={ShiftsColumns()}
-        dataSource={shiftInfo.record}
+      <ModuleInfo
+        infoHook={moduleInfo}
+        columns={ModulesColumns({ courses })}
+        dataSource={moduleInfo.record}
         drawerProps={{
-          title: "Thông tin giờ học",
+          title: "Thông tin học phần",
           footer: [
             <Button
               key="edit-button"
               label="Sửa"
               onClick={() => {
-                shiftInfo.close();
-                shiftForm.open(shiftInfo.record);
+                moduleInfo.close();
+                moduleForm.open(moduleInfo.record);
               }}
             />,
           ],
         }}
       />
-      <ShiftFormEdit
-        formHook={shiftForm}
-        fields={ShiftsFields()}
-        onDataSubmitSuccess={() => shiftTable.reload()}
-        id={shiftForm.record.id}
+      <ModuleFormEdit
+        formHook={moduleForm}
+        fields={ModulesFields({ courses })}
+        onDataSubmitSuccess={() => moduleTable.reload()}
+        id={moduleForm.record.id}
       />
     </ProCard>
   );
 
   return (
     <PageContainer
-      items={[{ title: "Hệ thống" }, { title: "Giờ học" }]}
-      title="Quản lý giờ học"
+      items={[{ title: "Quản lý" }, { title: "Học phần" }]}
+      title="Quản lý học phần"
       extra={pageButton}
       content={pageContent}
     />

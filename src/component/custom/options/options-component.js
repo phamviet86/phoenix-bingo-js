@@ -6,6 +6,7 @@ import {
 } from "@/component/common";
 import {
   fetchList,
+  fetchGet,
   fetchPost,
   fetchPut,
 } from "@/lib/util/fetch-util";
@@ -43,6 +44,7 @@ export function OptionFormEdit({ id, ...props }) {
   return (
     <DrawerForm
       {...props}
+      onDataRequest={() => fetchGet(`/api/options/${id}`)}
       onDataSubmit={(values) => fetchPut(`/api/options/${id}`, values)}
       title="Sửa tùy chọn"
     />

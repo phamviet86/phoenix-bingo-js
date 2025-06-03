@@ -177,7 +177,6 @@ export default function Page() {
         formHook={optionForm}
         fields={OptionsFields()}
         onDataSubmitSuccess={() => optionTable.reload()}
-        initialValues={optionForm.record}
         id={optionForm.record.id}
       />
     </ProCard>

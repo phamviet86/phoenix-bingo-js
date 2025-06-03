@@ -4,7 +4,12 @@ import {
   DrawerInfo,
   DrawerForm,
 } from "@/component/common";
-import { fetchList, fetchPost, fetchPut } from "@/lib/util/fetch-util";
+import {
+  fetchList,
+  fetchGet,
+  fetchPost,
+  fetchPut,
+} from "@/lib/util/fetch-util";
 
 export function RoleTable(props) {
   return (
@@ -39,6 +44,7 @@ export function RoleFormEdit({ id, ...props }) {
   return (
     <DrawerForm
       {...props}
+      onDataRequest={() => fetchGet(`/api/roles/${id}`)}
       onDataSubmit={(values) => fetchPut(`/api/roles/${id}`, values)}
       title="Sửa vai trò"
     />

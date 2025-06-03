@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS lessons;
+DROP TABLE IF EXISTS lessons CASCADE;
 CREATE TABLE lessons (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   created_at TIMESTAMPTZ DEFAULT NOW(),

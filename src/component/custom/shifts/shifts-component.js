@@ -4,7 +4,12 @@ import {
   DrawerInfo,
   DrawerForm,
 } from "@/component/common";
-import { fetchList, fetchPost, fetchPut } from "@/lib/util/fetch-util";
+import {
+  fetchList,
+  fetchGet,
+  fetchPost,
+  fetchPut,
+} from "@/lib/util/fetch-util";
 
 export function ShiftTable(props) {
   return (
@@ -39,6 +44,7 @@ export function ShiftFormEdit({ id, ...props }) {
   return (
     <DrawerForm
       {...props}
+      onDataRequest={() => fetchGet(`/api/shifts/${id}`)}
       onDataSubmit={(values) => fetchPut(`/api/shifts/${id}`, values)}
       title="Sửa giờ học"
     />

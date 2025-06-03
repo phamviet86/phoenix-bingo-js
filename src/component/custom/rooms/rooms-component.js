@@ -4,7 +4,12 @@ import {
   DrawerInfo,
   DrawerForm,
 } from "@/component/common";
-import { fetchList, fetchPost, fetchPut } from "@/lib/util/fetch-util";
+import {
+  fetchList,
+  fetchGet,
+  fetchPost,
+  fetchPut,
+} from "@/lib/util/fetch-util";
 
 export function RoomTable(props) {
   return (
@@ -39,6 +44,7 @@ export function RoomFormEdit({ id, ...props }) {
   return (
     <DrawerForm
       {...props}
+      onDataRequest={() => fetchGet(`/api/rooms/${id}`)}
       onDataSubmit={(values) => fetchPut(`/api/rooms/${id}`, values)}
       title="Sửa phòng học"
     />

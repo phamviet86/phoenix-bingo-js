@@ -4,7 +4,12 @@ import {
   DrawerInfo,
   DrawerForm,
 } from "@/component/common";
-import { fetchList, fetchPost, fetchPut } from "@/lib/util/fetch-util";
+import {
+  fetchList,
+  fetchGet,
+  fetchPost,
+  fetchPut,
+} from "@/lib/util/fetch-util";
 
 export function CourseTable(props) {
   return (
@@ -18,7 +23,12 @@ export function CourseTable(props) {
 }
 
 export function CourseDesc(props) {
-  return <ProDescriptions {...props} />;
+  return (
+    <ProDescriptions
+      {...props}
+      onDataRequest={(params) => fetchGet(`/api/courses/${params?.id}`)}
+    />
+  );
 }
 
 export function CourseInfo(props) {
@@ -39,6 +49,7 @@ export function CourseFormEdit({ id, ...props }) {
   return (
     <DrawerForm
       {...props}
+      onDataRequest={() => fetchGet(`/api/courses/${id}`)}
       onDataSubmit={(values) => fetchPut(`/api/courses/${id}`, values)}
       title="Sửa khóa học"
     />
