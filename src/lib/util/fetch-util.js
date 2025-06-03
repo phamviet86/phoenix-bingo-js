@@ -128,3 +128,25 @@ export async function fetchPut(url, values = {}) {
 export async function fetchDelete(url) {
   return performFetch(url, { method: "DELETE" });
 }
+
+export async function fetchOption(
+  url,
+  params = {},
+  optionConfig = { label: "id", value: "id" }
+) {
+  const searchParams = buildSearchParams(params);
+  const result = await performFetch(`${url}?${searchParams}`, {
+    method: "GET",
+  });
+
+  // Xử lý kết quả và chuyển đổi thành format option
+  if (result.success && Array.isArray(result.data)) {
+    return result.data.map((item) => ({
+      value: item[optionConfig.value],
+      label: item[optionConfig.label],
+    }));
+  }
+
+  // Trả về mảng rỗng nếu không có dữ liệu
+  return [];
+}

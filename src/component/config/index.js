@@ -10,3 +10,6 @@ export * from "./drawer-config";
 
 // config for columns and fields
 export * from "./enum-config";
+
+// config for menu
+export * from "./menu-config";

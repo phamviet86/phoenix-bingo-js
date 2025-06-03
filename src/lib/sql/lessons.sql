@@ -1,0 +1,13 @@
+DROP TABLE IF EXISTS lessons;
+CREATE TABLE lessons (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  deleted_at TIMESTAMPTZ DEFAULT NULL,
+  module_id UUID NOT NULL,
+  lesson_name VARCHAR(255) NOT NULL,
+  lesson_no INTEGER DEFAULT NULL,
+  lesson_desc TEXT DEFAULT NULL
+);
+CREATE TRIGGER update_record BEFORE
+UPDATE ON lessons FOR EACH ROW EXECUTE FUNCTION set_updated_at();
