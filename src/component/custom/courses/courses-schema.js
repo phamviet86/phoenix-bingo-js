@@ -4,6 +4,7 @@ import { ProForm, ProFormText, ProFormSelect } from "@ant-design/pro-form";
 
 export function CoursesColumns(params) {
   const { courseStatus } = params;
+
   return [
     {
       title: "Giáo trình",
@@ -23,6 +24,7 @@ export function CoursesColumns(params) {
 
 export function CoursesFields(params) {
   const { courseStatus } = params;
+
   return (
     <ProForm.Group>
       <ProFormText name="id" label="ID" hidden disabled />
