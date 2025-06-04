@@ -15,8 +15,7 @@ import {
   CoursesFields,
   ModuleTable,
   ModuleInfo,
-  ModuleFormCreate,
-  ModuleFormEdit,
+  ModuleForm,
   ModulesColumns,
   ModulesFields,
 } from "@/component/custom";
@@ -85,19 +84,15 @@ function PageContent({ params }) {
         title="Danh sách học phần"
         boxShadow
         extra={[
-          <ModuleFormCreate
-            key="create-module-form"
-            fields={ModulesFields()}
-            onDataSubmitSuccess={() => moduleTable.reload()}
-            initialValues={{ course_id: courseId }}
-            trigger={
-              <Button
-                key="create-button"
-                label="Tạo mới"
-                variant="filled"
-                icon={<PlusOutlined />}
-              />
-            }
+          <Button
+            key="create-button"
+            label="Tạo mới"
+            icon={<PlusOutlined />}
+            variant="filled"
+            onClick={() => {
+              moduleForm.setTitle("Tạo học phần");
+              moduleForm.open({ course_id: courseId });
+            }}
           />,
         ]}
       >
@@ -128,6 +123,7 @@ function PageContent({ params }) {
                   icon={<EditOutlined />}
                   variant="link"
                   onClick={() => {
+                    moduleForm.setTitle("Sửa học phần");
                     moduleForm.open(record);
                   }}
                 />
@@ -150,18 +146,19 @@ function PageContent({ params }) {
                 label="Sửa"
                 onClick={() => {
                   moduleInfo.close();
+                  moduleForm.setTitle("Sửa học phần");
                   moduleForm.open(moduleInfo.record);
                 }}
               />,
             ],
           }}
         />
-        <ModuleFormEdit
+        <ModuleForm
           formHook={moduleForm}
           fields={ModulesFields()}
           onDataSubmitSuccess={() => moduleTable.reload()}
           initialValues={moduleForm.record}
-          // id={moduleForm.record.id}
+          title={moduleForm.title}
         />
       </ProCard>
     ),

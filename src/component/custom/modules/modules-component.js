@@ -1,15 +1,12 @@
+// path: @/component/custom/modules/modules-component.js
+
 import {
   ProTable,
+  DrawerForm,
   ProDescriptions,
   DrawerInfo,
-  DrawerForm,
 } from "@/component/common";
-import {
-  fetchList,
-  fetchGet,
-  fetchPost,
-  fetchPut,
-} from "@/lib/util/fetch-util";
+import { fetchList, fetchPost } from "@/lib/util/fetch-util";
 
 export function ModuleTable(props) {
   return (
@@ -22,41 +19,19 @@ export function ModuleTable(props) {
   );
 }
 
+export function ModuleForm(props) {
+  return (
+    <DrawerForm
+      {...props}
+      onDataSubmit={(values) => fetchPost("/api/modules", values)}
+    />
+  );
+}
+
 export function ModuleDesc(props) {
   return <ProDescriptions {...props} />;
 }
 
 export function ModuleInfo(props) {
   return <DrawerInfo {...props} />;
-}
-
-export function ModuleFormCreate(props) {
-  return (
-    <DrawerForm
-      {...props}
-      onDataSubmit={(values) => fetchPost("/api/modules", values)}
-      title="Tạo học phần"
-    />
-  );
-}
-
-export function ModuleFormEdit(props) {
-  return (
-    <DrawerForm
-      {...props}
-      onDataSubmit={(values) => fetchPost("/api/modules", values)}
-      title="Tạo học phần"
-    />
-  );
-}
-
-export function ModuleFormEditOld({ id, ...props }) {
-  return (
-    <DrawerForm
-      {...props}
-      onDataRequest={() => fetchGet(`/api/modules/${id}`)}
-      onDataSubmit={(values) => fetchPut(`/api/modules/${id}`, values)}
-      title="Sửa học phần"
-    />
-  );
 }

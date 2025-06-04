@@ -1,3 +1,5 @@
+// path: @/component/custom/modules/modules-schema.js
+
 import { ProForm, ProFormText, ProFormTextArea } from "@ant-design/pro-form";
 
 export function ModulesColumns() {
@@ -23,7 +25,7 @@ export function ModulesFields() {
   return (
     <ProForm.Group>
       <ProFormText name="id" label="ID" hidden disabled />
-      <ProFormText name="course_id" label="Khóa học" hidden disabled />
+      <ProFormText name="course_id" label="Khóa học" disabled />
       <ProFormText
         name="module_name"
         label="Tên học phần"
