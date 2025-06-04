@@ -14,7 +14,7 @@ description: "Tạo page component hoàn chỉnh cho quản lý entity với ch�
   - `useForm` - Quản lý form state, title, record và visibility
   - `useInfo` - Quản lý state của detail view
 - Implement các component chính:
-  - Table component với entity name làm prefix (ví dụ: `OptionTable`)
+  - Table component với entity name làm prefix (ví dụ: `OptionTable`)  
   - Single form component để handle cả create và edit (ví dụ: `OptionForm`)
   - Detail info component (ví dụ: `OptionInfo`) với drawer actions
   - Columns configuration (ví dụ: `OptionsColumns`)
@@ -26,7 +26,7 @@ description: "Tạo page component hoàn chỉnh cho quản lý entity với ch�
   - Form với dynamic title và initialValues
 - Bao gồm các thao tác bảng chuẩn:
   - pageButton: Create button với `PlusOutlined` icon
-  - leftColumns: Info button với `InfoCircleOutlined` icon
+  - leftColumns: Info button với `InfoCircleOutlined` icon  
   - rightColumns: Edit button với `EditOutlined` icon (responsive md)
 - Sử dụng các quy ước đặt tên:
   - PascalCase cho entity component names (ví dụ: `OptionTable`, `OptionForm`)
