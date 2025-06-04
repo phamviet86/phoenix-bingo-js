@@ -1,15 +1,10 @@
 import {
   ProTable,
+  DrawerForm,
   ProDescriptions,
   DrawerInfo,
-  DrawerForm,
 } from "@/component/common";
-import {
-  fetchList,
-  fetchGet,
-  fetchPost,
-  fetchPut,
-} from "@/lib/util/fetch-util";
+import { fetchList, fetchPost } from "@/lib/util/fetch-util";
 
 export function OptionTable(props) {
   return (
@@ -22,14 +17,6 @@ export function OptionTable(props) {
   );
 }
 
-export function OptionDesc(props) {
-  return <ProDescriptions {...props} />;
-}
-
-export function OptionInfo(props) {
-  return <DrawerInfo {...props} />;
-}
-
 export function OptionForm(props) {
   return (
     <DrawerForm
@@ -37,4 +24,12 @@ export function OptionForm(props) {
       onDataSubmit={(values) => fetchPost("/api/options", values)}
     />
   );
+}
+
+export function OptionDesc(props) {
+  return <ProDescriptions {...props} />;
+}
+
+export function OptionInfo(props) {
+  return <DrawerInfo {...props} />;
 }

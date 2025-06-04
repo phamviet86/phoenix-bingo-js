@@ -39,7 +39,7 @@ description: "Tạo một file component hoàn chỉnh với các thao tác CRUD
   - Tạo Vietnamese titles có ý nghĩa cho forms
 - Import patterns:
   - Common components từ `@/component/common`: `ProTable`, `ProDescriptions`, `DrawerInfo`, `DrawerForm`
-  - Fetch utilities từ `@/lib/util/fetch-util`: `fetchList`, `fetchGet`, `fetchPost`, `fetchPut`
+  - Fetch utilities từ `@/lib/util/fetch-util`: `fetchList`, `fetchPost`
 - Component structure patterns:
   - Table: nhận `params, sort, filter` từ `onDataRequest`
   - Form: nhận `values` từ `onDataSubmit`, sử dụng `fetchPost` mặc định
@@ -68,21 +68,12 @@ Table: options
 ```javascript
 import {
   ProTable,
+  DrawerForm,
   ProDescriptions,
   DrawerInfo,
-  DrawerForm,
 } from "@/component/common";
-import {
-  fetchList,
-  fetchGet,
-  fetchPost,
-  fetchPut,
-} from "@/lib/util/fetch-util";
+import { fetchList, fetchPost } from "@/lib/util/fetch-util";
 
-/**
- * Component bảng hiển thị danh sách tùy chọn
- * Hỗ trợ phân trang, lọc và sắp xếp dữ liệu
- */
 export function OptionTable(props) {
   return (
     <ProTable
@@ -94,26 +85,6 @@ export function OptionTable(props) {
   );
 }
 
-/**
- * Component mô tả thông tin chi tiết tùy chọn
- * Sử dụng ProDescriptions để hiển thị dữ liệu
- */
-export function OptionDesc(props) {
-  return <ProDescriptions {...props} />;
-}
-
-/**
- * Component drawer hiển thị thông tin tùy chọn
- * Bao bọc OptionDesc trong DrawerInfo
- */
-export function OptionInfo(props) {
-  return <DrawerInfo {...props} />;
-}
-
-/**
- * Component form tạo và chỉnh sửa tùy chọn
- * Mặc định sử dụng POST request cho việc tạo mới
- */
 export function OptionForm(props) {
   return (
     <DrawerForm
@@ -121,5 +92,13 @@ export function OptionForm(props) {
       onDataSubmit={(values) => fetchPost("/api/options", values)}
     />
   );
+}
+
+export function OptionDesc(props) {
+  return <ProDescriptions {...props} />;
+}
+
+export function OptionInfo(props) {
+  return <DrawerInfo {...props} />;
 }
 ```
