@@ -4,7 +4,7 @@ export function CoursesColumns(params) {
   const { courseStatus } = params;
   return [
     {
-      title: "Tên khóa học",
+      title: "Giáo trình",
       dataIndex: "course_name",
       valueType: "text",
       sorter: { multiple: 1 },
@@ -26,8 +26,8 @@ export function CoursesFields(params) {
       <ProFormText name="id" label="ID" hidden disabled />
       <ProFormText
         name="course_name"
-        label="Tên khóa học"
-        placeholder="Nhập tên khóa học"
+        label="Tên giáo trình"
+        placeholder="Nhập tên giáo trình"
         rules={[{ required: true }]}
       />
       <ProFormSelect

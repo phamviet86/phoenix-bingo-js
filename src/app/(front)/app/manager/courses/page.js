@@ -80,7 +80,7 @@ function PageContent() {
         columns={CoursesColumns({ courseStatus })}
         dataSource={courseInfo.record}
         drawerProps={{
-          title: "Thông tin khóa học",
+          title: "Thông tin giáo trình",
           footer: [
             <DetailButton
               key="detail-button"
@@ -97,8 +97,8 @@ function PageContent() {
 
   return (
     <PageContainer
-      items={[{ title: "Hệ thống" }, { title: "Khóa học" }]}
-      title="Quản lý khóa học"
+      items={[{ title: "Hệ thống" }, { title: "Giáo trình" }]}
+      title="Quản lý giáo trình"
       extra={pageButton}
       content={pageContent}
     />
