@@ -11,12 +11,19 @@ export async function getLessons(searchParams) {
 
     const sqlValue = [...queryValues];
     const sqlText = `
-      SELECT id, module_id, lesson_name, lesson_no, lesson_desc,
+      SELECT l.id, l.module_id, l.lesson_name, l.lesson_no, l.lesson_desc,
+        c.course_name,
+        m.module_name,
         COUNT(*) OVER() AS total
-      FROM lessons
-      WHERE deleted_at IS NULL
+      FROM lessons l
+      LEFT JOIN modules m ON l.module_id = m.id AND m.deleted_at IS NULL
+      LEFT JOIN courses c ON m.course_id = c.id AND c.deleted_at IS NULL
+      WHERE l.deleted_at IS NULL
       ${whereClause}
-      ${orderByClause || "ORDER BY created_at"}
+      ${
+        orderByClause ||
+        "ORDER BY course_name, module_name, lesson_no, lesson_name"
+      }
       ${limitClause};
     `;
 
@@ -31,9 +38,13 @@ export async function getLesson(id) {
   try {
     const sql = getConnection();
     return await sql`
-      SELECT id, module_id, lesson_name, lesson_no, lesson_desc
-      FROM lessons
-      WHERE deleted_at IS NULL AND id = ${id};
+      SELECT l.id, l.module_id, l.lesson_name, l.lesson_no, l.lesson_desc,
+        c.course_name,
+        m.module_name
+      FROM lessons l
+      LEFT JOIN modules m ON l.module_id = m.id AND m.deleted_at IS NULL
+      LEFT JOIN courses c ON m.course_id = c.id AND c.deleted_at IS NULL
+      WHERE l.deleted_at IS NULL AND l.id = ${id};
     `;
   } catch (error) {
     throw new Error(error.message);
