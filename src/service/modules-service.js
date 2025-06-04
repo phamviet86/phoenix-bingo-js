@@ -9,10 +9,12 @@ export async function getModules(searchParams) {
 
     const sqlValue = [...queryValues];
     const sqlText = `
-      SELECT id, course_id, module_name, module_desc,
+      SELECT m.id, m.course_id, m.module_name, m.module_desc,
+        c.course_name, c.course_status_id,
         COUNT(*) OVER() AS total
-      FROM modules
-      WHERE deleted_at IS NULL
+      FROM modules m
+      JOIN courses c ON c.id = m.course_id AND c.deleted_at IS NULL
+      WHERE m.deleted_at IS NULL
       ${whereClause}
       ${orderByClause || "ORDER BY module_name"}
       ${limitClause};
@@ -29,9 +31,11 @@ export async function getModule(id) {
   try {
     const sql = getConnection();
     return await sql`
-      SELECT id, course_id, module_name, module_desc
-      FROM modules
-      WHERE deleted_at IS NULL AND id = ${id};
+    SELECT m.id, m.course_id, m.module_name, m.module_desc,
+      c.course_name, c.course_status_id
+    FROM modules m
+    JOIN courses c ON c.id = m.course_id AND c.deleted_at IS NULL
+    WHERE m.deleted_at IS NULL AND m.id = ${id};
     `;
   } catch (error) {
     throw new Error(error.message);
