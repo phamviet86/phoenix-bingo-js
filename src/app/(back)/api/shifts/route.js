@@ -1,4 +1,4 @@
-import { getShifts, createShift } from "@/service/shifts-service";
+import { getShifts, createShift, updateShift } from "@/service/shifts-service";
 import { buildApiResponse, handleData } from "@/lib/util/response-util";
 
 export async function GET(request) {
@@ -17,8 +17,12 @@ export async function GET(request) {
 
 export async function POST(request) {
   try {
-    const { shift_name, shift_start_time, shift_end_time } =
-      await request.json();
+    const {
+      id = null,
+      shift_name,
+      shift_start_time,
+      shift_end_time,
+    } = await request.json();
 
     // Validate required fields (based on NOT NULL constraints in SQL)
     if (!shift_name || !shift_start_time || !shift_end_time)
@@ -30,12 +34,26 @@ export async function POST(request) {
       shift_end_time,
     };
 
-    const result = await createShift(data);
+    let result;
+    let message;
+    let statusCode;
+
+    if (id !== null) {
+      // Update existing shift
+      result = await updateShift(data, id);
+      message = "Cập nhật giờ học thành công.";
+      statusCode = 200;
+    } else {
+      // Create new shift
+      result = await createShift(data);
+      message = "Tạo giờ học thành công.";
+      statusCode = 201;
+    }
 
     if (!result || !result.length)
       return buildApiResponse(500, false, "Không thể thực hiện thao tác.");
 
-    return buildApiResponse(201, true, "Tạo giờ học thành công.", {
+    return buildApiResponse(statusCode, true, message, {
       data: result,
     });
   } catch (error) {

@@ -1,4 +1,4 @@
-import { getRooms, createRoom } from "@/service/rooms-service";
+import { getRooms, createRoom, updateRoom } from "@/service/rooms-service";
 import { buildApiResponse, handleData } from "@/lib/util/response-util";
 
 export async function GET(request) {
@@ -17,7 +17,7 @@ export async function GET(request) {
 
 export async function POST(request) {
   try {
-    const { room_name, room_desc = null } = await request.json();
+    const { id = null, room_name, room_desc = null } = await request.json();
 
     // Validate required fields (based on NOT NULL constraints in SQL)
     if (!room_name)
@@ -28,12 +28,26 @@ export async function POST(request) {
       room_desc,
     };
 
-    const result = await createRoom(data);
+    let result;
+    let message;
+    let statusCode;
+
+    if (id !== null) {
+      // Update existing room
+      result = await updateRoom(data, id);
+      message = "Cập nhật phòng học thành công.";
+      statusCode = 200;
+    } else {
+      // Create new room
+      result = await createRoom(data);
+      message = "Tạo phòng học thành công.";
+      statusCode = 201;
+    }
 
     if (!result || !result.length)
       return buildApiResponse(500, false, "Không thể thực hiện thao tác.");
 
-    return buildApiResponse(201, true, "Tạo phòng học thành công.", {
+    return buildApiResponse(statusCode, true, message, {
       data: result,
     });
   } catch (error) {

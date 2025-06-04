@@ -10,7 +10,7 @@ description: "Tạo các file API route hoàn chỉnh cho một service với c�
   - `[id]/route.js` trong thư mục `/src/app/(back)/api/{tableName}/[id]` cho các thao tác chi tiết/cập nhật/xóa
 - Bao gồm các route handler sau dựa trên HTTP methods:
   - GET: Lấy tất cả bản ghi (cho route.js) hoặc một bản ghi cụ thể (cho [id]/route.js)
-  - POST: Tạo một bản ghi mới (chỉ trong route.js)
+  - POST: Tạo một bản ghi mới hoặc cập nhật nếu có id (upsert) - chỉ trong route.js
   - PUT: Cập nhật một bản ghi hiện có (chỉ trong [id]/route.js)
   - DELETE: Xóa mềm một bản ghi (chỉ trong [id]/route.js)
 - Tuân theo các mẫu đã thiết lập của dự án cho:
@@ -43,17 +43,18 @@ description: "Tạo các file API route hoàn chỉnh cho một service với c�
   - delete: `delete{TableName}` (số ít - ví dụ: deleteOption)
 - Các route handler nên trích xuất tham số từ:
   - Tham số query URL cho việc lọc trong các thao tác GET list
-  - Request body cho các thao tác POST và PUT
+  - Request body cho các thao tác POST và PUT (bao gồm optional id field cho upsert)
   - Tham số đường dẫn URL cho các thao tác [id] sử dụng `await context.params`
 - Pattern kiểm tra kết quả service:
   - Sử dụng `if (!result || !result.length)` để kiểm tra thành công/thất bại cho getById, create, update, delete
   - Sử dụng `handleData(result)` và kiểm tra `data, total` cho getAll operations
   - Trả về 404 cho các trường hợp không tìm thấy
   - Trả về 500 cho các trường hợp creation/update failed
-- Các response thành công nên bao gồm:
-  - Dữ liệu được trả về bởi service call
-  - Thông báo thành công bằng tiếng Việt
-  - Mã trạng thái HTTP thích hợp (200, 201)
+- POST handler logic:
+  - Kiểm tra có id trong request body không
+  - Nếu có id: thực hiện update và trả về status 200
+  - Nếu không có id: thực hiện create và trả về status 201
+  - Sử dụng message phù hợp cho từng trường hợp
 
 ## Ví dụ
 
@@ -79,7 +80,11 @@ UPDATE ON options FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 ### Đầu ra (route.js)
 
 ```javascript
-import { getOptions, createOption } from "@/service/options-service";
+import {
+  getOptions,
+  createOption,
+  updateOption,
+} from "@/service/options-service";
 import { buildApiResponse, handleData } from "@/lib/util/response-util";
 
 export async function GET(request) {
@@ -99,6 +104,7 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     const {
+      id = null,
       option_table,
       option_column,
       option_label,
@@ -118,12 +124,26 @@ export async function POST(request) {
       option_group,
     };
 
-    const result = await createOption(data);
+    let result;
+    let message;
+    let statusCode;
+
+    if (id !== null) {
+      // Update existing option (upsert functionality)
+      result = await updateOption(data, id);
+      message = "Cập nhật tùy chọn thành công.";
+      statusCode = 200;
+    } else {
+      // Create new option
+      result = await createOption(data);
+      message = "Tạo tùy chọn thành công.";
+      statusCode = 201;
+    }
 
     if (!result || !result.length)
       return buildApiResponse(500, false, "Không thể thực hiện thao tác.");
 
-    return buildApiResponse(201, true, "Tạo tùy chọn thành công.", {
+    return buildApiResponse(statusCode, true, message, {
       data: result,
     });
   } catch (error) {

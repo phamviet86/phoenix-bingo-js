@@ -154,7 +154,8 @@ function PageContent({ params }) {
           formHook={moduleForm}
           fields={ModulesFields()}
           onDataSubmitSuccess={() => moduleTable.reload()}
-          id={moduleForm.record.id}
+          initialValues={moduleForm.record}
+          // id={moduleForm.record.id}
         />
       </ProCard>
     ),

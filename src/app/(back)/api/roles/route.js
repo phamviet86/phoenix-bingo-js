@@ -1,4 +1,4 @@
-import { getRoles, createRole } from "@/service/roles-service";
+import { getRoles, createRole, updateRole } from "@/service/roles-service";
 import { buildApiResponse, handleData } from "@/lib/util/response-util";
 
 export async function GET(request) {
@@ -17,7 +17,12 @@ export async function GET(request) {
 
 export async function POST(request) {
   try {
-    const { role_name, role_path, role_color } = await request.json();
+    const {
+      id = null,
+      role_name,
+      role_path,
+      role_color,
+    } = await request.json();
 
     const data = {
       role_name,
@@ -25,12 +30,26 @@ export async function POST(request) {
       role_color,
     };
 
-    const result = await createRole(data);
+    let result;
+    let message;
+    let statusCode;
+
+    if (id !== null) {
+      // Update existing role
+      result = await updateRole(data, id);
+      message = "Cập nhật vai trò thành công.";
+      statusCode = 200;
+    } else {
+      // Create new role
+      result = await createRole(data);
+      message = "Tạo vai trò thành công.";
+      statusCode = 201;
+    }
 
     if (!result || !result.length)
-      return buildApiResponse(404, false, "Không thể thực hiện thao tác.");
+      return buildApiResponse(500, false, "Không thể thực hiện thao tác.");
 
-    return buildApiResponse(201, true, "Tạo vai trò thành công.", {
+    return buildApiResponse(statusCode, true, message, {
       data: result,
     });
   } catch (error) {

@@ -40,7 +40,17 @@ export function ModuleFormCreate(props) {
   );
 }
 
-export function ModuleFormEdit({ id, ...props }) {
+export function ModuleFormEdit(props) {
+  return (
+    <DrawerForm
+      {...props}
+      onDataSubmit={(values) => fetchPost("/api/modules", values)}
+      title="Tạo học phần"
+    />
+  );
+}
+
+export function ModuleFormEditOld({ id, ...props }) {
   return (
     <DrawerForm
       {...props}
