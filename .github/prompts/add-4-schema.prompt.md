@@ -1,49 +1,49 @@
 ---
 mode: "edit"
-description: "Tạo các file schema hoàn chỉnh cho Ant Design Pro component system từ định nghĩa bảng SQL, bao gồm cấu hình cột bảng và form fields."
+description: "Create complete schema files for Ant Design Pro component system from SQL table definition, including table column configuration and form fields."
 ---
 
-## Yêu cầu
+## Requirements
 
-- Tạo file schema từ định nghĩa bảng SQL:
-  - `{tableName}-schema.js` trong thư mục `/src/component/custom/{tableName}/`
-  - Export hai functions: `[TableName]Columns` và `[TableName]Fields`
-- Bao gồm các component mapping dựa trên kiểu dữ liệu SQL:
-  - VARCHAR/TEXT → ProFormText/ProFormTextArea với prop `fieldProps={{ autoSize: { minRows: 3, maxRows: 6 } }}`
-  - INT/SERIAL → ProFormText (không phải ProFormDigit)
+- Create schema file from SQL table definition:
+  - `{tableName}-schema.js` in `/src/component/custom/{tableName}/` directory
+  - Export two functions: `[TableName]Columns` and `[TableName]Fields`
+- Include component mapping based on SQL data types:
+  - VARCHAR/TEXT → ProFormText/ProFormTextArea with prop `fieldProps={{ autoSize: { minRows: 3, maxRows: 6 } }}`
+  - INT/SERIAL → ProFormText (not ProFormDigit)
   - TIMESTAMPTZ/TIME → ProFormDatePicker/ProFormTimePicker
   - Fields NOT NULL → `rules={[{ required: true }]}`
-- Tuân theo các mẫu đã thiết lập của dự án cho:
-  - Cấu hình cột bảng với valueType phù hợp
-  - Validation dựa trên ràng buộc SQL
-  - Import statements từ Ant Design Pro
-- Bao gồm cấu hình cột bảng phù hợp:
+- Follow established project patterns for:
+  - Table column configuration with appropriate valueType
+  - Validation based on SQL constraints
+  - Import statements from Ant Design Pro
+- Include appropriate table column configuration:
   - TEXT fields: `valueType: textarea`
   - VARCHAR fields: `valueType: text`
   - ID column: `search: false`, `width: 80`
   - All non-ID columns: `sorter: { multiple: 1 }`
-- Ẩn các system fields:
-  - Hiển thị ID column với `search: false` và `width: 80`
-  - Không hiển thị: `created_at`, `deleted_at`, `updated_at`
-- Sử dụng các quy ước đặt tên:
-  - Function names: PascalCase với suffix (ví dụ: `OptionsColumns`, `OptionsFields`)
-  - Labels: chuyển đổi snake_case thành Title Case bằng tiếng Việt
-  - Placeholders: tiền tố "Nhập" cho inputs hoặc "Chọn" cho selections
+- Hide system fields:
+  - Display ID column with `search: false` and `width: 80`
+  - Do not display: `created_at`, `deleted_at`, `updated_at`
+- Use naming conventions:
+  - Function names: PascalCase with suffix (e.g., `OptionsColumns`, `OptionsFields`)
+  - Labels: convert snake_case to Title Case in Vietnamese
+  - Placeholders: prefix "Nhập" for inputs or "Chọn" for selections
 
-## Ghi chú
+## Notes
 
-- Sử dụng định nghĩa bảng SQL để:
-  - Xác định tên bảng, cột, kiểu dữ liệu và ràng buộc
-  - Áp dụng validation rules dựa trên ràng buộc SQL (`NOT NULL` → `required: true`)
-  - Map kiểu dữ liệu SQL sang Pro Form components phù hợp
-- Các form fields nên được wrap trong `<ProForm.Group>...</ProForm.Group>`
-- ID field trong form nên có `hidden disabled` properties
-- Tất cả VARCHAR fields sử dụng ProFormText component
-- Tất cả TEXT fields sử dụng ProFormTextArea component với autoSize
+- Use SQL table definition to:
+  - Identify table name, columns, data types and constraints
+  - Apply validation rules based on SQL constraints (`NOT NULL` → `required: true`)
+  - Map SQL data types to appropriate Pro Form components
+- Form fields should be wrapped in `<ProForm.Group>...</ProForm.Group>`
+- ID field in form should have `hidden disabled` properties
+- All VARCHAR fields use ProFormText component
+- All TEXT fields use ProFormTextArea component with autoSize
 
-## Ví dụ
+## Example
 
-### Đầu vào (Định nghĩa SQL)
+### Input (SQL Definition)
 
 ```sql
 DROP TABLE IF EXISTS options CASCADE;
@@ -62,7 +62,7 @@ CREATE TRIGGER update_record BEFORE
 UPDATE ON options FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 ```
 
-### Đầu ra (options-schema.js)
+### Output (options-schema.js)
 
 ```javascript
 // path: @/component/custom/options/options-schema.js

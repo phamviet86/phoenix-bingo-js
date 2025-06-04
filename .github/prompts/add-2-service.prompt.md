@@ -1,63 +1,63 @@
 ---
 mode: "edit"
-description: "Tạo file service layer JavaScript hoàn chỉnh với các thao tác CRUD dựa trên định nghĩa bảng SQL, bao gồm pagination, filtering và soft delete."
+description: "Create a complete JavaScript service layer file with CRUD operations based on SQL table definition, including pagination, filtering and soft delete."
 ---
 
-## Yêu cầu
+## Requirements
 
-- Tạo file service từ định nghĩa bảng SQL:
-  - `{table-name}-service.js` trong thư mục `/src/service/`
-  - Export năm functions: `get{TableName}s`, `get{TableName}`, `create{TableName}`, `update{TableName}`, `delete{TableName}`
-- Bao gồm các thao tác CRUD hoàn chỉnh:
-  - GET All: Lấy tất cả bản ghi với pagination, filtering và sorting
-  - GET Single: Lấy một bản ghi cụ thể theo ID
-  - POST: Tạo một bản ghi mới
-  - PUT: Cập nhật một bản ghi hiện có
-  - DELETE: Xóa mềm một bản ghi (soft delete)
-- Tuân theo các mẫu đã thiết lập của dự án cho:
-  - Import statements từ database connection và query utilities
-  - Error handling với try-catch blocks
-  - Soft delete pattern với kiểm tra `deleted_at IS NULL`
-  - SQL injection prevention sử dụng tagged template literals
-  - Pagination và filtering sử dụng parseSearchParams
-- Bao gồm cấu hình SQL phù hợp:
-  - SELECT queries: loại trừ `created_at` và `deleted_at`, bao gồm `COUNT(*) OVER() AS total` cho getAll
-  - INSERT/UPDATE queries: sử dụng `RETURNING` clause với các cột cụ thể
-  - DELETE queries: sử dụng soft delete bằng cách set `deleted_at = NOW()`
-  - ORDER BY mặc định: `ORDER BY created_at` khi không có orderByClause
-- Sử dụng các quy ước đặt tên:
-  - File names: kebab-case (ví dụ: `options-service.js`)
-  - Function names: camelCase với verb (ví dụ: `getOptions`, `createOption`)
-  - PascalCase cho tên bảng trong function names, số nhiều cho getAll, số ít cho các functions khác
-- Triển khai pattern kết nối database:
-  - Tagged template literals cho single operations
-  - `sql.query(sqlText, sqlValue)` cho complex queries với dynamic parameters
+- Create service file from SQL table definition:
+  - `{table-name}-service.js` in `/src/service/` directory
+  - Export five functions: `get{TableName}s`, `get{TableName}`, `create{TableName}`, `update{TableName}`, `delete{TableName}`
+- Include complete CRUD operations:
+  - GET All: Retrieve all records with pagination, filtering and sorting
+  - GET Single: Retrieve a specific record by ID
+  - POST: Create a new record
+  - PUT: Update an existing record
+  - DELETE: Soft delete a record
+- Follow established project patterns for:
+  - Import statements from database connection and query utilities
+  - Error handling with try-catch blocks
+  - Soft delete pattern with `deleted_at IS NULL` checks
+  - SQL injection prevention using tagged template literals
+  - Pagination and filtering using parseSearchParams
+- Include appropriate SQL configuration:
+  - SELECT queries: exclude `created_at` and `deleted_at`, include `COUNT(*) OVER() AS total` for getAll
+  - INSERT/UPDATE queries: use `RETURNING` clause with specific columns
+  - DELETE queries: use soft delete by setting `deleted_at = NOW()`
+  - Default ORDER BY: `ORDER BY created_at` when no orderByClause
+- Use naming conventions:
+  - File names: kebab-case (e.g., `options-service.js`)
+  - Function names: camelCase with verb (e.g., `getOptions`, `createOption`)
+  - PascalCase for table names in function names, plural for getAll, singular for other functions
+- Implement database connection pattern:
+  - Tagged template literals for single operations
+  - `sql.query(sqlText, sqlValue)` for complex queries with dynamic parameters
 
-## Ghi chú
+## Notes
 
-- Sử dụng định nghĩa bảng SQL để:
-  - Trích xuất tên bảng và tất cả định nghĩa cột
-  - Loại trừ các cột tự động quản lý (`id`, `created_at`, `updated_at`, `deleted_at`) khỏi create/update operations
-  - Xác định các cột nghiệp vụ cần thiết cho SELECT statements
-- Pattern sử dụng parseSearchParams:
-  - Khai báo `const ignoredSearchColumns = [];` cho các cột bị bỏ qua trong search
-  - Destructure kết quả: `{ whereClause, orderByClause, limitClause, queryValues }`
-  - Sao chép queryValues: `const sqlValue = [...queryValues];`
+- Use SQL table definition to:
+  - Extract table name and all column definitions
+  - Exclude auto-managed columns (`id`, `created_at`, `updated_at`, `deleted_at`) from create/update operations
+  - Identify business columns needed for SELECT statements
+- parseSearchParams pattern:
+  - Declare `const ignoredSearchColumns = [];` for columns ignored in search
+  - Destructure result: `{ whereClause, orderByClause, limitClause, queryValues }`
+  - Copy queryValues: `const sqlValue = [...queryValues];`
 - SQL Connection patterns:
-  - Khởi tạo: `const sql = getConnection();`
-  - Get All: `sql.query(sqlText, sqlValue)` với string template và array values
-  - Các functions khác: tagged template literals `sql\`query\`` với embedded variables
+  - Initialize: `const sql = getConnection();`
+  - Get All: `sql.query(sqlText, sqlValue)` with string template and array values
+  - Other functions: tagged template literals `sql\`query\`` with embedded variables
 - Error handling:
-  - Wrap tất cả functions trong try-catch blocks
-  - Throw new Error(error.message) khi có lỗi
-- Thứ tự và formatting:
-  - Duy trì thứ tự tham số nhất quán trong SQL queries
-  - Sử dụng line breaks và indentation cho SQL queries dễ đọc
-  - Luôn kết thúc SQL statements với dấu chấm phẩy
+  - Wrap all functions in try-catch blocks
+  - Throw new Error(error.message) on errors
+- Order and formatting:
+  - Maintain consistent parameter order in SQL queries
+  - Use line breaks and indentation for readable SQL queries
+  - Always end SQL statements with semicolon
 
-## Ví dụ
+## Example
 
-### Đầu vào (Định nghĩa SQL)
+### Input (SQL Definition)
 
 ```sql
 DROP TABLE IF EXISTS options CASCADE;
@@ -76,7 +76,7 @@ CREATE TRIGGER update_record BEFORE
 UPDATE ON options FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 ```
 
-### Đầu ra (options-service.js)
+### Output (options-service.js)
 
 ```javascript
 // path: @/service/options-service.js

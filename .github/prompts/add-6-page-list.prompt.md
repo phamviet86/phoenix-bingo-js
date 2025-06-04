@@ -1,73 +1,73 @@
 ---
 mode: "edit"
-description: "Tạo page component hoàn chỉnh cho quản lý entity với chức năng hiển thị bảng, form tạo mới, form chỉnh sửa và xem chi tiết."
+description: "Create complete page component for entity management with table display, create form, edit form and detail view functionality."
 ---
 
-## Yêu cầu
+## Requirements
 
-- Tạo file page component:
-  - `page.js` trong thư mục `/src/app/(front)/app/{tableName}/`
-  - Sử dụng `"use client";` directive ở đầu file
-  - Import các component từ thư mục `/src/component/custom/`
-- Bao gồm state management sử dụng các hooks:
-  - `useTable` - Quản lý dữ liệu bảng, reload và reference
-  - `useForm` - Quản lý form state, title, record và visibility
-  - `useInfo` - Quản lý state của detail view
-- Implement các component chính:
-  - Table component với entity name làm prefix (ví dụ: `OptionTable`)
-  - Single form component để handle cả create và edit (ví dụ: `OptionForm`)
-  - Detail info component (ví dụ: `OptionInfo`) với drawer actions
-  - Columns configuration (ví dụ: `OptionsColumns`)
-  - Fields configuration (ví dụ: `OptionsFields`)
-- Tuân theo các mẫu đã thiết lập của dự án cho:
-  - Layout sử dụng `PageContainer` và `ProCard` components
-  - Responsive design với proper shadows
-  - Action columns với Info và Edit buttons
-  - Form với dynamic title và initialValues
-- Bao gồm các thao tác bảng chuẩn:
-  - pageButton: Create button với `PlusOutlined` icon
-  - leftColumns: Info button với `InfoCircleOutlined` icon
-  - rightColumns: Edit button với `EditOutlined` icon (responsive md)
-- Sử dụng các quy ước đặt tên:
-  - PascalCase cho entity component names (ví dụ: `OptionTable`, `OptionForm`)
-  - Vietnamese labels cho UI text
-  - Proper breadcrumb structure với title hierarchy
+- Create page component file:
+  - `page.js` in `/src/app/(front)/app/{tableName}/` directory
+  - Use `"use client";` directive at the top of file
+  - Import components from `/src/component/custom/` directory
+- Include state management using hooks:
+  - `useTable` - Manage table data, reload and reference
+  - `useForm` - Manage form state, title, record and visibility
+  - `useInfo` - Manage detail view state
+- Implement main components:
+  - Table component with entity name as prefix (e.g., `OptionTable`)
+  - Single form component to handle both create and edit (e.g., `OptionForm`)
+  - Detail info component (e.g., `OptionInfo`) with drawer actions
+  - Columns configuration (e.g., `OptionsColumns`)
+  - Fields configuration (e.g., `OptionsFields`)
+- Follow established project patterns for:
+  - Layout using `PageContainer` and `ProCard` components
+  - Responsive design with proper shadows
+  - Action columns with Info and Edit buttons
+  - Form with dynamic title and initialValues
+- Include standard table operations:
+  - pageButton: Create button with `PlusOutlined` icon
+  - leftColumns: Info button with `InfoCircleOutlined` icon
+  - rightColumns: Edit button with `EditOutlined` icon (responsive md)
+- Use naming conventions:
+  - PascalCase for entity component names (e.g., `OptionTable`, `OptionForm`)
+  - Vietnamese labels for UI text
+  - Proper breadcrumb structure with title hierarchy
 
-## Ghi chú
+## Notes
 
-- Sử dụng định nghĩa bảng SQL để:
-  - Xác định tên entity và tên bảng
-  - Tạo breadcrumb và title phù hợp
-  - Import đúng các component từ custom components
+- Use SQL table definition to:
+  - Identify entity name and table name
+  - Create appropriate breadcrumb and title
+  - Import correct components from custom components
 - Page structure pattern:
-  - PageContainer với breadcrumb items, title và extra buttons
-  - ProCard wrapper với boxShadow
-  - Table component với leftColumns/rightColumns configuration
-  - Info drawer với drawerProps title và footer actions
-  - Single form với dynamic title, fields, initialValues và success callback
+  - PageContainer with breadcrumb items, title and extra buttons
+  - ProCard wrapper with boxShadow
+  - Table component with leftColumns/rightColumns configuration
+  - Info drawer with drawerProps title and footer actions
+  - Single form with dynamic title, fields, initialValues and success callback
 - State management pattern:
-  - `optionForm.setTitle()` để set dynamic title cho form
-  - `hook.open(record)` để mở forms/drawers với data
-  - `hook.close()` để đóng forms/drawers
-  - `optionTable.reload()` sau khi submit thành công
-  - `optionForm.record` và `optionInfo.record` để access current data
+  - `optionForm.setTitle()` to set dynamic title for form
+  - `hook.open(record)` to open forms/drawers with data
+  - `hook.close()` to close forms/drawers
+  - `optionTable.reload()` after successful submit
+  - `optionForm.record` and `optionInfo.record` to access current data
 - Vietnamese localization patterns:
-  - Breadcrumb: "Hệ thống" cho system level
+  - Breadcrumb: "Hệ thống" for system level
   - Page title: "Quản lý {Vietnamese entity name}"
   - Create button: "Tạo mới"
-  - Form titles: "Tạo {entity}" và "Sửa {entity}"
+  - Form titles: "Tạo {entity}" and "Sửa {entity}"
   - Info drawer title: "Thông tin {Vietnamese entity name}"
   - Edit button: "Sửa"
 - Component import structure:
-  - Icons từ `@ant-design/icons`
-  - ProCard từ `@ant-design/pro-components`
-  - Common components từ `@/component/common`
-  - Custom components từ `@/component/custom` (Table, Info, Form, Columns, Fields)
-  - Hooks từ `@/component/hook`
+  - Icons from `@ant-design/icons`
+  - ProCard from `@ant-design/pro-components`
+  - Common components from `@/component/common`
+  - Custom components from `@/component/custom` (Table, Info, Form, Columns, Fields)
+  - Hooks from `@/component/hook`
 
-## Ví dụ
+## Example
 
-### Đầu vào (Định nghĩa SQL)
+### Input (SQL Definition)
 
 ```sql
 DROP TABLE IF EXISTS options CASCADE;
@@ -86,7 +86,7 @@ CREATE TRIGGER update_record BEFORE
 UPDATE ON options FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 ```
 
-### Đầu ra (page.js)
+### Output (page.js)
 
 ```javascript
 "use client";

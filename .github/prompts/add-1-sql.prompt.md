@@ -1,28 +1,28 @@
 ---
 mode: "edit"
-description: "Tạo một file SQL để định nghĩa một bảng cơ sở dữ liệu mới với các cột và ràng buộc được chỉ định."
+description: "Create a SQL file to define a new database table with specified columns and constraints."
 ---
 
-## Yêu cầu
+## Requirements
 
-- Tạo một file SQL mới có tên `{tableName}.sql` trong thư mục [sql](../../src/lib/sql)
-- Định nghĩa bảng với các cột tiêu chuẩn (`id`, `created_at`, `updated_at`, `deleted_at`) cộng với các cột tùy chỉnh của bạn
-- Bao gồm các ràng buộc và giá trị mặc định phù hợp cho tất cả các cột
-- Sử dụng UUID làm kiểu khóa chính với `gen_random_uuid()` làm giá trị mặc định cho `id`
-- Thêm trigger `set_updated_at()` bắt buộc để tự động cập nhật timestamp cho `updated_at`
-- Tuân theo quy ước đặt tên snake_case cho tất cả tên cột
-- Cung cấp tên bảng (ví dụ: `shifts`)
-- Cung cấp định nghĩa cột với kiểu dữ liệu và ràng buộc (ví dụ: `shift_name varchar not null`)
-- Sử dụng định nghĩa cột để:
-  - Tạo cấu trúc bảng với kiểu dữ liệu phù hợp
-  - Thêm các ràng buộc cần thiết (PRIMARY KEY, NOT NULL)
-  - Đặt giá trị mặc định khi cần
-  - Các cột có tên kết thúc bằng `_id` nên có kiểu dữ liệu INTEGER
-  - Đảm bảo tuân thủ quy ước đặt tên snake_case
+- Create a new SQL file named `{tableName}.sql` in the [sql](../../src/lib/sql) directory
+- Define the table with standard columns (`id`, `created_at`, `updated_at`, `deleted_at`) plus your custom columns
+- Include appropriate constraints and default values for all columns
+- Use UUID as primary key type with `gen_random_uuid()` as default value for `id`
+- Add mandatory `set_updated_at()` trigger to automatically update timestamp for `updated_at`
+- Follow snake_case naming convention for all column names
+- Provide table name (e.g., `shifts`)
+- Provide column definitions with data types and constraints (e.g., `shift_name varchar not null`)
+- Use column definitions to:
+  - Create table structure with appropriate data types
+  - Add necessary constraints (PRIMARY KEY, NOT NULL)
+  - Set default values when needed
+  - Columns with names ending in `_id` should have INTEGER data type
+  - Ensure compliance with snake_case naming convention
 
-## Ví dụ
+## Example
 
-### Đầu vào
+### Input
 
 ```
 Table: options
@@ -34,7 +34,7 @@ Columns:
 - shift_desc text nullable
 ```
 
-### Đầu ra
+### Output
 
 ```sql
 DROP TABLE IF EXISTS shifts CASCADE;

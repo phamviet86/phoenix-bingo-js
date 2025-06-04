@@ -1,48 +1,48 @@
 ---
 mode: "edit"
-description: "Tạo một file component hoàn chỉnh với các thao tác CRUD dựa trên tên bảng được cung cấp."
+description: "Create a complete component file with CRUD operations based on provided table name."
 ---
 
-## Yêu cầu
+## Requirements
 
-- Tạo file component từ tên bảng:
-  - `{table-name}-component.js` trong thư mục `/src/component/custom/{tableName}/`
-  - Export bốn functions: `{TableName}Table`, `{TableName}Desc`, `{TableName}Info`, `{TableName}Form`
-- Bao gồm các thao tác CRUD hoàn chỉnh:
-  - Table: Component hiển thị danh sách dữ liệu với pagination, filtering và sorting
-  - Desc: Component hiển thị thông tin chi tiết bản ghi
-  - Info: Component hiển thị drawer thông tin
-  - Form: Component tạo và chỉnh sửa bản ghi (đa năng cho cả create và edit)
-- Tuân theo các mẫu đã thiết lập của dự án cho:
-  - Import statements từ common components và fetch utilities
-  - Props spreading sử dụng destructuring pattern
-  - API endpoint paths nhất quán với `/api/{tableName}`
-  - Vietnamese titles cho forms và actions
-- Bao gồm cấu hình component phù hợp:
-  - Table component: sử dụng `onDataRequest` với `fetchList`
-  - Form component: sử dụng `onDataSubmit` với `fetchPost` (mặc định cho create)
-  - Info component: sử dụng `DrawerInfo` wrapper
-  - Description component: sử dụng `ProDescriptions` wrapper
-- Sử dụng các quy ước đặt tên:
-  - File names: kebab-case (ví dụ: `options-component.js`)
-  - Function names: PascalCase với table name (ví dụ: `OptionTable`, `OptionForm`)
-  - Component titles: Vietnamese với proper context (ví dụ: "Tạo tùy chọn", "Sửa tùy chọn")
-- Triển khai pattern component:
-  - Props spreading: `{...props}` cho tất cả components
+- Create component file from table name:
+  - `{table-name}-component.js` in `/src/component/custom/{tableName}/` directory
+  - Export four functions: `{TableName}Table`, `{TableName}Desc`, `{TableName}Info`, `{TableName}Form`
+- Include complete CRUD operations:
+  - Table: Component to display data list with pagination, filtering and sorting
+  - Desc: Component to display detailed record information
+  - Info: Component to display information drawer
+  - Form: Component to create and edit records (versatile for both create and edit)
+- Follow established project patterns for:
+  - Import statements from common components and fetch utilities
+  - Props spreading using destructuring pattern
+  - Consistent API endpoint paths with `/api/{tableName}`
+  - Vietnamese titles for forms and actions
+- Include appropriate component configuration:
+  - Table component: use `onDataRequest` with `fetchList`
+  - Form component: use `onDataSubmit` with `fetchPost` (default for create)
+  - Info component: use `DrawerInfo` wrapper
+  - Description component: use `ProDescriptions` wrapper
+- Use naming conventions:
+  - File names: kebab-case (e.g., `options-component.js`)
+  - Function names: PascalCase with table name (e.g., `OptionTable`, `OptionForm`)
+  - Component titles: Vietnamese with proper context (e.g., "Tạo tùy chọn", "Sửa tùy chọn")
+- Implement component pattern:
+  - Props spreading: `{...props}` for all components
   - Consistent API endpoint format: `/api/{tableName}`
 
-## Ghi chú
+## Notes
 
-- Sử dụng tên bảng để:
-  - Tạo PascalCase function names (ví dụ: "options" → "OptionTable")
-  - Xác định API endpoints phù hợp
-  - Tạo Vietnamese titles có ý nghĩa cho forms
+- Use table name to:
+  - Create PascalCase function names (e.g., "options" → "OptionTable")
+  - Determine appropriate API endpoints
+  - Create meaningful Vietnamese titles for forms
 - Import patterns:
-  - Common components từ `@/component/common`: `ProTable`, `ProDescriptions`, `DrawerInfo`, `DrawerForm`
-  - Fetch utilities từ `@/lib/util/fetch-util`: `fetchList`, `fetchPost`
+  - Common components from `@/component/common`: `ProTable`, `ProDescriptions`, `DrawerInfo`, `DrawerForm`
+  - Fetch utilities from `@/lib/util/fetch-util`: `fetchList`, `fetchPost`
 - Component structure patterns:
-  - Table: nhận `params, sort, filter` từ `onDataRequest`
-  - Form: nhận `values` từ `onDataSubmit`, sử dụng `fetchPost` mặc định
+  - Table: receives `params, sort, filter` from `onDataRequest`
+  - Form: receives `values` from `onDataSubmit`, uses `fetchPost` by default
 - API call patterns:
   - GET list: `fetchList("/api/{tableName}", params, sort, filter)`
   - POST: `fetchPost("/api/{tableName}", values)`
@@ -51,19 +51,19 @@ description: "Tạo một file component hoàn chỉnh với các thao tác CRUD
   - Edit: "Sửa [item name in Vietnamese]"
   - Use appropriate Vietnamese terms for each table context
 - JSDoc comments:
-  - Sử dụng tiếng Việt để mô tả functionality
-  - Bao gồm thông tin về props và usage patterns
-  - Ghi rõ mục đích và cách sử dụng của từng component
+  - Use Vietnamese to describe functionality
+  - Include information about props and usage patterns
+  - Clearly state purpose and usage of each component
 
-## Ví dụ
+## Example
 
-### Đầu vào
+### Input
 
 ```
 Table: options
 ```
 
-### Đầu ra (options-component.js)
+### Output (options-component.js)
 
 ```javascript
 // path: @/component/custom/options/options-component.js

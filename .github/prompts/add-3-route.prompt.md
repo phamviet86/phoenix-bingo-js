@@ -1,64 +1,64 @@
 ---
 mode: "edit"
-description: "Tạo các file API route hoàn chỉnh cho một service với các thao tác CRUD dựa trên định nghĩa bảng SQL và module service."
+description: "Create complete API route files for a service with CRUD operations based on SQL table definition and service module."
 ---
 
-## Yêu cầu
+## Requirements
 
-- Tạo hai file API route:
-  - `route.js` trong thư mục `/src/app/(back)/api/{tableName}` cho các thao tác liệt kê/tạo mới
-  - `[id]/route.js` trong thư mục `/src/app/(back)/api/{tableName}/[id]` cho các thao tác chi tiết/cập nhật/xóa
-- Bao gồm các route handler sau dựa trên HTTP methods:
-  - GET: Lấy tất cả bản ghi (cho route.js) hoặc một bản ghi cụ thể (cho [id]/route.js)
-  - POST: Tạo một bản ghi mới hoặc cập nhật nếu có id (upsert) - chỉ trong route.js
-  - PUT: Cập nhật một bản ghi hiện có (chỉ trong [id]/route.js)
-  - DELETE: Xóa mềm một bản ghi (chỉ trong [id]/route.js)
-- Tuân theo các mẫu đã thiết lập của dự án cho:
-  - Các câu lệnh import từ file service tương ứng
-  - Xử lý lỗi với các khối try/catch
-  - Validation các đầu vào bắt buộc dựa trên ràng buộc SQL NOT NULL
-  - Định dạng response sử dụng các hàm helper
-  - Trích xuất tham số từ request body và URL
-- Bao gồm các response lỗi phù hợp với mã trạng thái thích hợp:
-  - 400 cho các tham số bắt buộc bị thiếu
-  - 404 cho các bản ghi không tìm thấy hoặc đã bị xóa
-  - 500 cho lỗi server hoặc creation/update failed
-- Sử dụng các mẫu đặt tên hàm service để:
-  - Import và gọi các hàm service một cách chính xác
-  - Khớp tên tham số giữa API và service calls
-  - Cấu trúc dữ liệu response một cách thích hợp
-- Cung cấp thông báo lỗi bằng tiếng Việt trong định dạng response
+- Create two API route files:
+  - `route.js` in `/src/app/(back)/api/{tableName}` directory for list/create operations
+  - `[id]/route.js` in `/src/app/(back)/api/{tableName}/[id]` directory for detail/update/delete operations
+- Include the following route handlers based on HTTP methods:
+  - GET: Retrieve all records (for route.js) or a specific record (for [id]/route.js)
+  - POST: Create a new record or update if id exists (upsert) - only in route.js
+  - PUT: Update an existing record (only in [id]/route.js)
+  - DELETE: Soft delete a record (only in [id]/route.js)
+- Follow established project patterns for:
+  - Import statements from corresponding service file
+  - Error handling with try/catch blocks
+  - Input validation for required fields based on SQL NOT NULL constraints
+  - Response formatting using helper functions
+  - Parameter extraction from request body and URL
+- Include appropriate error responses with proper status codes:
+  - 400 for missing required parameters
+  - 404 for records not found or already deleted
+  - 500 for server errors or creation/update failures
+- Use service function naming patterns to:
+  - Import and call service functions correctly
+  - Match parameter names between API and service calls
+  - Structure response data appropriately
+- Provide error messages in English in response format
 
-## Ghi chú
+## Notes
 
-- Sử dụng định nghĩa bảng SQL để:
-  - Xác định các trường bắt buộc (ràng buộc NOT NULL trong SQL)
-  - Đặt giá trị mặc định dạng hardcode cho các trường optional (thường là null)
-  - Validate các kiểu trường dựa trên kiểu dữ liệu SQL
-- Các hàm service được mong đợi có mẫu đặt tên sau:
-  - getAll: `get{TableName}s` (số nhiều - ví dụ: getOptions)
-  - getById: `get{TableName}` (số ít - ví dụ: getOption)
-  - create: `create{TableName}` (số ít - ví dụ: createOption)
-  - update: `update{TableName}` (số ít - ví dụ: updateOption)
-  - delete: `delete{TableName}` (số ít - ví dụ: deleteOption)
-- Các route handler nên trích xuất tham số từ:
-  - Tham số query URL cho việc lọc trong các thao tác GET list
-  - Request body cho các thao tác POST và PUT (bao gồm optional id field cho upsert)
-  - Tham số đường dẫn URL cho các thao tác [id] sử dụng `await context.params`
-- Pattern kiểm tra kết quả service:
-  - Sử dụng `if (!result || !result.length)` để kiểm tra thành công/thất bại cho getById, create, update, delete
-  - Sử dụng `handleData(result)` và kiểm tra `data, total` cho getAll operations
-  - Trả về 404 cho các trường hợp không tìm thấy
-  - Trả về 500 cho các trường hợp creation/update failed
+- Use SQL table definition to:
+  - Identify required fields (NOT NULL constraints in SQL)
+  - Set hardcoded default values for optional fields (usually null)
+  - Validate field types based on SQL data types
+- Service functions are expected to follow naming pattern:
+  - getAll: `get{TableName}s` (plural - e.g., getOptions)
+  - getById: `get{TableName}` (singular - e.g., getOption)
+  - create: `create{TableName}` (singular - e.g., createOption)
+  - update: `update{TableName}` (singular - e.g., updateOption)
+  - delete: `delete{TableName}` (singular - e.g., deleteOption)
+- Route handlers should extract parameters from:
+  - URL query parameters for filtering in GET list operations
+  - Request body for POST and PUT operations (including optional id field for upsert)
+  - URL path parameters for [id] operations using `await context.params`
+- Service result checking pattern:
+  - Use `if (!result || !result.length)` to check success/failure for getById, create, update, delete
+  - Use `handleData(result)` and check `data, total` for getAll operations
+  - Return 404 for not found cases
+  - Return 500 for creation/update failed cases
 - POST handler logic:
-  - Kiểm tra có id trong request body không
-  - Nếu có id: thực hiện update và trả về status 200
-  - Nếu không có id: thực hiện create và trả về status 201
-  - Sử dụng message phù hợp cho từng trường hợp
+  - Check if id exists in request body
+  - If id exists: perform update and return status 200
+  - If no id: perform create and return status 201
+  - Use appropriate Vietnamese message for each case
 
-## Ví dụ
+## Example
 
-### Đầu vào (Định nghĩa SQL)
+### Input (SQL Definition)
 
 ```sql
 DROP TABLE IF EXISTS options CASCADE;
@@ -77,7 +77,7 @@ CREATE TRIGGER update_record BEFORE
 UPDATE ON options FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 ```
 
-### Đầu ra (route.js)
+### Output (route.js)
 
 ```javascript
 import {
@@ -129,7 +129,7 @@ export async function POST(request) {
     let statusCode;
 
     if (id !== null) {
-      // Update existing option (upsert functionality)
+      // Update existing option
       result = await updateOption(data, id);
       message = "Cập nhật tùy chọn thành công.";
       statusCode = 200;
@@ -152,7 +152,7 @@ export async function POST(request) {
 }
 ```
 
-### Đầu ra ([id]/route.js)
+### Output ([id]/route.js)
 
 ```javascript
 import {
