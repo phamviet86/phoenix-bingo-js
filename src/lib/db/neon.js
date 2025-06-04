@@ -19,7 +19,7 @@ import { neon } from "@neondatabase/serverless";
  * // Cách 2: Sử dụng parameterized query
  * const sql = getConnBingo();
  * const comment = "Đây là bình luận mẫu";
- * await sql("INSERT INTO comments (comment) VALUES ($1)", [comment]);
+ * await sql.query("INSERT INTO comments (comment) VALUES ($1)", [comment]);
  */
 export function getConnection() {
   const { DATABASE_URL } = process.env;
