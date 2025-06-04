@@ -1,67 +1,67 @@
 ---
 mode: "edit"
-description: "Tạo page component chi tiết cho entity với chức năng hiển thị thông tin và form chỉnh sửa."
+description: "Create detail page component for entity with display information and edit form functionality."
 ---
 
-## Yêu cầu
+## Requirements
 
-- Tạo file page component:
-  - `page.js` trong thư mục `/src/app/(front)/app/{tableName}/[id]/`
-  - Sử dụng `"use client";` directive ở đầu file
-  - Import các component từ thư mục `/src/component/custom/`
-- Bao gồm state management sử dụng các hooks:
-  - `useDesc` - Quản lý dữ liệu mô tả entity
-  - `useForm` - Quản lý visibility form chỉnh sửa
-- Implement các component chính:
-  - Desc component với entity name làm prefix (ví dụ: `OptionDesc`)
-  - Edit form component (ví dụ: `OptionFormEdit`) với record ID và reload callback
-- Tuân theo các mẫu đã thiết lập của dự án cho:
-  - Layout sử dụng `PageContainer` và `ProCard` components
-  - Responsive design với proper borders
-  - Error handling và loading states
-  - Dynamic page title và breadcrumb
-- Bao gồm các thao tác trang chuẩn:
-  - pageButton: BackButton và Edit button với `EditOutlined` icon
-  - Dynamic title từ entity record
-- Sử dụng các quy ước đặt tên:
-  - PascalCase cho entity component names (ví dụ: `OptionDesc`, `OptionFormEdit`)
-  - Vietnamese labels cho UI text
-  - Proper breadcrumb structure với title hierarchy
+- Create page component file:
+  - `page.js` in `/src/app/(front)/app/{tableName}/[id]/` directory
+  - Use `"use client";` directive at the top of file
+  - Import components from `/src/component/custom/` directory
+- Include state management using hooks:
+  - `useDesc` - Manage entity description data
+  - `useForm` - Manage edit form visibility
+- Implement main components:
+  - Desc component with entity name as prefix (e.g., `OptionDesc`)
+  - Edit form component (e.g., `OptionFormEdit`) with record ID and reload callback
+- Follow established project patterns for:
+  - Layout using `PageContainer` and `ProCard` components
+  - Responsive design with proper borders
+  - Error handling and loading states
+  - Dynamic page title and breadcrumb
+- Include standard page operations:
+  - pageButton: BackButton and Edit button with `EditOutlined` icon
+  - Dynamic title from entity record
+- Use naming conventions:
+  - PascalCase for entity component names (e.g., `OptionDesc`, `OptionFormEdit`)
+  - Vietnamese labels for UI text
+  - Proper breadcrumb structure with title hierarchy
 
-## Ghi chú
+## Notes
 
-- Sử dụng định nghĩa bảng SQL để:
-  - Xác định tên entity và tên bảng
-  - Tạo breadcrumb và title phù hợp
-  - Import đúng các component từ custom components
+- Use SQL table definition to:
+  - Identify entity name and table name
+  - Create appropriate breadcrumb and title
+  - Import correct components from custom components
 - Page structure pattern:
-  - PageContainer với breadcrumb items và dynamic title
-  - ProCard wrapper với bordered style
-  - Desc component với params integration
-  - Edit form với trigger button
+  - PageContainer with breadcrumb items and dynamic title
+  - ProCard wrapper with bordered style
+  - Desc component with params integration
+  - Edit form with trigger button
 - State management pattern:
-  - Sử dụng use(params) để lấy ID từ URL
-  - Dynamic title từ entity record
-  - Set document.title cho SEO
-  - Reload desc sau khi edit thành công
+  - Use use(params) to get ID from URL
+  - Dynamic title from entity record
+  - Set document.title for SEO
+  - Reload desc after successful edit
 - Vietnamese localization patterns:
-  - Breadcrumb: "Hệ thống" cho system level
-  - Page title: Dynamic từ entity record hoặc "Chi tiết"
+  - Breadcrumb: "Hệ thống" for system level
+  - Page title: Dynamic from entity record or "Chi tiết"
   - Edit button: "Sửa"
-  - Back button: Tự động
+  - Back button: Automatic
 - Component import structure:
-  - Common components từ `@/component/common`
-  - Custom components từ `@/component/custom`
-  - Hooks từ `@/component/hook`
-  - Icons từ `@ant-design/icons`
-  - React hooks: `use` từ "react"
+  - Common components from `@/component/common`
+  - Custom components from `@/component/custom`
+  - Hooks from `@/component/hook`
+  - Icons from `@ant-design/icons`
+  - React hooks: `use` from "react"
 - Provider pattern:
-  - Sử dụng PageProvider wrapper nếu cần context
-  - Separate PageContent component để nhận props
+  - Use PageProvider wrapper if context needed
+  - Separate PageContent component to receive props
 
-## Ví dụ
+## Example
 
-### Đầu vào (Định nghĩa SQL)
+### Input (SQL Definition)
 
 ```sql
 DROP TABLE IF EXISTS options CASCADE;
@@ -80,7 +80,7 @@ CREATE TRIGGER update_record BEFORE
 UPDATE ON options FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 ```
 
-### Đầu ra (page.js)
+### Output (page.js)
 
 ```javascript
 "use client";
@@ -91,7 +91,7 @@ import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button, BackButton } from "@/component/common";
 import {
   OptionDesc,
-  OptionFormEdit,
+  OptionForm,
   OptionsColumns,
   OptionsFields,
 } from "@/component/custom";
@@ -113,12 +113,11 @@ function PageContent({ params }) {
 
   const pageButton = [
     <BackButton key="back-button" />,
-    <OptionFormEdit
-      formHook={optionForm}
-      fields={OptionsFields()}
-      id={optionId}
-      onDataSubmitSuccess={() => optionDesc.reload()}
-      trigger={<Button key="edit-button" label="Sửa" icon={<EditOutlined />} />}
+    <Button
+      key="edit-button"
+      label="Sửa"
+      icon={<EditOutlined />}
+      onClick={() => optionForm.open(optionDesc.record)}
     />,
   ];
 
@@ -131,6 +130,13 @@ function PageContent({ params }) {
         onDataRequestSuccess={(result) =>
           optionDesc.setRecord(result?.data?.[0])
         }
+      />
+      <OptionForm
+        formHook={optionForm}
+        fields={OptionsFields()}
+        onDataSubmitSuccess={() => optionDesc.reload()}
+        initialValues={optionForm.record}
+        title="Sửa giáo trình"
       />
     </ProCard>
   );
