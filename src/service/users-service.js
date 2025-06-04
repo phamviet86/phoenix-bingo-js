@@ -72,7 +72,6 @@ export async function updateUser(data, id) {
       user_name,
       user_status_id,
       user_email,
-      user_password,
       user_phone,
       user_parent_phone,
       user_avatar,
@@ -83,7 +82,7 @@ export async function updateUser(data, id) {
     const sql = getConnection();
     return await sql`
       UPDATE users
-      SET user_name = ${user_name}, user_status_id = ${user_status_id}, user_email = ${user_email}, user_password = ${user_password}, user_phone = ${user_phone}, user_parent_phone = ${user_parent_phone}, user_avatar = ${user_avatar}, user_desc = ${user_desc}, user_notes = ${user_notes}
+      SET user_name = ${user_name}, user_status_id = ${user_status_id}, user_email = ${user_email}, user_phone = ${user_phone}, user_parent_phone = ${user_parent_phone}, user_avatar = ${user_avatar}, user_desc = ${user_desc}, user_notes = ${user_notes}
       WHERE deleted_at IS NULL AND id = ${id}
       RETURNING id, user_name, user_status_id, user_email, user_phone, user_parent_phone, user_avatar, user_desc, user_notes;
     `;
@@ -100,6 +99,31 @@ export async function deleteUser(id) {
       SET deleted_at = NOW()
       WHERE deleted_at IS NULL AND id = ${id}
       RETURNING id, user_name, user_status_id, user_email, user_phone, user_parent_phone, user_avatar, user_desc, user_notes;
+    `;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+// Get user by email
+export async function getUserByEmail(email) {
+  const queryValues = [email];
+  const queryText = `
+    SELECT * 
+    FROM users 
+    WHERE deleted_at IS NULL AND user_email = $1;
+  `;
+
+  return await executeQuery(queryText, queryValues);
+}
+
+export async function getUserByEmail(email) {
+  try {
+    const sql = getConnection();
+    return await sql`
+      SELECT id, user_name, user_status_id, user_email, user_password, user_phone, user_parent_phone, user_avatar, user_desc, user_notes
+      FROM users
+      WHERE deleted_at IS NULL AND user_email = ${email};
     `;
   } catch (error) {
     throw new Error(error.message);
