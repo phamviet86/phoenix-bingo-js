@@ -1,17 +1,34 @@
 // path: @/component/custom/lessons/lessons-schema.js
 
-import { ProForm, ProFormText, ProFormTextArea } from "@ant-design/pro-form";
+import {
+  ProForm,
+  ProFormText,
+  ProFormTextArea,
+  ProFormSelect,
+} from "@ant-design/pro-form";
+import { fetchOption } from "@/lib/util/fetch-util";
 
-export function LessonsColumns() {
+export function LessonsColumns(params) {
+  const { courseId } = params;
+
   return [
     {
-      title: "Module ID",
+      title: "Học phần",
       dataIndex: "module_id",
-      valueType: "text",
+      valueType: "select",
       sorter: { multiple: 1 },
+      request: (params) =>
+        fetchOption("/api/modules", params, {
+          label: "module_name",
+          value: "id",
+        }),
+      params: {
+        course_id_e: courseId,
+      },
+      responsive: ["sm"],
     },
     {
-      title: "Bài Giảng",
+      title: "Bài giảng",
       dataIndex: "lesson_name",
       valueType: "text",
       sorter: { multiple: 1 },
@@ -20,36 +37,55 @@ export function LessonsColumns() {
       title: "STT",
       dataIndex: "lesson_no",
       valueType: "text",
-      sorter: { multiple: 1 },
+      search: false,
+      responsive: ["lg"],
     },
     {
-      title: "Mô Tả",
+      title: "Mô tả",
       dataIndex: "lesson_desc",
       valueType: "textarea",
-      sorter: { multiple: 1 },
+      ellipsis: true,
+      search: false,
+      responsive: ["lg"],
     },
   ];
 }
 
-export function LessonsFields() {
+export function LessonsFields(params) {
+  const { courseId } = params;
+
   return (
     <ProForm.Group>
       <ProFormText name="id" label="ID" hidden disabled />
-      <ProFormText name="module_id" label="ID học phần" hidden disabled />
+      <ProFormSelect
+        name="module_id"
+        label="Học phần"
+        placeholder="Chọn học phần"
+        rules={[{ required: true }]}
+        request={(params) =>
+          fetchOption("/api/modules", params, {
+            label: "module_name",
+            value: "id",
+          })
+        }
+        params={{
+          course_id_e: courseId,
+        }}
+      />
       <ProFormText
         name="lesson_name"
-        label="Tên Bài Giảng"
+        label="Tên bài giảng"
         placeholder="Nhập tên bài giảng"
         rules={[{ required: true }]}
       />
       <ProFormText
         name="lesson_no"
-        label="Số Thứ Tự"
+        label="Số thứ tự"
         placeholder="Nhập số thứ tự"
       />
       <ProFormTextArea
         name="lesson_desc"
-        label="Mô Tả"
+        label="Mô tả"
         placeholder="Nhập mô tả"
         fieldProps={{ autoSize: { minRows: 3, maxRows: 6 } }}
       />

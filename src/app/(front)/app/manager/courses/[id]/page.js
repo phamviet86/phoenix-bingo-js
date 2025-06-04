@@ -91,7 +91,7 @@ function PageContent({ params }) {
         extra={[
           <Button
             key="create-button"
-            label="Tạo mới"
+            label="Thêm"
             icon={<PlusOutlined />}
             variant="filled"
             onClick={() => {
@@ -179,12 +179,14 @@ function PageContent({ params }) {
     tab: "Bài giảng",
     children: (
       <ProCard
+        title="Danh sách bài giảng"
         boxShadow
         extra={[
           <Button
             key="create-button"
-            label="Tạo mới"
+            label="Thêm"
             icon={<PlusOutlined />}
+            variant="filled"
             onClick={() => {
               lessonForm.setTitle("Tạo bài giảng");
               lessonForm.open({});
@@ -194,7 +196,7 @@ function PageContent({ params }) {
       >
         <LessonTable
           tableHook={lessonTable}
-          columns={LessonsColumns()}
+          columns={LessonsColumns({ courseId })}
           leftColumns={[
             {
               width: 56,
@@ -230,7 +232,7 @@ function PageContent({ params }) {
         />
         <LessonInfo
           infoHook={lessonInfo}
-          columns={LessonsColumns()}
+          columns={LessonsColumns({ courseId })}
           dataSource={lessonInfo.record}
           drawerProps={{
             title: "Thông tin bài giảng",
@@ -249,7 +251,7 @@ function PageContent({ params }) {
         />
         <LessonForm
           formHook={lessonForm}
-          fields={LessonsFields()}
+          fields={LessonsFields({ courseId })}
           onDataSubmitSuccess={() => lessonTable.reload()}
           initialValues={lessonForm.record}
           title={lessonForm.title}
