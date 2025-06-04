@@ -1,3 +1,5 @@
+// path: @/component/custom/options/options-component.js
+
 import {
   ProTable,
   DrawerForm,

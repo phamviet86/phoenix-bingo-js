@@ -65,6 +65,8 @@ UPDATE ON options FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 ### Đầu ra (options-schema.js)
 
 ```javascript
+// path: @/component/custom/options/options-schema.js
+
 import { ProForm, ProFormText } from "@ant-design/pro-form";
 
 export function OptionsColumns() {

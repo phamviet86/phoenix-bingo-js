@@ -1,15 +1,12 @@
+// path: @/component/custom/roles/roles-component.js
+
 import {
   ProTable,
+  DrawerForm,
   ProDescriptions,
   DrawerInfo,
-  DrawerForm,
 } from "@/component/common";
-import {
-  fetchList,
-  fetchGet,
-  fetchPost,
-  fetchPut,
-} from "@/lib/util/fetch-util";
+import { fetchList, fetchPost } from "@/lib/util/fetch-util";
 
 export function RoleTable(props) {
   return (
@@ -30,23 +27,11 @@ export function RoleInfo(props) {
   return <DrawerInfo {...props} />;
 }
 
-export function RoleFormCreate(props) {
+export function RoleForm(props) {
   return (
     <DrawerForm
       {...props}
       onDataSubmit={(values) => fetchPost("/api/roles", values)}
-      title="Tạo vai trò"
-    />
-  );
-}
-
-export function RoleFormEdit({ id, ...props }) {
-  return (
-    <DrawerForm
-      {...props}
-      onDataRequest={() => fetchGet(`/api/roles/${id}`)}
-      onDataSubmit={(values) => fetchPut(`/api/roles/${id}`, values)}
-      title="Sửa vai trò"
     />
   );
 }

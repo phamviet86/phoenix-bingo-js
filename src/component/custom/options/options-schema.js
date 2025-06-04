@@ -1,3 +1,5 @@
+// path: @/component/custom/options/options-schema.js
+
 import { ProForm, ProFormText, ProFormSelect } from "@ant-design/pro-form";
 import { COLORS } from "@/component/config";
 

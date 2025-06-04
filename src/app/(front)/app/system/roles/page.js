@@ -10,8 +10,7 @@ import { PageContainer, Button } from "@/component/common";
 import {
   RoleTable,
   RoleInfo,
-  RoleFormCreate,
-  RoleFormEdit,
+  RoleForm,
   RolesColumns,
   RolesFields,
 } from "@/component/custom";
@@ -23,12 +22,14 @@ export default function Page() {
   const roleForm = useForm();
 
   const pageButton = [
-    <RoleFormCreate
-      fields={RolesFields()}
-      onDataSubmitSuccess={() => roleTable.reload()}
-      trigger={
-        <Button key="create-button" label="Tạo mới" icon={<PlusOutlined />} />
-      }
+    <Button
+      key="create-button"
+      label="Tạo mới"
+      icon={<PlusOutlined />}
+      onClick={() => {
+        roleForm.setTitle("Tạo vai trò");
+        roleForm.open({});
+      }}
     />,
   ];
 
@@ -61,6 +62,7 @@ export default function Page() {
                 icon={<EditOutlined />}
                 variant="link"
                 onClick={() => {
+                  roleForm.setTitle("Sửa vai trò");
                   roleForm.open(record);
                 }}
               />
@@ -81,17 +83,19 @@ export default function Page() {
               label="Sửa"
               onClick={() => {
                 roleInfo.close();
+                roleForm.setTitle("Sửa vai trò");
                 roleForm.open(roleInfo.record);
               }}
             />,
           ],
         }}
       />
-      <RoleFormEdit
+      <RoleForm
         formHook={roleForm}
         fields={RolesFields()}
         onDataSubmitSuccess={() => roleTable.reload()}
-        id={roleForm.record.id}
+        initialValues={roleForm.record}
+        title={roleForm.title}
       />
     </ProCard>
   );

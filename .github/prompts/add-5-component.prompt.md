@@ -66,6 +66,8 @@ Table: options
 ### Đầu ra (options-component.js)
 
 ```javascript
+// path: @/component/custom/options/options-component.js
+
 import {
   ProTable,
   DrawerForm,
