@@ -4,47 +4,40 @@ import {
   ProFormTextArea,
   ProFormSelect,
 } from "@ant-design/pro-form";
+import {
+  renderUser,
+  renderUserContact,
+  renderUserAvatar,
+} from "@/lib/util/render-util";
 
 export function UsersColumns(params) {
   const { userStatus } = params;
 
   return [
     {
+      title: "Ảnh",
+      width: 80,
+      render: (_, record) => renderUserAvatar(record),
+      hideInDescriptions: true,
+      search: false,
+    },
+    {
+      title: "Người dùng",
+      render: (_, record) => renderUser(record, userStatus?.enums),
+      hideInDescriptions: true,
+      search: false,
+    },
+    {
+      title: "Liên hệ",
+      render: (_, record) => renderUserContact(record),
+      hideInDescriptions: true,
+      search: false,
+      responsive: ["md"],
+    },
+    {
       title: "Tên người dùng",
       dataIndex: "user_name",
       valueType: "text",
-      sorter: { multiple: 1 },
-    },
-    {
-      title: "Trạng thái",
-      dataIndex: "user_status_id",
-      valueType: "select",
-      valueEnum: userStatus?.enums,
-      sorter: { multiple: 1 },
-    },
-    {
-      title: "Email",
-      dataIndex: "user_email",
-      valueType: "text",
-      sorter: { multiple: 1 },
-    },
-    {
-      title: "SĐT",
-      dataIndex: "user_phone",
-      valueType: "text",
-      sorter: { multiple: 1 },
-    },
-    {
-      title: "SĐT phụ huynh",
-      dataIndex: "user_parent_phone",
-      valueType: "text",
-      sorter: { multiple: 1 },
-    },
-    {
-      title: "Avatar",
-      dataIndex: "user_avatar",
-      valueType: "text",
-      sorter: { multiple: 1 },
       hidden: true,
     },
     {
@@ -54,10 +47,36 @@ export function UsersColumns(params) {
       hidden: true,
     },
     {
+      title: "Trạng thái",
+      dataIndex: "user_status_id",
+      valueType: "select",
+      valueEnum: userStatus?.enums,
+      hidden: true,
+    },
+    {
+      title: "Email",
+      dataIndex: "user_email",
+      valueType: "text",
+      hidden: true,
+    },
+    {
+      title: "SĐT",
+      dataIndex: "user_phone",
+      valueType: "text",
+      hidden: true,
+    },
+    {
+      title: "SĐT phụ huynh",
+      dataIndex: "user_parent_phone",
+      valueType: "text",
+      hidden: true,
+    },
+    {
       title: "Ghi chú",
       dataIndex: "user_notes",
       valueType: "textarea",
       ellipsis: true,
+      search: false,
       hidden: true,
     },
   ];
