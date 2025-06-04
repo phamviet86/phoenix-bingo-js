@@ -1,15 +1,12 @@
+// path: @/component/custom/rooms/rooms-component.js
+
 import {
   ProTable,
+  DrawerForm,
   ProDescriptions,
   DrawerInfo,
-  DrawerForm,
 } from "@/component/common";
-import {
-  fetchList,
-  fetchGet,
-  fetchPost,
-  fetchPut,
-} from "@/lib/util/fetch-util";
+import { fetchList, fetchPost } from "@/lib/util/fetch-util";
 
 export function RoomTable(props) {
   return (
@@ -30,23 +27,11 @@ export function RoomInfo(props) {
   return <DrawerInfo {...props} />;
 }
 
-export function RoomFormCreate(props) {
+export function RoomForm(props) {
   return (
     <DrawerForm
       {...props}
       onDataSubmit={(values) => fetchPost("/api/rooms", values)}
-      title="Tạo phòng học"
-    />
-  );
-}
-
-export function RoomFormEdit({ id, ...props }) {
-  return (
-    <DrawerForm
-      {...props}
-      onDataRequest={() => fetchGet(`/api/rooms/${id}`)}
-      onDataSubmit={(values) => fetchPut(`/api/rooms/${id}`, values)}
-      title="Sửa phòng học"
     />
   );
 }

@@ -1,3 +1,5 @@
+// path: @/component/custom/rooms/rooms-schema.js
+
 import { ProForm, ProFormText, ProFormTextArea } from "@ant-design/pro-form";
 
 export function RoomsColumns() {

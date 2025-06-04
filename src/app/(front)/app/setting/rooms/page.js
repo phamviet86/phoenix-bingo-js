@@ -10,8 +10,7 @@ import { PageContainer, Button } from "@/component/common";
 import {
   RoomTable,
   RoomInfo,
-  RoomFormCreate,
-  RoomFormEdit,
+  RoomForm,
   RoomsColumns,
   RoomsFields,
 } from "@/component/custom";
@@ -23,13 +22,14 @@ export default function Page() {
   const roomForm = useForm();
 
   const pageButton = [
-    <RoomFormCreate
-      key="room-form-create"
-      fields={RoomsFields()}
-      onDataSubmitSuccess={() => roomTable.reload()}
-      trigger={
-        <Button key="create-button" label="Tạo mới" icon={<PlusOutlined />} />
-      }
+    <Button
+      key="create-button"
+      label="Tạo mới"
+      icon={<PlusOutlined />}
+      onClick={() => {
+        roomForm.setTitle("Tạo phòng học");
+        roomForm.open({});
+      }}
     />,
   ];
 
@@ -62,6 +62,7 @@ export default function Page() {
                 icon={<EditOutlined />}
                 variant="link"
                 onClick={() => {
+                  roomForm.setTitle("Sửa phòng học");
                   roomForm.open(record);
                 }}
               />
@@ -82,17 +83,19 @@ export default function Page() {
               label="Sửa"
               onClick={() => {
                 roomInfo.close();
+                roomForm.setTitle("Sửa phòng học");
                 roomForm.open(roomInfo.record);
               }}
             />,
           ],
         }}
       />
-      <RoomFormEdit
+      <RoomForm
         formHook={roomForm}
         fields={RoomsFields()}
         onDataSubmitSuccess={() => roomTable.reload()}
-        id={roomForm.record.id}
+        initialValues={roomForm.record}
+        title={roomForm.title}
       />
     </ProCard>
   );
