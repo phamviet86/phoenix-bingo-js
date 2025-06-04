@@ -40,7 +40,7 @@ function PageContent({ params }) {
   const courseForm = useForm();
 
   const pageTitle = courseDesc?.record?.course_name || "Chi tiết";
-  document.title = `Khóa học - ${pageTitle}`;
+  document.title = `Giáo trình - ${pageTitle}`;
 
   const pageButton = [
     <BackButton key="back-button" />,
@@ -164,7 +164,7 @@ function PageContent({ params }) {
     <PageContainer
       items={[
         { title: "Hệ thống" },
-        { title: "Khóa học", path: "/app/manager/courses" },
+        { title: "Giáo trình", path: "/app/manager/courses" },
         { title: pageTitle },
       ]}
       title={pageTitle}
