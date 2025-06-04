@@ -10,8 +10,7 @@ import { PageContainer, Button } from "@/component/common";
 import {
   OptionTable,
   OptionInfo,
-  OptionFormCreate,
-  OptionFormEdit,
+  OptionForm,
   OptionsColumns,
   OptionsFields,
 } from "@/component/custom";
@@ -23,12 +22,14 @@ export default function Page() {
   const optionForm = useForm();
 
   const pageButton = [
-    <OptionFormCreate
-      fields={OptionsFields()}
-      onDataSubmitSuccess={() => optionTable.reload()}
-      trigger={
-        <Button key="create-button" label="Tạo mới" icon={<PlusOutlined />} />
-      }
+    <Button
+      key="create-button"
+      label="Tạo mới"
+      icon={<PlusOutlined />}
+      onClick={() => {
+        optionForm.setTitle("Tạo tùy chọn");
+        optionForm.open({});
+      }}
     />,
   ];
 
@@ -61,6 +62,7 @@ export default function Page() {
                 icon={<EditOutlined />}
                 variant="link"
                 onClick={() => {
+                  optionForm.setTitle("Sửa tùy chọn");
                   optionForm.open(record);
                 }}
               />
@@ -81,17 +83,19 @@ export default function Page() {
               label="Sửa"
               onClick={() => {
                 optionInfo.close();
+                optionForm.setTitle("Sửa tùy chọn");
                 optionForm.open(optionInfo.record);
               }}
             />,
           ],
         }}
       />
-      <OptionFormEdit
+      <OptionForm
         formHook={optionForm}
         fields={OptionsFields()}
         onDataSubmitSuccess={() => optionTable.reload()}
-        id={optionForm.record.id}
+        initialValues={optionForm.record}
+        title={optionForm.title}
       />
     </ProCard>
   );

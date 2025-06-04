@@ -16,6 +16,7 @@ export function useForm() {
   const close = () => {
     setVisible(false);
     setRecord({});
+    setTitle("");
   };
 
   const reset = () => {

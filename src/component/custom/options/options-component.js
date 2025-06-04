@@ -30,23 +30,11 @@ export function OptionInfo(props) {
   return <DrawerInfo {...props} />;
 }
 
-export function OptionFormCreate(props) {
+export function OptionForm(props) {
   return (
     <DrawerForm
       {...props}
       onDataSubmit={(values) => fetchPost("/api/options", values)}
-      title="Tạo tùy chọn"
-    />
-  );
-}
-
-export function OptionFormEdit({ id, ...props }) {
-  return (
-    <DrawerForm
-      {...props}
-      onDataRequest={() => fetchGet(`/api/options/${id}`)}
-      onDataSubmit={(values) => fetchPut(`/api/options/${id}`, values)}
-      title="Sửa tùy chọn"
     />
   );
 }
