@@ -12,7 +12,8 @@ export function RoomsColumns() {
       title: "Mô tả",
       dataIndex: "room_desc",
       valueType: "textarea",
-      sorter: { multiple: 1 },
+      ellipsis: true,
+      search: false,
     },
   ];
 }

@@ -76,6 +76,7 @@ function PageContent({ params }) {
     tab: "Học phần",
     children: (
       <ProCard
+        title="Danh sách học phần"
         boxShadow
         extra={[
           <ModuleFormCreate

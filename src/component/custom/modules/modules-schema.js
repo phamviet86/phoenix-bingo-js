@@ -11,9 +11,10 @@ export function ModulesColumns() {
     {
       title: "Mô tả",
       dataIndex: "module_desc",
-      valueType: "text",
+      valueType: "textarea",
       ellipsis: true,
       search: false,
+      responsive: ["md"],
     },
   ];
 }
