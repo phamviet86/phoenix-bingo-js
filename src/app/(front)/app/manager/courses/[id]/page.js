@@ -18,6 +18,11 @@ import {
   ModuleForm,
   ModulesColumns,
   ModulesFields,
+  LessonTable,
+  LessonInfo,
+  LessonForm,
+  LessonsColumns,
+  LessonsFields,
 } from "@/component/custom";
 import { useTable, useDesc, useInfo, useForm } from "@/component/hook";
 import { PageProvider, usePageContext } from "../provider";
@@ -164,6 +169,95 @@ function PageContent({ params }) {
     ),
   };
 
+  // lessons sections
+  const lessonTable = useTable();
+  const lessonInfo = useInfo();
+  const lessonForm = useForm();
+
+  const lessonTab = {
+    key: "lessons",
+    tab: "Bài giảng",
+    children: (
+      <ProCard
+        boxShadow
+        extra={[
+          <Button
+            key="create-button"
+            label="Tạo mới"
+            icon={<PlusOutlined />}
+            onClick={() => {
+              lessonForm.setTitle("Tạo bài giảng");
+              lessonForm.open({});
+            }}
+          />,
+        ]}
+      >
+        <LessonTable
+          tableHook={lessonTable}
+          columns={LessonsColumns()}
+          leftColumns={[
+            {
+              width: 56,
+              align: "center",
+              search: false,
+              render: (_, record) => (
+                <Button
+                  icon={<InfoCircleOutlined />}
+                  variant="link"
+                  onClick={() => lessonInfo.open(record)}
+                />
+              ),
+            },
+          ]}
+          rightColumns={[
+            {
+              width: 56,
+              align: "center",
+              search: false,
+              render: (_, record) => (
+                <Button
+                  icon={<EditOutlined />}
+                  variant="link"
+                  onClick={() => {
+                    lessonForm.setTitle("Sửa bài giảng");
+                    lessonForm.open(record);
+                  }}
+                />
+              ),
+              responsive: ["md"],
+            },
+          ]}
+        />
+        <LessonInfo
+          infoHook={lessonInfo}
+          columns={LessonsColumns()}
+          dataSource={lessonInfo.record}
+          drawerProps={{
+            title: "Thông tin bài giảng",
+            footer: [
+              <Button
+                key="edit-button"
+                label="Sửa"
+                onClick={() => {
+                  lessonInfo.close();
+                  lessonForm.setTitle("Sửa bài giảng");
+                  lessonForm.open(lessonInfo.record);
+                }}
+              />,
+            ],
+          }}
+        />
+        <LessonForm
+          formHook={lessonForm}
+          fields={LessonsFields()}
+          onDataSubmitSuccess={() => lessonTable.reload()}
+          initialValues={lessonForm.record}
+          title={lessonForm.title}
+        />
+      </ProCard>
+    ),
+  };
+
   return (
     <PageContainer
       items={[
@@ -174,7 +268,7 @@ function PageContent({ params }) {
       title={pageTitle}
       extra={pageButton}
       content={pageContent}
-      tabList={[moduleTab]}
+      tabList={[moduleTab, lessonTab]}
     />
   );
 }

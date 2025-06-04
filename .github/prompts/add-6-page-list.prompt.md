@@ -6,7 +6,7 @@ description: "Create complete page component for entity management with table di
 ## Requirements
 
 - Create page component file:
-  - `page.js` in `/src/app/(front)/app/{tableName}/` directory
+  - `page.js` in `/src/app/(front)/app/dev/{tableName}/` directory
   - Use `"use client";` directive at the top of file
   - Import components from `/src/component/custom/` directory
 - Include state management using hooks:

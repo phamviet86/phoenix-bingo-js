@@ -23,3 +23,7 @@ export * from "./courses/courses-schema";
 // modules
 export * from "./modules/modules-component";
 export * from "./modules/modules-schema";
+
+// lessons
+export * from "./lessons/lessons-component";
+export * from "./lessons/lessons-schema";
