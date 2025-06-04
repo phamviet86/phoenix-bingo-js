@@ -51,13 +51,14 @@ export function UsersColumns(params) {
       title: "Mô tả",
       dataIndex: "user_desc",
       valueType: "text",
-      sorter: { multiple: 1 },
+      hidden: true,
     },
     {
       title: "Ghi chú",
       dataIndex: "user_notes",
       valueType: "textarea",
-      sorter: { multiple: 1 },
+      ellipsis: true,
+      hidden: true,
     },
   ];
 }
