@@ -10,7 +10,7 @@ import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button, BackButton } from "@/component/common";
 import {
   CourseDesc,
-  CourseFormEdit,
+  CourseForm,
   CoursesColumns,
   CoursesFields,
   ModuleTable,
@@ -44,12 +44,11 @@ function PageContent({ params }) {
 
   const pageButton = [
     <BackButton key="back-button" />,
-    <CourseFormEdit
-      formHook={courseForm}
-      fields={CoursesFields({ courseStatus })}
-      id={courseId}
-      onDataSubmitSuccess={() => courseDesc.reload()}
-      trigger={<Button key="edit-button" label="Sửa" icon={<EditOutlined />} />}
+    <Button
+      key="edit-button"
+      label="Sửa"
+      icon={<EditOutlined />}
+      onClick={() => courseForm.open(courseDesc.record)}
     />,
   ];
 
@@ -59,9 +58,16 @@ function PageContent({ params }) {
         descHook={courseDesc}
         columns={CoursesColumns({ courseStatus })}
         params={{ id: courseId }}
-        onDataRequestSuccess={(result) =>
-          courseDesc.setRecord(result?.data?.[0])
-        }
+        onDataRequestSuccess={(result) => {
+          courseDesc.setRecord(result?.data?.[0]);
+        }}
+      />
+      <CourseForm
+        formHook={courseForm}
+        fields={CoursesFields({ courseStatus })}
+        onDataSubmitSuccess={() => courseDesc.reload()}
+        initialValues={courseForm.record}
+        title="Sửa giáo trình"
       />
     </ProCard>
   );

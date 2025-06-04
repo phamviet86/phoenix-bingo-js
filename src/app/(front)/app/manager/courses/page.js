@@ -10,11 +10,11 @@ import { PageContainer, Button, DetailButton } from "@/component/common";
 import {
   CourseTable,
   CourseInfo,
-  CourseFormCreate,
+  CourseForm,
   CoursesColumns,
   CoursesFields,
 } from "@/component/custom";
-import { useTable, useInfo } from "@/component/hook";
+import { useTable, useInfo, useForm } from "@/component/hook";
 import { PageProvider, usePageContext } from "./provider";
 
 export default function Page(props) {
@@ -29,14 +29,14 @@ function PageContent() {
   const { courseStatus } = usePageContext();
   const courseTable = useTable();
   const courseInfo = useInfo();
+  const courseForm = useForm();
 
   const pageButton = [
-    <CourseFormCreate
-      fields={CoursesFields({ courseStatus })}
-      onDataSubmitSuccess={() => courseTable.reload()}
-      trigger={
-        <Button key="create-button" label="Tạo mới" icon={<PlusOutlined />} />
-      }
+    <Button
+      key="create-button"
+      label="Tạo mới"
+      icon={<PlusOutlined />}
+      onClick={() => courseForm.open({})}
     />,
   ];
 
@@ -91,6 +91,12 @@ function PageContent() {
             />,
           ],
         }}
+      />
+      <CourseForm
+        formHook={courseForm}
+        fields={CoursesFields({ courseStatus })}
+        onDataSubmitSuccess={() => courseTable.reload()}
+        title="Tạo giáo trình"
       />
     </ProCard>
   );

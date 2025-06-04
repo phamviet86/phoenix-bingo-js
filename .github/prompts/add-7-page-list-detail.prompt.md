@@ -6,19 +6,20 @@ description: "Tạo page component cho danh sách entity với chức năng hi�
 ## Yêu cầu
 
 - Tạo file page component:
-  - `page.js` trong thư mục `/src/app/(front)/app/{tableName}/`
+  - `page.js` trong thư mục `/src/app/(front)/app/manager/{tableName}/`
   - Sử dụng `"use client";` directive ở đầu file
   - Import các component từ thư mục `/src/component/custom/`
 - Bao gồm state management sử dụng các hooks:
   - `useTable` - Quản lý dữ liệu bảng, reload và reference
   - `useInfo` - Quản lý state của detail view
+  - `useForm` - Quản lý state của creation form
 - Implement các component chính:
   - Table component với entity name làm prefix (ví dụ: `OptionTable`)
-  - Creation form component (ví dụ: `OptionFormCreate`) với reload callback
-  - Info view component (ví dụ: `OptionInfo`) với các actions phù hợp
+  - Info view component (ví dụ: `OptionInfo`) với drawer để xem thông tin nhanh
+  - Form component (ví dụ: `OptionForm`) cho tạo mới với proper hooks integration
 - Tuân theo các mẫu đã thiết lập của dự án cho:
   - Layout sử dụng `PageContainer` và `ProCard` components
-  - Responsive design với proper shadows
+  - Responsive design với boxShadow
   - Error handling và loading states
   - Action columns với Info và Detail buttons
 - Bao gồm các thao tác bảng chuẩn:
@@ -26,7 +27,8 @@ description: "Tạo page component cho danh sách entity với chức năng hi�
   - Left columns: Info button với `InfoCircleOutlined` icon để mở drawer
   - Right columns: Detail button với `EyeOutlined` icon để chuyển trang chi tiết
 - Sử dụng các quy ước đặt tên:
-  - PascalCase cho entity component names (ví dụ: `OptionTable`, `OptionFormCreate`)
+  - PascalCase cho entity component names (ví dụ: `OptionTable`, `OptionInfo`, `OptionForm`)
+  - Plural form cho Columns và Fields (ví dụ: `OptionsColumns`, `OptionsFields`)
   - Vietnamese labels cho UI text
   - Proper breadcrumb structure với title hierarchy
 
@@ -43,20 +45,22 @@ description: "Tạo page component cho danh sách entity với chức năng hi�
   - Info drawer với footer actions
   - Create form với proper hooks integration
 - State management pattern:
-  - Sử dụng hook.open(record) để mở info drawer
+  - Sử dụng hook.open(record) để mở info drawer hoặc form
   - Sử dụng hook.close() để đóng drawer
-  - Reload table sau khi submit thành công
+  - Reload table sau khi submit thành công với callback
 - Vietnamese localization patterns:
   - Breadcrumb: "Hệ thống" cho system level
   - Page title: "Quản lý {Vietnamese entity name}"
   - Create button: "Tạo mới"
   - Info drawer title: "Thông tin {Vietnamese entity name}"
+  - Form title: "Tạo {Vietnamese entity name}"
   - Detail button: "Chi tiết"
 - Component import structure:
   - Common components từ `@/component/common`
   - Custom components từ `@/component/custom`
   - Hooks từ `@/component/hook`
   - Icons từ `@ant-design/icons`
+  - ProCard từ `@ant-design/pro-components`
 - Navigation pattern:
   - Info button mở drawer để xem thông tin nhanh
   - Detail button chuyển đến trang chi tiết riêng
@@ -98,23 +102,23 @@ import { PageContainer, Button, DetailButton } from "@/component/common";
 import {
   OptionTable,
   OptionInfo,
-  OptionFormCreate,
+  OptionForm,
   OptionsColumns,
   OptionsFields,
 } from "@/component/custom";
-import { useTable, useInfo } from "@/component/hook";
+import { useTable, useInfo, useForm } from "@/component/hook";
 
 export default function Page() {
   const optionTable = useTable();
   const optionInfo = useInfo();
+  const optionForm = useForm();
 
   const pageButton = [
-    <OptionFormCreate
-      fields={OptionsFields()}
-      onDataSubmitSuccess={() => optionTable.reload()}
-      trigger={
-        <Button key="create-button" label="Tạo mới" icon={<PlusOutlined />} />
-      }
+    <Button
+      key="create-button"
+      label="Tạo mới"
+      icon={<PlusOutlined />}
+      onClick={() => optionForm.open({})}
     />,
   ];
 
@@ -169,6 +173,12 @@ export default function Page() {
             />,
           ],
         }}
+      />
+      <OptionForm
+        formHook={optionForm}
+        fields={OptionsFields()}
+        onDataSubmitSuccess={() => optionTable.reload()}
+        title="Tạo tùy chọn"
       />
     </ProCard>
   );

@@ -1,3 +1,5 @@
+// path: @/component/custom/courses/courses-schema.js
+
 import { ProForm, ProFormText, ProFormSelect } from "@ant-design/pro-form";
 
 export function CoursesColumns(params) {
