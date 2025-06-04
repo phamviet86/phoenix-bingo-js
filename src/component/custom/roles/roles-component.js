@@ -3,8 +3,8 @@
 import {
   ProTable,
   DrawerForm,
-  ProDescriptions,
   DrawerInfo,
+  ProDescriptions,
 } from "@/component/common";
 import { fetchList, fetchPost } from "@/lib/util/fetch-util";
 
@@ -19,14 +19,6 @@ export function RoleTable(props) {
   );
 }
 
-export function RoleDesc(props) {
-  return <ProDescriptions {...props} />;
-}
-
-export function RoleInfo(props) {
-  return <DrawerInfo {...props} />;
-}
-
 export function RoleForm(props) {
   return (
     <DrawerForm
@@ -34,4 +26,12 @@ export function RoleForm(props) {
       onDataSubmit={(values) => fetchPost("/api/roles", values)}
     />
   );
+}
+
+export function RoleInfo(props) {
+  return <DrawerInfo {...props} />;
+}
+
+export function RoleDesc(props) {
+  return <ProDescriptions {...props} />;
 }

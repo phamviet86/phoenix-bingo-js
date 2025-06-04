@@ -71,8 +71,8 @@ Table: options
 import {
   ProTable,
   DrawerForm,
-  ProDescriptions,
   DrawerInfo,
+  ProDescriptions,
 } from "@/component/common";
 import { fetchList, fetchPost } from "@/lib/util/fetch-util";
 
@@ -96,11 +96,11 @@ export function OptionForm(props) {
   );
 }
 
-export function OptionDesc(props) {
-  return <ProDescriptions {...props} />;
-}
-
 export function OptionInfo(props) {
   return <DrawerInfo {...props} />;
+}
+
+export function OptionDesc(props) {
+  return <ProDescriptions {...props} />;
 }
 ```

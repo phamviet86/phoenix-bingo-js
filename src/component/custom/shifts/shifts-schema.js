@@ -1,3 +1,5 @@
+// path: @/component/custom/shifts/shifts-schema.js
+
 import { ProForm, ProFormText, ProFormTimePicker } from "@ant-design/pro-form";
 
 export function ShiftsColumns() {

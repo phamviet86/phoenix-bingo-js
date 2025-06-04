@@ -10,8 +10,7 @@ import { PageContainer, Button } from "@/component/common";
 import {
   ShiftTable,
   ShiftInfo,
-  ShiftFormCreate,
-  ShiftFormEdit,
+  ShiftForm,
   ShiftsColumns,
   ShiftsFields,
 } from "@/component/custom";
@@ -23,13 +22,14 @@ export default function Page() {
   const shiftForm = useForm();
 
   const pageButton = [
-    <ShiftFormCreate
-      key="shift-form-create"
-      fields={ShiftsFields()}
-      onDataSubmitSuccess={() => shiftTable.reload()}
-      trigger={
-        <Button key="create-button" label="Tạo mới" icon={<PlusOutlined />} />
-      }
+    <Button
+      key="create-button"
+      label="Tạo mới"
+      icon={<PlusOutlined />}
+      onClick={() => {
+        shiftForm.setTitle("Tạo ca học");
+        shiftForm.open({});
+      }}
     />,
   ];
 
@@ -62,6 +62,7 @@ export default function Page() {
                 icon={<EditOutlined />}
                 variant="link"
                 onClick={() => {
+                  shiftForm.setTitle("Sửa ca học");
                   shiftForm.open(record);
                 }}
               />
@@ -82,17 +83,19 @@ export default function Page() {
               label="Sửa"
               onClick={() => {
                 shiftInfo.close();
+                shiftForm.setTitle("Sửa ca học");
                 shiftForm.open(shiftInfo.record);
               }}
             />,
           ],
         }}
       />
-      <ShiftFormEdit
+      <ShiftForm
         formHook={shiftForm}
         fields={ShiftsFields()}
         onDataSubmitSuccess={() => shiftTable.reload()}
-        id={shiftForm.record.id}
+        initialValues={shiftForm.record}
+        title={shiftForm.title}
       />
     </ProCard>
   );

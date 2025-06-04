@@ -3,8 +3,8 @@
 import {
   ProTable,
   DrawerForm,
-  ProDescriptions,
   DrawerInfo,
+  ProDescriptions,
 } from "@/component/common";
 import { fetchList, fetchPost } from "@/lib/util/fetch-util";
 
@@ -19,14 +19,6 @@ export function RoomTable(props) {
   );
 }
 
-export function RoomDesc(props) {
-  return <ProDescriptions {...props} />;
-}
-
-export function RoomInfo(props) {
-  return <DrawerInfo {...props} />;
-}
-
 export function RoomForm(props) {
   return (
     <DrawerForm
@@ -34,4 +26,12 @@ export function RoomForm(props) {
       onDataSubmit={(values) => fetchPost("/api/rooms", values)}
     />
   );
+}
+
+export function RoomInfo(props) {
+  return <DrawerInfo {...props} />;
+}
+
+export function RoomDesc(props) {
+  return <ProDescriptions {...props} />;
 }
