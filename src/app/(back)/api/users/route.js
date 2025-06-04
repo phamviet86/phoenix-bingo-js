@@ -1,4 +1,9 @@
-import { getUsers, createUser, updateUser } from "@/service/users-service";
+import {
+  getUsers,
+  createUser,
+  updateUser,
+  getUserByEmail,
+} from "@/service/users-service";
 import { buildApiResponse, handleData } from "@/lib/util/response-util";
 import { hashPassword } from "@/lib/util/bcrypt-util";
 import { convertGoogleImage } from "@/lib/util/convert-util";

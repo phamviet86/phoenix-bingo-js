@@ -18,7 +18,7 @@ export function UsersColumns(params) {
     {
       title: "Trạng thái",
       dataIndex: "user_status_id",
-      valueType: "text",
+      valueType: "select",
       valueEnum: userStatus?.enums,
       sorter: { multiple: 1 },
     },
@@ -29,13 +29,13 @@ export function UsersColumns(params) {
       sorter: { multiple: 1 },
     },
     {
-      title: "Số điện thoại",
+      title: "SĐT",
       dataIndex: "user_phone",
       valueType: "text",
       sorter: { multiple: 1 },
     },
     {
-      title: "Số điện thoại phụ huynh",
+      title: "SĐT phụ huynh",
       dataIndex: "user_parent_phone",
       valueType: "text",
       sorter: { multiple: 1 },
@@ -45,6 +45,7 @@ export function UsersColumns(params) {
       dataIndex: "user_avatar",
       valueType: "text",
       sorter: { multiple: 1 },
+      hidden: true,
     },
     {
       title: "Mô tả",

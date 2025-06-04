@@ -105,18 +105,6 @@ export async function deleteUser(id) {
   }
 }
 
-// Get user by email
-export async function getUserByEmail(email) {
-  const queryValues = [email];
-  const queryText = `
-    SELECT * 
-    FROM users 
-    WHERE deleted_at IS NULL AND user_email = $1;
-  `;
-
-  return await executeQuery(queryText, queryValues);
-}
-
 export async function getUserByEmail(email) {
   try {
     const sql = getConnection();

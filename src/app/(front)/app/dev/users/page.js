@@ -1,0 +1,112 @@
+"use client";
+
+import {
+  PlusOutlined,
+  EyeOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
+import { ProCard } from "@ant-design/pro-components";
+import { PageContainer, Button, DetailButton } from "@/component/common";
+import {
+  UserTable,
+  UserInfo,
+  UserForm,
+  UsersColumns,
+  UsersFields,
+} from "@/component/custom";
+import { useTable, useInfo, useForm } from "@/component/hook";
+import { PageProvider, usePageContext } from "./provider";
+
+export default function Page(props) {
+  return (
+    <PageProvider>
+      <PageContent {...props} />
+    </PageProvider>
+  );
+}
+
+function PageContent() {
+  const { userStatus } = usePageContext();
+  const userTable = useTable();
+  const userInfo = useInfo();
+  const userForm = useForm();
+
+  const pageButton = [
+    <Button
+      key="create-button"
+      label="Tạo mới"
+      icon={<PlusOutlined />}
+      onClick={() => userForm.open({})}
+    />,
+  ];
+
+  const pageContent = (
+    <ProCard boxShadow>
+      <UserTable
+        tableHook={userTable}
+        columns={UsersColumns({ userStatus })}
+        leftColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => (
+              <Button
+                icon={<InfoCircleOutlined />}
+                variant="link"
+                onClick={() => userInfo.open(record)}
+              />
+            ),
+          },
+        ]}
+        rightColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => (
+              <DetailButton
+                id={record.id}
+                icon={<EyeOutlined />}
+                variant="link"
+              />
+            ),
+            responsive: ["md"],
+          },
+        ]}
+      />
+      <UserInfo
+        infoHook={userInfo}
+        columns={UsersColumns({ userStatus })}
+        dataSource={userInfo.record}
+        drawerProps={{
+          title: "Thông tin người dùng",
+          footer: [
+            <DetailButton
+              key="detail-button"
+              id={userInfo.record.id}
+              label="Chi tiết"
+              icon={<EyeOutlined />}
+              onClick={() => userInfo.close()}
+            />,
+          ],
+        }}
+      />
+      <UserForm
+        formHook={userForm}
+        fields={UsersFields({ userStatus })}
+        onDataSubmitSuccess={() => userTable.reload()}
+        title="Tạo người dùng"
+      />
+    </ProCard>
+  );
+
+  return (
+    <PageContainer
+      items={[{ title: "Hệ thống" }, { title: "Người dùng" }]}
+      title="Quản lý người dùng"
+      extra={pageButton}
+      content={pageContent}
+    />
+  );
+}

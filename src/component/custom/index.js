@@ -27,3 +27,7 @@ export * from "./modules/modules-schema";
 // lessons
 export * from "./lessons/lessons-component";
 export * from "./lessons/lessons-schema";
+
+// users
+export * from "./users/users-component";
+export * from "./users/users-schema";
