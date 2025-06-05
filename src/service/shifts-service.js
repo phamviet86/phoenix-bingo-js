@@ -3,6 +3,8 @@
 import { getConnection } from "@/lib/db/neon";
 import { parseSearchParams } from "@/lib/util/query-util";
 
+const sql = getConnection();
+
 export async function getShifts(searchParams) {
   try {
     const ignoredSearchColumns = [];
@@ -20,7 +22,6 @@ export async function getShifts(searchParams) {
       ${limitClause};
     `;
 
-    const sql = getConnection();
     return await sql.query(sqlText, sqlValue);
   } catch (error) {
     throw new Error(error.message);
@@ -29,7 +30,6 @@ export async function getShifts(searchParams) {
 
 export async function getShift(id) {
   try {
-    const sql = getConnection();
     return await sql`
       SELECT id, shift_name, shift_start_time, shift_end_time
       FROM shifts
@@ -44,7 +44,6 @@ export async function createShift(data) {
   try {
     const { shift_name, shift_start_time, shift_end_time } = data;
 
-    const sql = getConnection();
     return await sql`
       INSERT INTO shifts (
         shift_name, shift_start_time, shift_end_time
@@ -62,7 +61,6 @@ export async function updateShift(data, id) {
   try {
     const { shift_name, shift_start_time, shift_end_time } = data;
 
-    const sql = getConnection();
     return await sql`
       UPDATE shifts
       SET shift_name = ${shift_name}, shift_start_time = ${shift_start_time}, shift_end_time = ${shift_end_time}
@@ -76,7 +74,6 @@ export async function updateShift(data, id) {
 
 export async function deleteShift(id) {
   try {
-    const sql = getConnection();
     return await sql`
       UPDATE shifts
       SET deleted_at = NOW()

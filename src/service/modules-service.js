@@ -1,6 +1,8 @@
 import { getConnection } from "@/lib/db/neon";
 import { parseSearchParams } from "@/lib/util/query-util";
 
+const sql = getConnection();
+
 export async function getModules(searchParams) {
   try {
     const ignoredSearchColumns = [];
@@ -20,7 +22,6 @@ export async function getModules(searchParams) {
       ${limitClause};
     `;
 
-    const sql = getConnection();
     return await sql.query(sqlText, sqlValue);
   } catch (error) {
     throw new Error(error.message);
@@ -29,7 +30,6 @@ export async function getModules(searchParams) {
 
 export async function getModule(id) {
   try {
-    const sql = getConnection();
     return await sql`
     SELECT m.id, m.course_id, m.module_name, m.module_desc,
       c.course_name, c.course_status_id
@@ -46,7 +46,6 @@ export async function createModule(data) {
   try {
     const { course_id, module_name, module_desc } = data;
 
-    const sql = getConnection();
     return await sql`
       INSERT INTO modules (
         course_id, module_name, module_desc
@@ -64,7 +63,6 @@ export async function updateModule(data, id) {
   try {
     const { course_id, module_name, module_desc } = data;
 
-    const sql = getConnection();
     return await sql`
       UPDATE modules
       SET course_id = ${course_id}, module_name = ${module_name}, module_desc = ${module_desc}
@@ -78,7 +76,6 @@ export async function updateModule(data, id) {
 
 export async function deleteModule(id) {
   try {
-    const sql = getConnection();
     return await sql`
       UPDATE modules
       SET deleted_at = NOW()

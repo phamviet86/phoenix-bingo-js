@@ -3,6 +3,8 @@
 import { getConnection } from "@/lib/db/neon";
 import { parseSearchParams } from "@/lib/util/query-util";
 
+const sql = getConnection();
+
 export async function getRooms(searchParams) {
   try {
     const ignoredSearchColumns = [];
@@ -20,7 +22,6 @@ export async function getRooms(searchParams) {
       ${limitClause};
     `;
 
-    const sql = getConnection();
     return await sql.query(sqlText, sqlValue);
   } catch (error) {
     throw new Error(error.message);
@@ -29,7 +30,6 @@ export async function getRooms(searchParams) {
 
 export async function getRoom(id) {
   try {
-    const sql = getConnection();
     return await sql`
       SELECT id, room_name, room_desc
       FROM rooms
@@ -44,7 +44,6 @@ export async function createRoom(data) {
   try {
     const { room_name, room_desc } = data;
 
-    const sql = getConnection();
     return await sql`
       INSERT INTO rooms (
         room_name, room_desc
@@ -62,7 +61,6 @@ export async function updateRoom(data, id) {
   try {
     const { room_name, room_desc } = data;
 
-    const sql = getConnection();
     return await sql`
       UPDATE rooms
       SET room_name = ${room_name}, room_desc = ${room_desc}
@@ -76,7 +74,6 @@ export async function updateRoom(data, id) {
 
 export async function deleteRoom(id) {
   try {
-    const sql = getConnection();
     return await sql`
       UPDATE rooms
       SET deleted_at = NOW()

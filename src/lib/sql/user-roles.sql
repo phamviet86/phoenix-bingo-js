@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS user_roles CASCADE;
 CREATE TABLE user_roles (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   created_at TIMESTAMPTZ DEFAULT NOW(),

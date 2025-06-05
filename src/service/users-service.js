@@ -1,6 +1,8 @@
 import { getConnection } from "@/lib/db/neon";
 import { parseSearchParams } from "@/lib/util/query-util";
 
+const sql = getConnection();
+
 export async function getUsers(searchParams) {
   try {
     const ignoredSearchColumns = [];
@@ -18,7 +20,6 @@ export async function getUsers(searchParams) {
       ${limitClause};
     `;
 
-    const sql = getConnection();
     return await sql.query(sqlText, sqlValue);
   } catch (error) {
     throw new Error(error.message);
@@ -27,7 +28,6 @@ export async function getUsers(searchParams) {
 
 export async function getUser(id) {
   try {
-    const sql = getConnection();
     return await sql`
       SELECT id, user_name, user_status_id, user_email, user_phone, user_parent_phone, user_avatar, user_desc, user_notes
       FROM users
@@ -52,7 +52,6 @@ export async function createUser(data) {
       user_notes,
     } = data;
 
-    const sql = getConnection();
     return await sql`
       INSERT INTO users (
         user_name, user_status_id, user_email, user_password, user_phone, user_parent_phone, user_avatar, user_desc, user_notes
@@ -79,7 +78,6 @@ export async function updateUser(data, id) {
       user_notes,
     } = data;
 
-    const sql = getConnection();
     return await sql`
       UPDATE users
       SET user_name = ${user_name}, user_status_id = ${user_status_id}, user_email = ${user_email}, user_phone = ${user_phone}, user_parent_phone = ${user_parent_phone}, user_avatar = ${user_avatar}, user_desc = ${user_desc}, user_notes = ${user_notes}
@@ -93,7 +91,6 @@ export async function updateUser(data, id) {
 
 export async function deleteUser(id) {
   try {
-    const sql = getConnection();
     return await sql`
       UPDATE users
       SET deleted_at = NOW()
@@ -105,13 +102,27 @@ export async function deleteUser(id) {
   }
 }
 
+// Get user by email
 export async function getUserByEmail(email) {
   try {
-    const sql = getConnection();
     return await sql`
       SELECT id, user_name, user_status_id, user_email, user_password, user_phone, user_parent_phone, user_avatar, user_desc, user_notes
       FROM users
       WHERE deleted_at IS NULL AND user_email = ${email};
+    `;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+// Change user password
+export async function changeUserPassword(id, newPassword) {
+  try {
+    return await sql`
+      UPDATE users
+      SET user_password = ${newPassword}
+      WHERE deleted_at IS NULL AND id = ${id}
+      RETURNING id, user_name, user_status_id, user_email, user_phone, user_parent_phone, user_avatar, user_desc, user_notes;
     `;
   } catch (error) {
     throw new Error(error.message);

@@ -3,6 +3,8 @@
 import { getConnection } from "@/lib/db/neon";
 import { parseSearchParams } from "@/lib/util/query-util";
 
+const sql = getConnection();
+
 export async function getRoles(searchParams) {
   try {
     const ignoredSearchColumns = [];
@@ -20,7 +22,6 @@ export async function getRoles(searchParams) {
       ${limitClause};
     `;
 
-    const sql = getConnection();
     return await sql.query(sqlText, sqlValue);
   } catch (error) {
     throw new Error(error.message);
@@ -29,7 +30,6 @@ export async function getRoles(searchParams) {
 
 export async function getRole(id) {
   try {
-    const sql = getConnection();
     return await sql`
       SELECT id, role_name, role_path, role_color
       FROM roles
@@ -44,7 +44,6 @@ export async function createRole(data) {
   try {
     const { role_name, role_path, role_color } = data;
 
-    const sql = getConnection();
     return await sql`
       INSERT INTO roles (
         role_name, role_path, role_color
@@ -62,7 +61,6 @@ export async function updateRole(data, id) {
   try {
     const { role_name, role_path, role_color } = data;
 
-    const sql = getConnection();
     return await sql`
       UPDATE roles
       SET role_name = ${role_name}, role_path = ${role_path}, role_color = ${role_color}
@@ -76,7 +74,6 @@ export async function updateRole(data, id) {
 
 export async function deleteRole(id) {
   try {
-    const sql = getConnection();
     return await sql`
       UPDATE roles
       SET deleted_at = NOW()
