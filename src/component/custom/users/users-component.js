@@ -1,14 +1,21 @@
 // path: @/src/component/custom/users/users-component.js
 
 import { Image, Avatar } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import {
   ProTable,
   DrawerForm,
   DrawerInfo,
   ProDescriptions,
+  Button,
+  Popconfirm,
 } from "@/component/common";
-import { fetchList, fetchPost, fetchGet } from "@/lib/util/fetch-util";
+import {
+  fetchList,
+  fetchPost,
+  fetchGet,
+  fetchPut,
+} from "@/lib/util/fetch-util";
 
 export function UserTable(props) {
   return (
@@ -66,4 +73,27 @@ export function UserPicture({ userAvatar, ...props }) {
     );
 
   return <Avatar icon={<UserOutlined />} size={240} shape="square" />;
+}
+
+export function ResetPwButton({ userId, ...props }) {
+  return (
+    <Popconfirm
+      onDataConfirm={() => fetchPut(`/api/users/${userId}/reset-password`)}
+      showConfirmMessage={true}
+      icon={<LockOutlined />}
+      title="Xác nhận đặt lại mật khẩu"
+      description="Bạn có chắc chắn muốn tiếp tục?"
+      okText="Đặt lại"
+      okType="primary"
+      cancelText="Hủy"
+    >
+      <Button
+        {...props}
+        label="Đặt lại mật khẩu"
+        icon={<LockOutlined />}
+        color="default"
+        variant="link"
+      />
+    </Popconfirm>
+  );
 }

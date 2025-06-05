@@ -15,6 +15,7 @@ import {
   UsersColumns,
   UsersFields,
   UserPicture,
+  ResetPwButton,
 } from "@/component/custom";
 import { useDesc, useForm } from "@/component/hook";
 import { PageProvider, usePageContext } from "../provider";
@@ -49,7 +50,11 @@ function PageContent({ params }) {
   ];
 
   const pageContent = (
-    <ResponsiveCard bordered splitAt="md">
+    <ResponsiveCard
+      bordered
+      splitAt="md"
+      actions={[<ResetPwButton userId={userId} />]}
+    >
       <ProCard
         layout="center"
         colSpan={{
