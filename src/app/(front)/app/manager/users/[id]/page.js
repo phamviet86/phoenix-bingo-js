@@ -53,7 +53,7 @@ function PageContent({ params }) {
     <ResponsiveCard
       bordered
       splitAt="md"
-      actions={[<ResetPwButton userId={userId} />]}
+      actions={[<ResetPwButton key="reset-password" userId={userId} />]}
     >
       <ProCard
         layout="center"
