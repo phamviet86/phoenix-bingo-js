@@ -115,6 +115,19 @@ export async function getUserByEmail(email) {
   }
 }
 
+// Get user password
+export async function getUserPassword(id) {
+  try {
+    return await sql`
+      SELECT user_password
+      FROM users
+      WHERE deleted_at IS NULL AND id = ${id};
+    `;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
 // Change user password
 export async function changeUserPassword(id, newPassword) {
   try {
