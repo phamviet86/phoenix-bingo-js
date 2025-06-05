@@ -61,7 +61,7 @@ function PageContent({ params }) {
           xxl: "290px",
         }}
       >
-        <UserPicture userAvatar={userDesc.data?.user_avatar} />
+        <UserPicture userAvatar={userDesc?.record?.user_avatar} />
       </ProCard>
       <ProCard>
         <UserDesc
@@ -71,6 +71,7 @@ function PageContent({ params }) {
           onDataRequestSuccess={(result) =>
             userDesc.setRecord(result?.data?.[0])
           }
+          column={{ xs: 1, sm: 1, md: 1, lg: 2, xl: 2, xxl: 3 }}
         />
         <UserForm
           formHook={userForm}
@@ -87,7 +88,7 @@ function PageContent({ params }) {
     <PageContainer
       items={[
         { title: "Hệ thống" },
-        { title: "Người dùng", path: "/app/users" },
+        { title: "Người dùng", path: "/app/manager/users" },
         { title: pageTitle },
       ]}
       title={pageTitle}
