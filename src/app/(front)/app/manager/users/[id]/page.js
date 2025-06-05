@@ -16,6 +16,8 @@ import {
   UsersFields,
   UserPicture,
   ResetPwButton,
+  UserRoleTransfer,
+  UserRoleTransferTable,
 } from "@/component/custom";
 import { useDesc, useForm } from "@/component/hook";
 import { PageProvider, usePageContext } from "../provider";
@@ -89,6 +91,17 @@ function PageContent({ params }) {
     </ResponsiveCard>
   );
 
+  // user roles section
+  const userRoleTab = {
+    key: "user-roles",
+    label: "Phân quyền",
+    children: (
+      <ProCard boxShadow title="Phân quyền người dùng">
+        <UserRoleTransfer userId={userId} />
+      </ProCard>
+    ),
+  };
+
   return (
     <PageContainer
       items={[
@@ -99,6 +112,7 @@ function PageContent({ params }) {
       title={pageTitle}
       extra={pageButton}
       content={pageContent}
+      tabList={[userRoleTab]}
     />
   );
 }

@@ -194,3 +194,41 @@ export function convertEvents(data = []) {
     };
   });
 }
+
+/**
+ * Converts an array of objects into a format suitable for transfer components.
+ *
+ * @param {Array<Object>} data - The input array of items to convert.
+ * @param {Object} options - The mapping options for keys in the output.
+ * @param {string} options.key - The property name to use as the unique key for each item.
+ * @param {string} options.title - The property name to use as the title for each item.
+ * @param {string} options.description - The property name to use as the description for each item.
+ * @param {string} options.disabled - The property name to determine if the item is disabled.
+ * @returns {Array<Object>} The converted array of items with keys: key, title, description, and disabled.
+ *
+ * @example
+ * const data = [
+ *   { id: 1, name: 'Item 1', desc: 'First item', isDisabled: false },
+ *   { id: 2, name: 'Item 2', desc: 'Second item', isDisabled: true }
+ * ];
+ * const options = { key: 'id', title: 'name', description: 'desc', disabled: 'isDisabled' };
+ * const result = convertTransferItems(data, options);
+ * // result:
+ * // [
+ * //   { key: 1, title: 'Item 1', description: 'First item', disabled: false },
+ * //   { key: 2, title: 'Item 2', description: 'Second item', disabled: true }
+ * // ]
+ */
+export function convertTransferItems(
+  data = [],
+  { key, title, description, disabled } = {}
+) {
+  if (!Array.isArray(data) || data.length === 0) return [];
+
+  return data.map((item) => ({
+    key: item[key] || item.id,
+    title: item[title],
+    description: item[description],
+    disabled: item[disabled],
+  }));
+}

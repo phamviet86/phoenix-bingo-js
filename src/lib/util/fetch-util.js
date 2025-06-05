@@ -125,8 +125,12 @@ export async function fetchPut(url, values = {}) {
  * @example
  * const result = await fetchDelete('/api/users/123');
  */
-export async function fetchDelete(url) {
-  return performFetch(url, { method: "DELETE" });
+export async function fetchDelete(url, values = {}) {
+  return performFetch(url, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(values),
+  });
 }
 
 export async function fetchOption(

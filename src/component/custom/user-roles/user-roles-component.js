@@ -3,8 +3,10 @@ import {
   DrawerForm,
   DrawerInfo,
   ProDescriptions,
+  RemoteTransfer,
+  RemoteProTableTransfer,
 } from "@/component/common";
-import { fetchList, fetchPost } from "@/lib/util/fetch-util";
+import { fetchList, fetchPost, fetchDelete } from "@/lib/util/fetch-util";
 
 export function UserRoleTable(props) {
   return (
@@ -32,4 +34,26 @@ export function UserRoleInfo(props) {
 
 export function UserRoleDesc(props) {
   return <ProDescriptions {...props} />;
+}
+
+export function UserRoleTransfer({ userId, ...props }) {
+  return (
+    <RemoteTransfer
+      {...props}
+      onSourceRequest={() =>
+        fetchList(`/api/users/${userId}/unassigned-roles`, {})
+      }
+      onAddTarget={(keys) =>
+        fetchPost(`/api/users/${userId}/user-roles`, { roleIds: keys })
+      }
+      onTargetRequest={() => fetchList(`/api/user-roles`, { user_id: userId })}
+      onRemoveTarget={(keys) => fetchDelete(`/api/user-roles`, { ids: keys })}
+      onSourceItem={{ key: "id", title: "role_name" }}
+      onTargetItem={{ key: "id", title: "role_name" }}
+      listStyle={{
+        width: "100%",
+        // height: "100%",
+      }}
+    />
+  );
 }

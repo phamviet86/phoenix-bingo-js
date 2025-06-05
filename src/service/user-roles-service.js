@@ -111,3 +111,23 @@ export async function createUserRolesByUser(userId, roleIds) {
     throw new Error(error.message);
   }
 }
+
+// Soft-delete multiple user roles by user role IDs
+export async function deleteUserRolesByIds(userRoleIds) {
+  try {
+    const placeholders = userRoleIds
+      .map((_, index) => `$${index + 1}`)
+      .join(", ");
+
+    const queryText = `
+      UPDATE user_roles
+      SET deleted_at = NOW()
+      WHERE deleted_at IS NULL AND id IN (${placeholders})
+      RETURNING id, user_id, role_id;
+    `;
+
+    return await sql.query(queryText, userRoleIds);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
