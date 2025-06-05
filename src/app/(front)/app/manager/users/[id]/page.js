@@ -96,7 +96,7 @@ function PageContent({ params }) {
     key: "user-roles",
     label: "Phân quyền",
     children: (
-      <ProCard boxShadow title="Phân quyền người dùng">
+      <ProCard boxShadow title="Quản lý quyền">
         <UserRoleTransfer userId={userId} />
       </ProCard>
     ),

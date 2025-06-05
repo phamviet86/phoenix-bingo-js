@@ -144,7 +144,6 @@ export function RemoteTransfer({
       <Transfer
         {...props}
         dataSource={dataSource}
-        titles={["Source", "Target"]}
         targetKeys={targetKeys}
         selectedKeys={selectedKeys}
         onChange={handleChange}

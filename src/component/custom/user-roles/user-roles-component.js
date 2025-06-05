@@ -7,6 +7,7 @@ import {
   RemoteProTableTransfer,
 } from "@/component/common";
 import { fetchList, fetchPost, fetchDelete } from "@/lib/util/fetch-util";
+import { max, min } from "moment";
 
 export function UserRoleTable(props) {
   return (
@@ -50,9 +51,12 @@ export function UserRoleTransfer({ userId, ...props }) {
       onRemoveTarget={(keys) => fetchDelete(`/api/user-roles`, { ids: keys })}
       onSourceItem={{ key: "id", title: "role_name" }}
       onTargetItem={{ key: "id", title: "role_name" }}
+      titles={["Vai trò", "Đã gán"]}
+      operations={["Thêm", "Xóa"]}
       listStyle={{
         width: "100%",
-        // height: "100%",
+        height: "100%",
+        minHeight: "200px",
       }}
     />
   );
