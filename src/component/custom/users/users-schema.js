@@ -6,23 +6,12 @@ import {
   ProFormTextArea,
   ProFormSelect,
 } from "@ant-design/pro-form";
-import {
-  renderUser,
-  renderUserContact,
-  renderUserAvatar,
-} from "@/lib/util/render-util";
+import { renderUser, renderUserContact } from "@/lib/util/render-util";
 
 export function UsersColumns(params) {
   const { userStatus } = params;
 
   return [
-    {
-      title: "Ảnh",
-      width: 80,
-      render: (_, record) => renderUserAvatar(record),
-      hideInDescriptions: true,
-      search: false,
-    },
     {
       title: "Người dùng",
       render: (_, record) => renderUser(record, userStatus?.enums),

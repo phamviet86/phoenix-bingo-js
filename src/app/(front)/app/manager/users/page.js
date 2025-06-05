@@ -16,6 +16,7 @@ import {
 } from "@/component/custom";
 import { useTable, useInfo, useForm } from "@/component/hook";
 import { PageProvider, usePageContext } from "./provider";
+import { renderUserAvatar } from "@/lib/util/render-util";
 
 export default function Page(props) {
   return (
@@ -47,16 +48,14 @@ function PageContent() {
         columns={UsersColumns({ userStatus })}
         leftColumns={[
           {
-            width: 56,
-            align: "center",
+            title: "Avatar",
+            width: 80,
+            render: (_, record) => renderUserAvatar(record),
+            onCell: (record) => ({
+              onClick: () => userInfo.open(record),
+            }),
+            hideInDescriptions: true,
             search: false,
-            render: (_, record) => (
-              <Button
-                icon={<InfoCircleOutlined />}
-                variant="link"
-                onClick={() => userInfo.open(record)}
-              />
-            ),
           },
         ]}
         rightColumns={[
