@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Transfer, message, Spin } from "antd";
 import { LoadingSpin } from "@/component/common";
 import { convertTransferItems } from "@/lib/util/convert-util";
+import styles from "./transfer.module.css";
 
 export function RemoteTransfer({
   onSourceRequest = undefined,
@@ -141,17 +142,20 @@ export function RemoteTransfer({
   return (
     <>
       {contextHolder}
-      <Transfer
-        {...props}
-        dataSource={dataSource}
-        targetKeys={targetKeys}
-        selectedKeys={selectedKeys}
-        onChange={handleChange}
-        onSelectChange={handleSelectChange}
-        rowKey={(item) => item.key}
-        render={(item) => item.title}
-        listStyle={listStyle}
-      />
+      <div className={styles.remoteTransfer}>
+        <Transfer
+          {...props}
+          direction="vertical"
+          dataSource={dataSource}
+          targetKeys={targetKeys}
+          selectedKeys={selectedKeys}
+          onChange={handleChange}
+          onSelectChange={handleSelectChange}
+          rowKey={(item) => item.key}
+          render={(item) => item.title}
+          listStyle={listStyle}
+        />
+      </div>
     </>
   );
 }
