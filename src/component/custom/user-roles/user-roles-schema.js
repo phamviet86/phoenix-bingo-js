@@ -1,3 +1,5 @@
+// path: @/ src/component/custom/user-roles/user-roles-schema.js
+
 import { ProForm, ProFormText, ProFormSelect } from "@ant-design/pro-form";
 
 export function UserRolesColumns() {

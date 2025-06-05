@@ -14,6 +14,8 @@ export function RemoteTransfer({
   onAddTarget = undefined,
   onRemoveTarget = undefined,
   listStyle = undefined,
+  rowKey = (item) => item.key,
+  render = (item) => item.title,
   ...props
 }) {
   const [dataSource, setDataSource] = useState([]);
@@ -151,8 +153,8 @@ export function RemoteTransfer({
           selectedKeys={selectedKeys}
           onChange={handleChange}
           onSelectChange={handleSelectChange}
-          rowKey={(item) => item.key}
-          render={(item) => item.title}
+          rowKey={rowKey}
+          render={render}
           listStyle={listStyle}
         />
       </div>

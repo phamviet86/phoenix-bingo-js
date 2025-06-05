@@ -1,13 +1,13 @@
+// path: @/ src/component/custom/user-roles/user-roles-component.js
+
 import {
   ProTable,
   DrawerForm,
   DrawerInfo,
   ProDescriptions,
   RemoteTransfer,
-  RemoteProTableTransfer,
 } from "@/component/common";
 import { fetchList, fetchPost, fetchDelete } from "@/lib/util/fetch-util";
-import { max, min } from "moment";
 
 export function UserRoleTable(props) {
   return (

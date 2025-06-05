@@ -200,35 +200,52 @@ export function convertEvents(data = []) {
  *
  * @param {Array<Object>} data - The input array of items to convert.
  * @param {Object} options - The mapping options for keys in the output.
- * @param {string} options.key - The property name to use as the unique key for each item.
- * @param {string} options.title - The property name to use as the title for each item.
- * @param {string} options.description - The property name to use as the description for each item.
- * @param {string} options.disabled - The property name to determine if the item is disabled.
- * @returns {Array<Object>} The converted array of items with keys: key, title, description, and disabled.
+ * @param {string} [options.key] - The property name to use as the unique key for each item.
+ * @param {string} [options.title] - The property name to use as the title for each item.
+ * @param {string} [options.description] - The property name to use as the description for each item.
+ * @param {string} [options.disabled] - The property name to determine if the item is disabled.
+ * @param {string} [options.customProps] - Additional custom properties to include in the output.
+ * @returns {Array<Object>} The converted array of items with mapped properties.
  *
  * @example
  * const data = [
- *   { id: 1, name: 'Item 1', desc: 'First item', isDisabled: false },
- *   { id: 2, name: 'Item 2', desc: 'Second item', isDisabled: true }
+ *   { id: 1, name: 'Item 1', desc: 'First item', isDisabled: false, category: 'A' },
+ *   { id: 2, name: 'Item 2', desc: 'Second item', isDisabled: true, category: 'B' }
  * ];
- * const options = { key: 'id', title: 'name', description: 'desc', disabled: 'isDisabled' };
- * const result = convertTransferItems(data, options);
- * // result:
- * // [
- * //   { key: 1, title: 'Item 1', description: 'First item', disabled: false },
- * //   { key: 2, title: 'Item 2', description: 'Second item', disabled: true }
- * // ]
+ *
+ * // Basic usage with defaults
+ * const result1 = convertTransferItems(data, { key: 'id', title: 'name', description: 'desc' });
+ *
+ * // Usage with custom properties
+ * const result2 = convertTransferItems(data, {
+ *   key: 'id',
+ *   title: 'name',
+ *   description: 'desc',
+ *   disabled: 'isDisabled',
+ *   category: 'category',
+ *   customField: 'someOtherField'
+ * });
  */
-export function convertTransferItems(
-  data = [],
-  { key, title, description, disabled } = {}
-) {
+export function convertTransferItems(data = [], options = {}) {
   if (!Array.isArray(data) || data.length === 0) return [];
 
-  return data.map((item) => ({
-    key: item[key] || item.id,
-    title: item[title],
-    description: item[description],
-    disabled: item[disabled],
-  }));
+  return data.map((item) => {
+    const convertedItem = {};
+
+    // Map all specified properties from options
+    Object.entries(options).forEach(([outputKey, sourceKey]) => {
+      if (sourceKey && item.hasOwnProperty(sourceKey)) {
+        convertedItem[outputKey] = item[sourceKey];
+      } else if (
+        outputKey === "key" &&
+        !sourceKey &&
+        item.hasOwnProperty("id")
+      ) {
+        // Fallback to 'id' if key mapping is not specified
+        convertedItem[outputKey] = item.id;
+      }
+    });
+
+    return convertedItem;
+  });
 }
