@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Transfer, message, Spin } from "antd";
 import { LoadingSpin } from "@/component/common";
 import { convertTransferItems } from "@/lib/util/convert-util";
@@ -25,42 +25,48 @@ export function RemoteTransfer({
   const [messageApi, contextHolder] = message.useMessage();
 
   // Handlers
-  const handleSourceRequest = async (onSourceParams) => {
-    if (!onSourceRequest) {
-      messageApi.error("Data request handler not provided");
-      return [];
-    }
-    try {
-      const result = await onSourceRequest(onSourceParams);
-      if (onSourceItem) {
-        return convertTransferItems(result.data || [], onSourceItem);
+  const handleSourceRequest = useCallback(
+    async (onSourceParams) => {
+      if (!onSourceRequest) {
+        messageApi.error("Data request handler not provided");
+        return [];
       }
-      return result.data || [];
-    } catch (error) {
-      messageApi.error(error.message || "Đã xảy ra lỗi");
-      return [];
-    }
-  };
+      try {
+        const result = await onSourceRequest(onSourceParams);
+        if (onSourceItem) {
+          return convertTransferItems(result.data || [], onSourceItem);
+        }
+        return result.data || [];
+      } catch (error) {
+        messageApi.error(error.message || "Đã xảy ra lỗi");
+        return [];
+      }
+    },
+    [onSourceRequest, onSourceItem, messageApi]
+  );
 
-  const handleTargetRequest = async (onTargetParams) => {
-    if (!onTargetRequest) {
-      messageApi.error("Data request handler not provided");
-      return [];
-    }
-    try {
-      const result = await onTargetRequest(onTargetParams);
-      if (onTargetItem) {
-        return convertTransferItems(result.data || [], onTargetItem);
+  const handleTargetRequest = useCallback(
+    async (onTargetParams) => {
+      if (!onTargetRequest) {
+        messageApi.error("Data request handler not provided");
+        return [];
       }
-      return result.data || [];
-    } catch (error) {
-      messageApi.error(error.message || "Đã xảy ra lỗi");
-      return [];
-    }
-  };
+      try {
+        const result = await onTargetRequest(onTargetParams);
+        if (onTargetItem) {
+          return convertTransferItems(result.data || [], onTargetItem);
+        }
+        return result.data || [];
+      } catch (error) {
+        messageApi.error(error.message || "Đã xảy ra lỗi");
+        return [];
+      }
+    },
+    [onTargetRequest, onTargetItem, messageApi]
+  );
 
   // Reload data function
-  const reloadData = async () => {
+  const reloadData = useCallback(async () => {
     setLoading(true);
     try {
       const [source, target] = await Promise.all([
@@ -83,7 +89,13 @@ export function RemoteTransfer({
     } finally {
       setLoading(false);
     }
-  };
+  }, [
+    onSourceParams,
+    onTargetParams,
+    messageApi,
+    handleSourceRequest,
+    handleTargetRequest,
+  ]);
 
   const handleAddTarget = async (keys) => {
     if (!onAddTarget) {
@@ -124,7 +136,7 @@ export function RemoteTransfer({
   // Fetch data khi mount
   useEffect(() => {
     reloadData();
-  }, []);
+  }, [reloadData]);
 
   // Khi chuyển record (sang phải/trái)
   const handleChange = async (nextTargetKeys, direction, moveKeys) => {
