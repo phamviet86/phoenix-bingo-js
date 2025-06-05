@@ -8,14 +8,13 @@ export function AppProvider({ children }) {
 
   // Fetch option data from the API
   const optionList = useFetchList("/api/options"); // cache được khởi tạo và lưu tại đây
-  const optionData = optionList.data || [];
 
   // Memoize the context value to avoid unnecessary re-renders
   const contextValue = useMemo(
     () => ({
-      optionData,
+      optionData: optionList.data || [],
     }),
-    [optionData]
+    [optionList.data]
   );
 
   // Provide the context to children components
