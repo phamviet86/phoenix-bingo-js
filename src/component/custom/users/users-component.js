@@ -78,7 +78,7 @@ export function UserPicture({ userAvatar, ...props }) {
 export function ResetPwButton({ userId, ...props }) {
   return (
     <Popconfirm
-      onDataConfirm={() => fetchPut(`/api/users/${userId}/reset-password`)}
+      onPopConfirm={() => fetchPut(`/api/users/${userId}/reset-password`)}
       showConfirmMessage={true}
       icon={<LockOutlined />}
       title="Xác nhận đặt lại mật khẩu"

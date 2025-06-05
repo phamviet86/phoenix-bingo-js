@@ -7,6 +7,7 @@ export * from "./table-config";
 export * from "./desc-config";
 export * from "./form-config";
 export * from "./drawer-config";
+export * from "./modal-config";
 
 // config for columns and fields
 export * from "./enum-config";
