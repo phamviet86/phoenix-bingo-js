@@ -18,8 +18,8 @@ export async function getLessons(searchParams) {
         m.module_name,
         COUNT(*) OVER() AS total
       FROM lessons l
-      LEFT JOIN modules m ON l.module_id = m.id AND m.deleted_at IS NULL
-      LEFT JOIN courses c ON m.course_id = c.id AND c.deleted_at IS NULL
+      JOIN modules m ON l.module_id = m.id AND m.deleted_at IS NULL
+      JOIN courses c ON m.course_id = c.id AND c.deleted_at IS NULL
       WHERE l.deleted_at IS NULL
       ${whereClause}
       ${
@@ -42,8 +42,8 @@ export async function getLesson(id) {
         c.course_name,
         m.module_name
       FROM lessons l
-      LEFT JOIN modules m ON l.module_id = m.id AND m.deleted_at IS NULL
-      LEFT JOIN courses c ON m.course_id = c.id AND c.deleted_at IS NULL
+      JOIN modules m ON l.module_id = m.id AND m.deleted_at IS NULL
+      JOIN courses c ON m.course_id = c.id AND c.deleted_at IS NULL
       WHERE l.deleted_at IS NULL AND l.id = ${id};
     `;
   } catch (error) {

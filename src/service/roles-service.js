@@ -84,3 +84,31 @@ export async function deleteRole(id) {
     throw new Error(error.message);
   }
 }
+
+// Get all roles not assisgned to a user
+export async function getRolesNotInUser(searchParams, userId) {
+  try {
+    const ignoredSearchColumns = ["user_id"];
+    const { whereClause, orderByClause, limitClause, queryValues } =
+      parseSearchParams(searchParams, ignoredSearchColumns);
+
+    const sqlValue = [userId, ...queryValues];
+    const sqlText = `
+      SELECT r.id, r.role_name, r.role_path, r.role_color,
+        COUNT(*) OVER() AS total
+      FROM roles r
+      WHERE r.deleted_at IS NULL
+      AND NOT EXISTS (
+        SELECT 1 FROM user_roles ur
+        WHERE ur.role_id = r.id AND ur.deleted_at IS NULL AND ur.user_id = $1
+      )
+      ${whereClause}
+      ${orderByClause || "ORDER BY role_name"}
+      ${limitClause};
+    `;
+
+    return await sql.query(sqlText, sqlValue);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}

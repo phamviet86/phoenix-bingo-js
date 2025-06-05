@@ -15,7 +15,7 @@ export async function getModules(searchParams) {
         c.course_name, c.course_status_id,
         COUNT(*) OVER() AS total
       FROM modules m
-      LEFT JOIN courses c ON c.id = m.course_id AND c.deleted_at IS NULL
+      JOIN courses c ON c.id = m.course_id AND c.deleted_at IS NULL
       WHERE m.deleted_at IS NULL
       ${whereClause}
       ${orderByClause || "ORDER BY module_name"}
@@ -34,7 +34,7 @@ export async function getModule(id) {
     SELECT m.id, m.course_id, m.module_name, m.module_desc,
       c.course_name, c.course_status_id
     FROM modules m
-    LEFT JOIN courses c ON c.id = m.course_id AND c.deleted_at IS NULL
+    JOIN courses c ON c.id = m.course_id AND c.deleted_at IS NULL
     WHERE m.deleted_at IS NULL AND m.id = ${id};
     `;
   } catch (error) {
