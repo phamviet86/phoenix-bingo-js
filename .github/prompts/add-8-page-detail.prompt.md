@@ -6,7 +6,7 @@ description: "Create detail page component for entity with display information a
 ## Requirements
 
 - Create page component file:
-  - `page.js` in `/src/app/(front)/app/{tableName}/[id]/` directory
+  - `page.js` in `/src/app/(front)/app/dev/{tableName}/[id]/` directory
   - Use `"use client";` directive at the top of file
   - Import components from `/src/component/custom/` directory
 - Include state management using hooks:

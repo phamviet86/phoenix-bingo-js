@@ -1,0 +1,98 @@
+"use client";
+
+import { use } from "react";
+import { EditOutlined } from "@ant-design/icons";
+import { ProCard } from "@ant-design/pro-components";
+import {
+  PageContainer,
+  Button,
+  BackButton,
+  ResponsiveCard,
+} from "@/component/common";
+import {
+  UserDesc,
+  UserForm,
+  UsersColumns,
+  UsersFields,
+  UserPicture,
+} from "@/component/custom";
+import { useDesc, useForm } from "@/component/hook";
+import { PageProvider, usePageContext } from "../provider";
+
+export default function Page(props) {
+  return (
+    <PageProvider>
+      <PageContent {...props} />
+    </PageProvider>
+  );
+}
+
+function PageContent({ params }) {
+  const { userStatus } = usePageContext();
+  const { id: userId } = use(params);
+
+  // user sections
+  const userDesc = useDesc();
+  const userForm = useForm();
+
+  const pageTitle = userDesc?.record?.user_name || "Chi tiết";
+  document.title = `Người dùng - ${pageTitle}`;
+
+  const pageButton = [
+    <BackButton key="back-button" />,
+    <Button
+      key="edit-button"
+      label="Sửa"
+      icon={<EditOutlined />}
+      onClick={() => userForm.open(userDesc.record)}
+    />,
+  ];
+
+  const pageContent = (
+    <ResponsiveCard bordered splitAt="md">
+      <ProCard
+        layout="center"
+        colSpan={{
+          xs: 24,
+          sm: 24,
+          md: "290px",
+          lg: "290px",
+          xl: "290px",
+          xxl: "290px",
+        }}
+      >
+        <UserPicture userAvatar={userDesc.data?.user_avatar} />
+      </ProCard>
+      <ProCard>
+        <UserDesc
+          descHook={userDesc}
+          columns={UsersColumns({ userStatus })}
+          params={{ id: userId }}
+          onDataRequestSuccess={(result) =>
+            userDesc.setRecord(result?.data?.[0])
+          }
+        />
+        <UserForm
+          formHook={userForm}
+          fields={UsersFields({ userStatus })}
+          onDataSubmitSuccess={() => userDesc.reload()}
+          initialValues={userForm.record}
+          title="Sửa người dùng"
+        />
+      </ProCard>
+    </ResponsiveCard>
+  );
+
+  return (
+    <PageContainer
+      items={[
+        { title: "Hệ thống" },
+        { title: "Người dùng", path: "/app/users" },
+        { title: pageTitle },
+      ]}
+      title={pageTitle}
+      extra={pageButton}
+      content={pageContent}
+    />
+  );
+}

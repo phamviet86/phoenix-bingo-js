@@ -1,3 +1,5 @@
+// path: @/src/component/custom/users/users-schema.js
+
 import {
   ProForm,
   ProFormText,

@@ -3,6 +3,7 @@
 import { useCallback } from "react";
 import { message } from "antd";
 import { ProDescriptions as AntProDescriptions } from "@ant-design/pro-components";
+import { DESC_CONFIG } from "@/component/config";
 
 export function ProDescriptions({
   onDataRequest = undefined,
@@ -42,6 +43,7 @@ export function ProDescriptions({
       {contextHolder}
       <AntProDescriptions
         {...props}
+        {...DESC_CONFIG}
         actionRef={descRef}
         request={onDataRequest ? handleDataRequest : undefined}
       />

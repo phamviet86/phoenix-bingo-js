@@ -36,8 +36,8 @@ export default function Page(props) {
 }
 
 function PageContent({ params }) {
-  const { id: courseId } = use(params);
   const { courseStatus } = usePageContext();
+  const { id: courseId } = use(params);
 
   // course sections
   const courseDesc = useDesc();
