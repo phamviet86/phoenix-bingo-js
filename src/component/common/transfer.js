@@ -56,6 +56,32 @@ export function RemoteTransfer({
     }
   };
 
+  // Reload data function
+  const reloadData = async () => {
+    setLoading(true);
+    try {
+      const [source, target] = await Promise.all([
+        handleSourceRequest(onSourceParams),
+        handleTargetRequest(onTargetParams),
+      ]);
+
+      // Merge source and target data to ensure all items are available
+      const allItems = [...source, ...target];
+      // Remove duplicates based on key
+      const uniqueItems = allItems.filter(
+        (item, index, self) =>
+          index === self.findIndex((t) => t.key === item.key)
+      );
+
+      setDataSource(uniqueItems);
+      setTargetKeys(target.map((item) => item.key));
+    } catch (error) {
+      messageApi.error(error.message || "Đã xảy ra lỗi khi tải dữ liệu");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleAddTarget = async (keys) => {
     if (!onAddTarget) {
       messageApi.error("Data add handler not provided");
@@ -65,7 +91,7 @@ export function RemoteTransfer({
       const result = await onAddTarget(keys);
       if (result?.success) {
         messageApi.success("Thêm thành công");
-        setTargetKeys((prev) => [...prev, ...keys]);
+        await reloadData();
       } else {
         messageApi.error(result?.message || "Đã xảy ra lỗi");
       }
@@ -83,7 +109,7 @@ export function RemoteTransfer({
       const result = await onRemoveTarget(keys);
       if (result?.success) {
         messageApi.success("Xóa thành công");
-        setTargetKeys((prev) => prev.filter((key) => !keys.includes(key)));
+        await reloadData();
       } else {
         messageApi.error(result?.message || "Đã xảy ra lỗi");
       }
@@ -94,34 +120,16 @@ export function RemoteTransfer({
 
   // Fetch data khi mount
   useEffect(() => {
-    setLoading(true);
-    Promise.all([
-      handleSourceRequest(onSourceParams),
-      handleTargetRequest(onTargetParams),
-    ]).then(([source, target]) => {
-      // Merge source and target data to ensure all items are available
-      const allItems = [...source, ...target];
-      // Remove duplicates based on key
-      const uniqueItems = allItems.filter(
-        (item, index, self) =>
-          index === self.findIndex((t) => t.key === item.key)
-      );
-
-      setDataSource(uniqueItems);
-      setTargetKeys(target.map((item) => item.key));
-      setLoading(false);
-    });
+    reloadData();
   }, []);
 
   // Khi chuyển record (sang phải/trái)
   const handleChange = async (nextTargetKeys, direction, moveKeys) => {
-    setLoading(true);
     if (direction === "right") {
       await handleAddTarget(moveKeys);
     } else {
       await handleRemoveTarget(moveKeys);
     }
-    setLoading(false);
   };
 
   const handleSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
