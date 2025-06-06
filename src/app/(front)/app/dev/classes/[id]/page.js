@@ -10,8 +10,10 @@ import {
   ClassesColumns,
   ClassesFields,
   SectionTransfer,
+  SectionsTable,
+  SectionsColumns,
 } from "@/component/custom";
-import { useDesc, useForm } from "@/component/hook";
+import { useDesc, useForm, useTable } from "@/component/hook";
 
 export default function Page(props) {
   return <PageContent {...props} />;
@@ -57,6 +59,8 @@ function PageContent({ params }) {
     </ProCard>
   );
 
+  const sectionTable = useTable();
+
   // sections tab
   const sectionTab = {
     key: "sections",
@@ -77,9 +81,12 @@ function PageContent({ params }) {
                 variant="filled"
               />
             }
+            afterClose={() => sectionTable.reload()}
           />,
         ]}
-      ></ProCard>
+      >
+        <SectionsTable tableHook={sectionTable} columns={SectionsColumns()} />
+      </ProCard>
     ),
   };
 

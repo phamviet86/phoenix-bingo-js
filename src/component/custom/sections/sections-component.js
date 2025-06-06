@@ -39,10 +39,7 @@ export function SectionsDesc(props) {
 
 export function SectionTransfer({ classId, ...props }) {
   return (
-    <Modal
-      {...props}
-      title="Thêm lộ trình"
-    >
+    <Modal {...props} title="Thêm lộ trình" footer={false}>
       <RemoteTransfer
         onSourceRequest={() =>
           fetchList(`/api/classes/${classId}/unassigned-modules`, {})

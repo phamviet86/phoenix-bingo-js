@@ -16,8 +16,6 @@
     flex-direction: row;
     align-self: center;
     margin: 16px 0;
-    padding: 8px 16px;
-    background: #fafafa;
     border-radius: 6px;
     gap: 8px;
   }
@@ -40,7 +38,6 @@
 /* Extra small screens */
 @media (max-width: 575px) {
   .remoteTransfer :global(.ant-transfer-operation) {
-    padding: 6px 12px;
     margin: 12px 0;
   }
 

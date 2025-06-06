@@ -7,21 +7,14 @@ import {
 export function SectionsColumns() {
   return [
     {
-      title: "ID",
-      dataIndex: "id",
-      valueType: "text",
-      search: false,
-      width: 80,
-    },
-    {
-      title: "Lớp học",
-      dataIndex: "class_id",
+      title: "Giáo trình",
+      dataIndex: "course_name",
       valueType: "text",
       sorter: { multiple: 1 },
     },
     {
-      title: "Môn học",
-      dataIndex: "module_id",
+      title: "Học phần",
+      dataIndex: "module_name",
       valueType: "text",
       sorter: { multiple: 1 },
     },
