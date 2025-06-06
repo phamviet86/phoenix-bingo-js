@@ -1,6 +1,7 @@
+// path: @/component/common/transfer.js
+
 import { useState, useEffect, useCallback } from "react";
-import { Transfer, message, Spin } from "antd";
-import { LoadingSpin } from "@/component/common";
+import { Transfer, message } from "antd";
 import { convertTransferItems } from "@/lib/util/convert-util";
 import styles from "./transfer.module.css";
 
@@ -21,7 +22,6 @@ export function RemoteTransfer({
   const [dataSource, setDataSource] = useState([]);
   const [targetKeys, setTargetKeys] = useState([]);
   const [selectedKeys, setSelectedKeys] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [messageApi, contextHolder] = message.useMessage();
 
   // Handlers
@@ -67,7 +67,6 @@ export function RemoteTransfer({
 
   // Reload data function
   const reloadData = useCallback(async () => {
-    setLoading(true);
     try {
       const [source, target] = await Promise.all([
         handleSourceRequest(onSourceParams),
@@ -86,8 +85,6 @@ export function RemoteTransfer({
       setTargetKeys(target.map((item) => item.key));
     } catch (error) {
       messageApi.error(error.message || "Đã xảy ra lỗi khi tải dữ liệu");
-    } finally {
-      setLoading(false);
     }
   }, [
     onSourceParams,
@@ -150,8 +147,6 @@ export function RemoteTransfer({
   const handleSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
     setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
   };
-
-  if (loading) return <LoadingSpin />;
 
   return (
     <>
