@@ -39,3 +39,7 @@ export * from "./user-roles/user-roles-schema";
 // classes
 export * from "./classes/classes-component";
 export * from "./classes/classes-schema";
+
+// sections
+export * from "./sections/sections-component";
+export * from "./sections/sections-schema";
