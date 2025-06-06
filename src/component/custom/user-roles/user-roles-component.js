@@ -54,7 +54,7 @@ export function UserRoleTransfer({ userId, ...props }) {
       onSourceItem={{ key: "id", title: "role_name" }}
       onTargetItem={{ key: "role_id", title: "role_name" }}
       titles={["Vai trò", "Đã gán"]}
-      operations={["Thêm", "Xóa"]}
+      operations={["Thêm quyền", "Xóa quyền"]}
       listStyle={{
         width: "100%",
         height: "100%",

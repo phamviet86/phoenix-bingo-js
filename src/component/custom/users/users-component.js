@@ -91,7 +91,7 @@ export function ResetPwButton({ userId, ...props }) {
         {...props}
         label="Đặt lại mật khẩu"
         icon={<LockOutlined />}
-        color="default"
+        color="primary"
         variant="link"
       />
     </Popconfirm>
