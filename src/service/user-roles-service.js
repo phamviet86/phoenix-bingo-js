@@ -89,7 +89,7 @@ export async function deleteUserRole(id) {
   }
 }
 
-// Create multiple user roles by user ID
+// Create multiple user roles by user ID and role IDs
 export async function createUserRolesByUser(userId, roleIds) {
   try {
     const queryValues = [];
@@ -112,21 +112,22 @@ export async function createUserRolesByUser(userId, roleIds) {
   }
 }
 
-// Soft-delete multiple user roles by user role IDs
-export async function deleteUserRolesByIds(userRoleIds) {
+// Soft-delete multiple user roles by user ID and role IDs
+export async function deleteUserRolesByUser(userId, roleIds) {
   try {
-    const placeholders = userRoleIds
-      .map((_, index) => `$${index + 1}`)
-      .join(", ");
+    const placeholders = roleIds.map((_, index) => `$${index + 2}`).join(", ");
 
     const queryText = `
       UPDATE user_roles
       SET deleted_at = NOW()
-      WHERE deleted_at IS NULL AND id IN (${placeholders})
+      WHERE deleted_at IS NULL 
+        AND user_id = $1 
+        AND role_id IN (${placeholders})
       RETURNING id, user_id, role_id;
     `;
 
-    return await sql.query(queryText, userRoleIds);
+    const queryValues = [userId, ...roleIds];
+    return await sql.query(queryText, queryValues);
   } catch (error) {
     throw new Error(error.message);
   }
