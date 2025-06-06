@@ -47,7 +47,7 @@ export function UserRoleTransfer({ userId, ...props }) {
       onAddTarget={(keys) =>
         fetchPost(`/api/users/${userId}/user-roles`, { roleIds: keys })
       }
-      onTargetRequest={() => fetchList(`/api/user-roles`, { user_id: userId })}
+      onTargetRequest={() => fetchList(`/api/users/${userId}/user-roles`, {})}
       onRemoveTarget={(keys) =>
         fetchDelete(`/api/users/${userId}/user-roles`, { roleIds: keys })
       }

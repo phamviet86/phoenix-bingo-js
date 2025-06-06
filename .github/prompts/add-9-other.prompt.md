@@ -69,7 +69,7 @@ export async function GET(request, context) {
 }
 ```
 
-## Create or delete multiple user roles by user ID and role IDs
+## Get, create or delete multiple user roles by user
 
 ### service layer
 
@@ -80,6 +80,32 @@ import { getConnection } from "@/lib/db/neon";
 import { parseSearchParams } from "@/lib/util/query-util";
 
 const sql = getConnection();
+
+// Get all user roles by user ID
+export async function getUserRolesByUser(searchParams, userId) {
+  try {
+    const ignoredSearchColumns = ["user_id"];
+    const { whereClause, orderByClause, limitClause, queryValues } =
+      parseSearchParams(searchParams, ignoredSearchColumns);
+
+    const sqlValue = [userId, ...queryValues];
+    const sqlText = `
+      SELECT ur.id, ur.user_id, ur.role_id,
+        r.role_name, r.role_path, r.role_color,
+        COUNT(*) OVER() AS total
+      FROM user_roles ur 
+      JOIN roles r ON ur.role_id = r.id AND r.deleted_at IS NULL
+      WHERE ur.deleted_at IS NULL AND ur.user_id = $1
+      ${whereClause}
+      ${orderByClause || "ORDER BY role_name"}
+      ${limitClause};
+    `;
+
+    return await sql.query(sqlText, sqlValue);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
 
 // Create multiple user roles by user ID and role IDs
 export async function createUserRolesByUser(userId, roleIds) {
@@ -132,10 +158,29 @@ export async function deleteUserRolesByUser(userId, roleIds) {
 // path: app/api/users/[id]/user-roles/route.js
 
 import {
+  getUserRolesByUser,
   createUserRolesByUser,
   deleteUserRolesByUser,
 } from "@/service/user-roles-service";
-import { buildApiResponse } from "@/lib/util/response-util";
+import { buildApiResponse, handleData } from "@/lib/util/response-util";
+
+export async function GET(request, context) {
+  try {
+    const params = await context.params;
+    const { id } = params;
+    if (!id) return buildApiResponse(400, false, "Thiếu ID người dùng.");
+
+    const { searchParams } = new URL(request.url);
+    const result = await getUserRolesByUser(searchParams, id);
+    const { data, total } = handleData(result);
+    return buildApiResponse(200, true, "Lấy danh sách quyền thành công", {
+      data,
+      total,
+    });
+  } catch (error) {
+    return buildApiResponse(500, false, error.message);
+  }
+}
 
 export async function POST(request, context) {
   try {

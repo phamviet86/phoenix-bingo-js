@@ -1,8 +1,27 @@
 import {
+  getUserRolesByUser,
   createUserRolesByUser,
   deleteUserRolesByUser,
 } from "@/service/user-roles-service";
-import { buildApiResponse } from "@/lib/util/response-util";
+import { buildApiResponse, handleData } from "@/lib/util/response-util";
+
+export async function GET(request, context) {
+  try {
+    const params = await context.params;
+    const { id } = params;
+    if (!id) return buildApiResponse(400, false, "Thiếu ID người dùng.");
+
+    const { searchParams } = new URL(request.url);
+    const result = await getUserRolesByUser(searchParams, id);
+    const { data, total } = handleData(result);
+    return buildApiResponse(200, true, "Lấy danh sách quyền thành công", {
+      data,
+      total,
+    });
+  } catch (error) {
+    return buildApiResponse(500, false, error.message);
+  }
+}
 
 export async function POST(request, context) {
   try {
