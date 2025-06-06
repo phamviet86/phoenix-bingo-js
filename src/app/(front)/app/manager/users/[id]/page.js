@@ -17,7 +17,6 @@ import {
   UserPicture,
   ResetPwButton,
   UserRoleTransfer,
-  UserRoleTransferTable,
 } from "@/component/custom";
 import { useDesc, useForm } from "@/component/hook";
 import { PageProvider, usePageContext } from "../provider";
