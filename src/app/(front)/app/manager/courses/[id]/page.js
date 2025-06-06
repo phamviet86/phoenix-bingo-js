@@ -86,7 +86,7 @@ function PageContent({ params }) {
     tab: "Học phần",
     children: (
       <ProCard
-        title="Danh sách học phần"
+        title="Quản lý học phần"
         boxShadow
         extra={[
           <Button
@@ -179,7 +179,7 @@ function PageContent({ params }) {
     tab: "Bài giảng",
     children: (
       <ProCard
-        title="Danh sách bài giảng"
+        title="Quản lý bài giảng"
         boxShadow
         extra={[
           <Button

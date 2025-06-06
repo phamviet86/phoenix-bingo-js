@@ -13,3 +13,4 @@ export * from "./drawer-form";
 export * from "./result";
 export * from "./pop-confirm";
 export * from "./transfer";
+export * from "./modal";

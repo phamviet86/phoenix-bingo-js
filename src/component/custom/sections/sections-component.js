@@ -4,6 +4,8 @@ import {
   DrawerInfo,
   ProDescriptions,
   RemoteTransfer,
+  Modal,
+  Button,
 } from "@/component/common";
 import { fetchList, fetchPost, fetchDelete } from "@/lib/util/fetch-util";
 
@@ -37,32 +39,46 @@ export function SectionsDesc(props) {
 
 export function SectionTransfer({ classId, ...props }) {
   return (
-    <RemoteTransfer
+    <Modal
       {...props}
-      onSourceRequest={() =>
-        fetchList(`/api/classes/${classId}/unassigned-modules`, {})
-      }
-      onAddTarget={(keys) =>
-        fetchPost(`/api/classes/${classId}/assigned-modules`, {
-          moduleIds: keys,
-        })
-      }
-      onTargetRequest={() =>
-        fetchList(`/api/classes/${classId}/assigned-modules`, {})
-      }
-      onRemoveTarget={(keys) =>
-        fetchDelete(`/api/classes/${classId}/assigned-modules`, {
-          moduleIds: keys,
-        })
-      }
-      onSourceItem={{ key: "id", course: "course_name", module: "module_name" }}
-      onTargetItem={{
-        key: "module_id",
-        course: "course_name",
-        module: "module_name",
-      }}
-      titles={["Học phần", "Đã gán"]}
-      operations={["Thêm lộ trình", "Xóa lộ trình"]}
-    />
+      title="Thêm lộ trình"
+    >
+      <RemoteTransfer
+        onSourceRequest={() =>
+          fetchList(`/api/classes/${classId}/unassigned-modules`, {})
+        }
+        onAddTarget={(keys) =>
+          fetchPost(`/api/classes/${classId}/assigned-modules`, {
+            moduleIds: keys,
+          })
+        }
+        onTargetRequest={() =>
+          fetchList(`/api/classes/${classId}/assigned-modules`, {})
+        }
+        onRemoveTarget={(keys) =>
+          fetchDelete(`/api/classes/${classId}/assigned-modules`, {
+            moduleIds: keys,
+          })
+        }
+        onSourceItem={{
+          key: "id",
+          course: "course_name",
+          module: "module_name",
+        }}
+        onTargetItem={{
+          key: "module_id",
+          course: "course_name",
+          module: "module_name",
+        }}
+        titles={["Học phần", "Đã gán"]}
+        operations={["Thêm lộ trình", "Xóa lộ trình"]}
+        listStyle={{
+          width: "100%",
+          height: "100%",
+          minHeight: "200px",
+        }}
+        render={(item) => `${item.course} - ${item.module}`}
+      />
+    </Modal>
   );
 }

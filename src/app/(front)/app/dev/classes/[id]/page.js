@@ -1,7 +1,7 @@
 "use client";
 
 import { use } from "react";
-import { EditOutlined } from "@ant-design/icons";
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button, BackButton } from "@/component/common";
 import {
@@ -9,6 +9,7 @@ import {
   ClassForm,
   ClassesColumns,
   ClassesFields,
+  SectionTransfer,
 } from "@/component/custom";
 import { useDesc, useForm } from "@/component/hook";
 
@@ -56,6 +57,32 @@ function PageContent({ params }) {
     </ProCard>
   );
 
+  // sections tab
+  const sectionTab = {
+    key: "sections",
+    label: "Lộ trình",
+    children: (
+      <ProCard
+        boxShadow
+        title="Quản lý lộ trình"
+        extra={[
+          <SectionTransfer
+            key="section-transfer"
+            classId={classId}
+            trigger={
+              <Button
+                key="create-button"
+                label="Thêm"
+                icon={<PlusOutlined />}
+                variant="filled"
+              />
+            }
+          />,
+        ]}
+      ></ProCard>
+    ),
+  };
+
   return (
     <PageContainer
       items={[
@@ -66,6 +93,7 @@ function PageContent({ params }) {
       title={pageTitle}
       extra={pageButton}
       content={pageContent}
+      tabList={[sectionTab]}
     />
   );
 }

@@ -1,4 +1,4 @@
-// path: @/component/common/modals.js
+// path: @/component/common/modal.js
 
 import { useCallback, useState, cloneElement } from "react";
 import { Modal as AntModal, message } from "antd";
