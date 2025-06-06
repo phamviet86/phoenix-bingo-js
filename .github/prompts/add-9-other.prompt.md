@@ -1,11 +1,81 @@
 # Other code snippet
 
+## Get all roles not assigned to a user
+
+### service layer
+
+```javascript
+// path: @/service/roles-service.js
+
+import { getConnection } from "@/lib/db/neon";
+import { parseSearchParams } from "@/lib/util/query-util";
+
+const sql = getConnection();
+
+// Get all roles not assisgned to a user
+export async function getRolesNotInUser(searchParams, userId) {
+  try {
+    const ignoredSearchColumns = ["user_id"];
+    const { whereClause, orderByClause, limitClause, queryValues } =
+      parseSearchParams(searchParams, ignoredSearchColumns);
+
+    const sqlValue = [userId, ...queryValues];
+    const sqlText = `
+      SELECT r.id, r.role_name, r.role_path, r.role_color,
+        COUNT(*) OVER() AS total
+      FROM roles r
+      WHERE r.deleted_at IS NULL
+      AND NOT EXISTS (
+        SELECT 1 FROM user_roles ur
+        WHERE ur.role_id = r.id AND ur.deleted_at IS NULL AND ur.user_id = $1
+      )
+      ${whereClause}
+      ${orderByClause || "ORDER BY role_name"}
+      ${limitClause};
+    `;
+
+    return await sql.query(sqlText, sqlValue);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+```
+
+### api layer
+
+```javascript
+// path: app/api/users/[id]/unassigned-roles/route.js
+
+import { getRolesNotInUser } from "@/service/roles-service";
+import { buildApiResponse, handleData } from "@/lib/util/response-util";
+
+export async function GET(request, context) {
+  try {
+    const params = await context.params;
+    const { id } = params;
+    if (!id) return buildApiResponse(400, false, "Thiếu ID người dùng.");
+
+    const { searchParams } = new URL(request.url);
+
+    const result = await getRolesNotInUser(searchParams, id);
+    const { data, total } = handleData(result);
+    return buildApiResponse(200, true, "Lấy danh sách vai trò thành công", {
+      data,
+      total,
+    });
+  } catch (error) {
+    return buildApiResponse(500, false, error.message);
+  }
+}
+```
+
 ## Create or delete multiple user roles by user ID and role IDs
 
 ### service layer
 
 ```javascript
 // path: @/service/user-roles-service.js
+
 import { getConnection } from "@/lib/db/neon";
 import { parseSearchParams } from "@/lib/util/query-util";
 
@@ -111,73 +181,6 @@ export async function DELETE(request, context) {
 
     return buildApiResponse(200, true, "Xóa phân quyền thành công", {
       data: result,
-    });
-  } catch (error) {
-    return buildApiResponse(500, false, error.message);
-  }
-}
-```
-
-## Get all roles not assigned to a user
-
-### service layer
-
-```javascript
-// path: @/service/roles-service.js
-
-import { getConnection } from "@/lib/db/neon";
-import { parseSearchParams } from "@/lib/util/query-util";
-
-// Get all roles not assisgned to a user
-export async function getRolesNotInUser(searchParams, userId) {
-  try {
-    const ignoredSearchColumns = ["user_id"];
-    const { whereClause, orderByClause, limitClause, queryValues } =
-      parseSearchParams(searchParams, ignoredSearchColumns);
-
-    const sqlValue = [userId, ...queryValues];
-    const sqlText = `
-      SELECT r.id, r.role_name, r.role_path, r.role_color,
-        COUNT(*) OVER() AS total
-      FROM roles r
-      WHERE r.deleted_at IS NULL
-      AND NOT EXISTS (
-        SELECT 1 FROM user_roles ur
-        WHERE ur.role_id = r.id AND ur.deleted_at IS NULL AND ur.user_id = $1
-      )
-      ${whereClause}
-      ${orderByClause || "ORDER BY role_name"}
-      ${limitClause};
-    `;
-
-    return await sql.query(sqlText, sqlValue);
-  } catch (error) {
-    throw new Error(error.message);
-  }
-}
-```
-
-### api layer
-
-```javascript
-// path: app/api/users/[id]/unassigned-roles/route.js
-
-import { getRolesNotInUser } from "@/service/roles-service";
-import { buildApiResponse, handleData } from "@/lib/util/response-util";
-
-export async function GET(request, context) {
-  try {
-    const params = await context.params;
-    const { id } = params;
-    if (!id) return buildApiResponse(400, false, "Thiếu ID người dùng.");
-
-    const { searchParams } = new URL(request.url);
-
-    const result = await getRolesNotInUser(searchParams, id);
-    const { data, total } = handleData(result);
-    return buildApiResponse(200, true, "Lấy danh sách vai trò thành công", {
-      data,
-      total,
     });
   } catch (error) {
     return buildApiResponse(500, false, error.message);
