@@ -35,3 +35,7 @@ export * from "./users/users-schema";
 // user-roles
 export * from "./user-roles/user-roles-component";
 export * from "./user-roles/user-roles-schema";
+
+// classes
+export * from "./classes/classes-component";
+export * from "./classes/classes-schema";

@@ -1,0 +1,102 @@
+"use client";
+
+import {
+  PlusOutlined,
+  EyeOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
+import { ProCard } from "@ant-design/pro-components";
+import { PageContainer, Button, DetailButton } from "@/component/common";
+import {
+  ClassTable,
+  ClassInfo,
+  ClassForm,
+  ClassesColumns,
+  ClassesFields,
+} from "@/component/custom";
+import { useTable, useInfo, useForm } from "@/component/hook";
+
+export default function Page() {
+  const classTable = useTable();
+  const classInfo = useInfo();
+  const classForm = useForm();
+
+  const pageButton = [
+    <Button
+      key="create-button"
+      label="Tạo mới"
+      icon={<PlusOutlined />}
+      onClick={() => classForm.open({})}
+    />,
+  ];
+
+  const pageContent = (
+    <ProCard boxShadow>
+      <ClassTable
+        tableHook={classTable}
+        columns={ClassesColumns()}
+        leftColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => (
+              <Button
+                icon={<InfoCircleOutlined />}
+                variant="link"
+                onClick={() => classInfo.open(record)}
+              />
+            ),
+          },
+        ]}
+        rightColumns={[
+          {
+            width: 56,
+            align: "center",
+            search: false,
+            render: (_, record) => (
+              <DetailButton
+                id={record.id}
+                icon={<EyeOutlined />}
+                variant="link"
+              />
+            ),
+            responsive: ["md"],
+          },
+        ]}
+      />
+      <ClassInfo
+        infoHook={classInfo}
+        columns={ClassesColumns()}
+        dataSource={classInfo.record}
+        drawerProps={{
+          title: "Thông tin lớp học",
+          footer: [
+            <DetailButton
+              key="detail-button"
+              id={classInfo.record.id}
+              label="Chi tiết"
+              icon={<EyeOutlined />}
+              onClick={() => classInfo.close()}
+            />,
+          ],
+        }}
+      />
+      <ClassForm
+        formHook={classForm}
+        fields={ClassesFields()}
+        onDataSubmitSuccess={() => classTable.reload()}
+        title="Tạo lớp học"
+      />
+    </ProCard>
+  );
+
+  return (
+    <PageContainer
+      items={[{ title: "Hệ thống" }, { title: "Lớp học" }]}
+      title="Quản lý lớp học"
+      extra={pageButton}
+      content={pageContent}
+    />
+  );
+}

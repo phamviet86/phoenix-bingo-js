@@ -1,3 +1,5 @@
+// path: @/service/modules-service.js
+
 import { getConnection } from "@/lib/db/neon";
 import { parseSearchParams } from "@/lib/util/query-util";
 
