@@ -2,7 +2,6 @@ import {
   getUserRoles,
   createUserRole,
   updateUserRole,
-  deleteUserRolesByIds,
 } from "@/service/user-roles-service";
 import { buildApiResponse, handleData } from "@/lib/util/response-util";
 
@@ -53,27 +52,6 @@ export async function POST(request) {
       return buildApiResponse(500, false, "Không thể thực hiện thao tác.");
 
     return buildApiResponse(statusCode, true, message, {
-      data: result,
-    });
-  } catch (error) {
-    return buildApiResponse(500, false, error.message);
-  }
-}
-
-export async function DELETE(request) {
-  try {
-    const { ids } = await request.json();
-
-    // Validate required fields
-    if (!Array.isArray(ids) || ids.length === 0)
-      return buildApiResponse(400, false, "Thiếu danh sách ID phân quyền");
-
-    const result = await deleteUserRolesByIds(ids);
-
-    if (!result || !result.length)
-      return buildApiResponse(404, false, "Không tìm thấy phân quyền để xóa");
-
-    return buildApiResponse(200, true, "Xóa phân quyền thành công", {
       data: result,
     });
   } catch (error) {

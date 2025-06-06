@@ -48,9 +48,11 @@ export function UserRoleTransfer({ userId, ...props }) {
         fetchPost(`/api/users/${userId}/user-roles`, { roleIds: keys })
       }
       onTargetRequest={() => fetchList(`/api/user-roles`, { user_id: userId })}
-      onRemoveTarget={(keys) => fetchDelete(`/api/user-roles`, { ids: keys })}
+      onRemoveTarget={(keys) =>
+        fetchDelete(`/api/users/${userId}/user-roles`, { roleIds: keys })
+      }
       onSourceItem={{ key: "id", title: "role_name" }}
-      onTargetItem={{ key: "id", title: "role_name" }}
+      onTargetItem={{ key: "role_id", title: "role_name" }}
       titles={["Vai trò", "Đã gán"]}
       operations={["Thêm", "Xóa"]}
       listStyle={{
