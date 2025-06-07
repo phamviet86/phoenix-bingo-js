@@ -45,15 +45,15 @@ export function SectionTransfer({ classId, ...props }) {
           fetchList(`/api/classes/${classId}/unassigned-modules`, {})
         }
         onAddTarget={(keys) =>
-          fetchPost(`/api/classes/${classId}/assigned-modules`, {
+          fetchPost(`/api/classes/${classId}/sections`, {
             moduleIds: keys,
           })
         }
         onTargetRequest={() =>
-          fetchList(`/api/classes/${classId}/assigned-modules`, {})
+          fetchList(`/api/classes/${classId}/sections`, {})
         }
         onRemoveTarget={(keys) =>
-          fetchDelete(`/api/classes/${classId}/assigned-modules`, {
+          fetchDelete(`/api/classes/${classId}/sections`, {
             moduleIds: keys,
           })
         }

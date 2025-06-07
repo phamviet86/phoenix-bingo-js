@@ -102,7 +102,7 @@ export function RemoteTransfer({
     try {
       const result = await onAddTarget(keys);
       if (result?.success) {
-        messageApi.success("Thêm thành công");
+        messageApi.success(result?.message || "Thêm thành công");
         await reloadData();
       } else {
         messageApi.error(result?.message || "Đã xảy ra lỗi");
@@ -120,7 +120,7 @@ export function RemoteTransfer({
     try {
       const result = await onRemoveTarget(keys);
       if (result?.success) {
-        messageApi.success("Xóa thành công");
+        messageApi.success(result?.message || "Xóa thành công");
         await reloadData();
       } else {
         messageApi.error(result?.message || "Đã xảy ra lỗi");
@@ -136,7 +136,7 @@ export function RemoteTransfer({
   }, [reloadData]);
 
   // Khi chuyển record (sang phải/trái)
-  const handleChange = async (nextTargetKeys, direction, moveKeys) => {
+  const handleChange = async (_, direction, moveKeys) => {
     if (direction === "right") {
       await handleAddTarget(moveKeys);
     } else {
