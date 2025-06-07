@@ -35,5 +35,5 @@ SELECT
   CASE
     WHEN section_start_date IS NULL AND section_end_date IS NULL THEN false
     ELSE true
-  END AS section_delete_disabled
+  END AS section_disabled_dynamic
 FROM sections;

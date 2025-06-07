@@ -66,7 +66,7 @@ export function SectionsTransfer({ classId, ...props }) {
           key: "module_id",
           course: "course_name",
           module: "module_name",
-          disabled: "section_delete_disabled",
+          disabled: "section_disabled_dynamic",
         }}
         titles={["Học phần", "Đã gán"]}
         operations={["Thêm lộ trình", "Xóa lộ trình"]}
