@@ -2,7 +2,7 @@
 
 export const MODAL_CONFIG = {
   maskClosable: false,
-  destroyOnClose: true,
+  destroyOnHidden: true,
   keyboard: true,
   width: 800,
 };
