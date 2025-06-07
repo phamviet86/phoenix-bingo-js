@@ -246,6 +246,7 @@ export function convertTransferItems(data = [], options = {}) {
       }
     });
 
+    console.log("Converted item:", convertedItem);
     return convertedItem;
   });
 }

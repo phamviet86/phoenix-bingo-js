@@ -19,6 +19,7 @@ BEFORE UPDATE ON sections
 FOR EACH ROW
 EXECUTE FUNCTION set_updated_at();
 
+DROP VIEW IF EXISTS sections_view CASCADE;
 CREATE OR REPLACE VIEW sections_view AS
 SELECT
   *,
@@ -30,5 +31,9 @@ SELECT
     WHEN section_start_date IS NOT NULL AND section_end_date IS NOT NULL AND NOW() >= section_start_date AND NOW() < section_end_date THEN 'Đang học'
     WHEN section_end_date IS NOT NULL AND NOW() >= section_end_date THEN 'Đã học xong'
     ELSE 'Chưa có lịch'
-  END AS section_status_dynamic
+  END AS section_status_dynamic,
+  CASE
+    WHEN section_start_date IS NULL AND section_end_date IS NULL THEN false
+    ELSE true
+  END AS section_delete_disabled
 FROM sections;

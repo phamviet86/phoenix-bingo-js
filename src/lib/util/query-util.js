@@ -165,7 +165,12 @@ export function buildSearchParams(params = {}, sort = {}, filter = {}) {
     }
 
     // Xử lý mặc định cho key không có hậu tố
-    if (key === "id" || key.endsWith("_id")) {
+    if (
+      key === "id" ||
+      key.endsWith("_id") ||
+      key.endsWith("_date") ||
+      key.endsWith("_time")
+    ) {
       paramKey = `${key}_e`;
     } else {
       // Kiểm tra định dạng "_hậu_tố giá_trị" trước

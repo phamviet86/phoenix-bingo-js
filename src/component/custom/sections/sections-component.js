@@ -37,7 +37,7 @@ export function SectionsDesc(props) {
   return <ProDescriptions {...props} />;
 }
 
-export function SectionTransfer({ classId, ...props }) {
+export function SectionsTransfer({ classId, ...props }) {
   return (
     <Modal {...props} title="Thêm lộ trình" footer={false}>
       <RemoteTransfer
@@ -66,6 +66,7 @@ export function SectionTransfer({ classId, ...props }) {
           key: "module_id",
           course: "course_name",
           module: "module_name",
+          disabled: "section_delete_disabled",
         }}
         titles={["Học phần", "Đã gán"]}
         operations={["Thêm lộ trình", "Xóa lộ trình"]}

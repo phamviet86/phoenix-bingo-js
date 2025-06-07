@@ -1,7 +1,11 @@
 "use client";
 
 import { use } from "react";
-import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  PlusOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button, BackButton } from "@/component/common";
 import {
@@ -9,11 +13,14 @@ import {
   ClassForm,
   ClassesColumns,
   ClassesFields,
-  SectionTransfer,
+  SectionsTransfer,
   SectionsTable,
+  SectionsInfo,
+  SectionsForm,
   SectionsColumns,
+  SectionsFields,
 } from "@/component/custom";
-import { useDesc, useForm, useTable } from "@/component/hook";
+import { useDesc, useForm, useTable, useInfo } from "@/component/hook";
 
 export default function Page(props) {
   return <PageContent {...props} />;
@@ -59,9 +66,11 @@ function PageContent({ params }) {
     </ProCard>
   );
 
-  const sectionTable = useTable();
-
   // sections tab
+  const sectionTable = useTable();
+  const sectionInfo = useInfo();
+  const sectionForm = useForm();
+
   const sectionTab = {
     key: "sections",
     label: "Lộ trình",
@@ -70,7 +79,7 @@ function PageContent({ params }) {
         boxShadow
         title="Quản lý lộ trình"
         extra={[
-          <SectionTransfer
+          <SectionsTransfer
             key="section-transfer"
             classId={classId}
             trigger={
@@ -85,7 +94,68 @@ function PageContent({ params }) {
           />,
         ]}
       >
-        <SectionsTable tableHook={sectionTable} columns={SectionsColumns()} />
+        <SectionsTable
+          tableHook={sectionTable}
+          columns={SectionsColumns()}
+          leftColumns={[
+            {
+              width: 56,
+              align: "center",
+              search: false,
+              render: (_, record) => (
+                <Button
+                  icon={<InfoCircleOutlined />}
+                  variant="link"
+                  onClick={() => sectionInfo.open(record)}
+                />
+              ),
+            },
+          ]}
+          rightColumns={[
+            {
+              width: 56,
+              align: "center",
+              search: false,
+              render: (_, record) => (
+                <Button
+                  icon={<EditOutlined />}
+                  variant="link"
+                  onClick={() => {
+                    sectionForm.setTitle("Sửa lộ trình");
+                    sectionForm.open(record);
+                  }}
+                />
+              ),
+              responsive: ["md"],
+            },
+          ]}
+        />
+        <SectionsInfo
+          infoHook={sectionInfo}
+          columns={SectionsColumns()}
+          dataSource={sectionInfo.record}
+          drawerProps={{
+            title: "Thông tin lộ trình",
+            footer: [
+              <Button
+                key="edit-button"
+                label="Sửa"
+                onClick={() => {
+                  sectionInfo.close();
+                  sectionForm.setTitle("Sửa lộ trình");
+                  sectionForm.open(sectionInfo.record);
+                }}
+              />,
+            ],
+          }}
+        />
+        <SectionsForm
+          formHook={sectionForm}
+          fields={SectionsFields()}
+          onDataSubmitSuccess={() => sectionTable.reload()}
+          initialValues={sectionForm.record}
+          title={sectionForm.title}
+        />
       </ProCard>
     ),
   };
