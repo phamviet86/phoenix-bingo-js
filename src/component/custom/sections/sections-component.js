@@ -39,7 +39,7 @@ export function SectionsDesc(props) {
 
 export function SectionsTransfer({ classId, ...props }) {
   return (
-    <Modal {...props} title="Thêm lộ trình" footer={false}>
+    <Modal {...props} title="Điều chỉnh lộ trình" footer={false}>
       <RemoteTransfer
         onSourceRequest={() =>
           fetchList(`/api/classes/${classId}/unassigned-modules`, {})
@@ -66,7 +66,7 @@ export function SectionsTransfer({ classId, ...props }) {
           key: "module_id",
           course: "course_name",
           module: "module_name",
-          disabled: "section_disabled_dynamic",
+          disabled: ["section_status_dynamic", [], ["Chưa có lịch"]],
         }}
         titles={["Học phần", "Đã gán"]}
         operations={["Thêm lộ trình", "Xóa lộ trình"]}

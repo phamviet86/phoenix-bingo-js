@@ -85,8 +85,8 @@ function PageContent({ params }) {
             trigger={
               <Button
                 key="create-button"
-                label="Thêm"
-                icon={<PlusOutlined />}
+                label="Điều chỉnh"
+                icon={<EditOutlined />}
                 variant="filled"
               />
             }
