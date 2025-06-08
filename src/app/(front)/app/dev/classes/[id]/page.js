@@ -161,6 +161,15 @@ function PageContent({ params }) {
   };
 
   // enrollments tab
+  const enrollmentsTab = {
+    key: "enrollments",
+    label: "Học viên",
+    children: (
+      <ProCard boxShadow>
+        <p>Chức năng này đang được phát triển.</p>
+      </ProCard>
+    ),
+  };
 
   // render the page
   return (
@@ -173,7 +182,7 @@ function PageContent({ params }) {
       title={pageTitle}
       extra={pageButton}
       content={pageContent}
-      tabList={[sectionTab]}
+      tabList={[sectionTab, enrollmentsTab]}
     />
   );
 }
