@@ -33,7 +33,7 @@ function PageContent({ params }) {
   const { userStatus } = usePageContext();
   const { id: userId } = use(params);
 
-  // user sections
+  // page content: users
   const userDesc = useDesc();
   const userForm = useForm();
 
@@ -90,7 +90,7 @@ function PageContent({ params }) {
     </ResponsiveCard>
   );
 
-  // user roles section
+  // user roles tab
   const userRoleTab = {
     key: "user-roles",
     label: "Phân quyền",

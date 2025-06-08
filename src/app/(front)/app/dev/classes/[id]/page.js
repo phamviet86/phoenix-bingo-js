@@ -29,7 +29,7 @@ export default function Page(props) {
 function PageContent({ params }) {
   const { id: classId } = use(params);
 
-  // class sections
+  // page content: classes
   const classDesc = useDesc();
   const classForm = useForm();
 
@@ -160,6 +160,9 @@ function PageContent({ params }) {
     ),
   };
 
+  // enrollments tab
+
+  // render the page
   return (
     <PageContainer
       items={[

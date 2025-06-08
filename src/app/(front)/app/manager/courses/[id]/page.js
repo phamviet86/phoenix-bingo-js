@@ -39,7 +39,7 @@ function PageContent({ params }) {
   const { courseStatus } = usePageContext();
   const { id: courseId } = use(params);
 
-  // course sections
+  // page content: courses
   const courseDesc = useDesc();
   const courseForm = useForm();
 
@@ -76,7 +76,7 @@ function PageContent({ params }) {
     </ProCard>
   );
 
-  // modules sections
+  // modules tab
   const moduleTable = useTable();
   const moduleInfo = useInfo();
   const moduleForm = useForm();
@@ -169,7 +169,7 @@ function PageContent({ params }) {
     ),
   };
 
-  // lessons sections
+  // lessons tab
   const lessonTable = useTable();
   const lessonInfo = useInfo();
   const lessonForm = useForm();
