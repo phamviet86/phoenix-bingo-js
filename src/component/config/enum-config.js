@@ -105,3 +105,14 @@ export const RESOURCE_METHOD = {
   DELETE: { text: "DELETE", color: "red" },
   PATCH: { text: "PATCH", color: "purple" },
 };
+
+export const SECTION_STATUS = {
+  "Chưa có lịch": {
+    text: "Chưa có lịch",
+    status: "default",
+  },
+  "Nhập sai ngày": { text: "Nhập sai ngày", status: "error" },
+  Chờ: { text: "Chờ", status: "warning" },
+  "Đang học": { text: "Đang học", status: "processing" },
+  "Đã học xong": { text: "Đã học xong", status: "success" },
+};

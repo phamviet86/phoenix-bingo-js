@@ -5,6 +5,7 @@ import {
   ProFormMoney,
 } from "@ant-design/pro-form";
 import { Space, Typography } from "antd";
+import { SECTION_STATUS } from "@/component/config/enum-config";
 
 export function SectionsColumns() {
   return [
@@ -37,6 +38,7 @@ export function SectionsColumns() {
       title: "Trạng thái",
       dataIndex: "section_status_dynamic",
       valueType: "text",
+      valueEnum: SECTION_STATUS,
       sorter: { multiple: 1 },
     },
     {
@@ -85,12 +87,7 @@ export function SectionsFields() {
     <ProForm.Group>
       <ProFormText name="id" label="ID" hidden disabled />
       <ProFormText name="class_id" label="ID lớp học" hidden disabled />
-      <ProFormText
-        name="module_id"
-        label="Môn học"
-        placeholder="Nhập ID môn học"
-        rules={[{ required: true }]}
-      />
+      <ProFormText name="module_id" label="ID Học phần" hidden disabled />
       <ProFormDatePicker
         name="section_start_date"
         label="Ngày bắt đầu"

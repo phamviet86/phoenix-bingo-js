@@ -35,6 +35,18 @@ export async function POST(request) {
     if (!class_id || !module_id)
       return buildApiResponse(400, false, "Thiếu thông tin bắt buộc");
 
+    // Validate date logic
+    if (
+      section_start_date &&
+      section_end_date &&
+      new Date(section_start_date) > new Date(section_end_date)
+    )
+      return buildApiResponse(
+        400,
+        false,
+        "Ngày bắt đầu không thể sau ngày kết thúc"
+      );
+
     const data = {
       class_id,
       module_id,
