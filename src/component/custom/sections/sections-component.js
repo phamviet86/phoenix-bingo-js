@@ -3,9 +3,8 @@ import {
   DrawerForm,
   DrawerInfo,
   ProDescriptions,
-  RemoteTransfer,
+  Transfer,
   Modal,
-  Button,
 } from "@/component/common";
 import { fetchList, fetchPost, fetchDelete } from "@/lib/util/fetch-util";
 
@@ -40,7 +39,7 @@ export function SectionsDesc(props) {
 export function SectionsTransfer({ classId, ...props }) {
   return (
     <Modal {...props} title="Điều chỉnh lộ trình" footer={false}>
-      <RemoteTransfer
+      <Transfer
         onSourceRequest={() =>
           fetchList(`/api/classes/${classId}/unassigned-modules`, {})
         }

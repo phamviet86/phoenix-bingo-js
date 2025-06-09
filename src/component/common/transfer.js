@@ -1,11 +1,11 @@
 // path: @/component/common/transfer.js
 
 import { useState, useEffect, useCallback } from "react";
-import { Transfer, message } from "antd";
+import { Transfer as AntTransfer, message } from "antd";
 import { convertTransferItems } from "@/lib/util/convert-util";
 import styles from "./transfer.module.css";
 
-export function RemoteTransfer({
+export function Transfer({
   onSourceRequest = undefined,
   onSourceParams = undefined,
   onSourceItem = undefined,
@@ -94,40 +94,62 @@ export function RemoteTransfer({
     handleTargetRequest,
   ]);
 
-  const handleAddTarget = async (keys) => {
-    if (!onAddTarget) {
-      messageApi.error("Data add handler not provided");
-      return;
-    }
-    try {
-      const result = await onAddTarget(keys);
-      if (result?.success) {
-        messageApi.success(result?.message || "Thêm thành công");
-        await reloadData();
-      } else {
-        messageApi.error(result?.message || "Đã xảy ra lỗi");
+  const handleAddTarget = useCallback(
+    async (keys) => {
+      if (!onAddTarget) {
+        messageApi.error("Data add handler not provided");
+        return;
       }
-    } catch (error) {
-      messageApi.error(error.message || "Đã xảy ra lỗi");
-    }
-  };
+      try {
+        const result = await onAddTarget(keys);
+        if (result?.success) {
+          messageApi.success(result?.message || "Thêm thành công");
+          await reloadData();
+        } else {
+          messageApi.error(result?.message || "Đã xảy ra lỗi");
+        }
+      } catch (error) {
+        messageApi.error(error.message || "Đã xảy ra lỗi");
+      }
+    },
+    [onAddTarget, messageApi, reloadData]
+  );
 
-  const handleRemoveTarget = async (keys) => {
-    if (!onRemoveTarget) {
-      messageApi.error("Data remove handler not provided");
-      return;
-    }
-    try {
-      const result = await onRemoveTarget(keys);
-      if (result?.success) {
-        messageApi.success(result?.message || "Xóa thành công");
-        await reloadData();
-      } else {
-        messageApi.error(result?.message || "Đã xảy ra lỗi");
+  const handleRemoveTarget = useCallback(
+    async (keys) => {
+      if (!onRemoveTarget) {
+        messageApi.error("Data remove handler not provided");
+        return;
       }
-    } catch (error) {
-      messageApi.error(error.message || "Đã xảy ra lỗi");
-    }
+      try {
+        const result = await onRemoveTarget(keys);
+        if (result?.success) {
+          messageApi.success(result?.message || "Xóa thành công");
+          await reloadData();
+        } else {
+          messageApi.error(result?.message || "Đã xảy ra lỗi");
+        }
+      } catch (error) {
+        messageApi.error(error.message || "Đã xảy ra lỗi");
+      }
+    },
+    [onRemoveTarget, messageApi, reloadData]
+  );
+
+  // Khi chuyển record (sang phải/trái)
+  const handleChange = useCallback(
+    async (_, direction, moveKeys) => {
+      if (direction === "right") {
+        await handleAddTarget(moveKeys);
+      } else {
+        await handleRemoveTarget(moveKeys);
+      }
+    },
+    [handleAddTarget, handleRemoveTarget]
+  );
+
+  const handleSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
+    setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
   };
 
   // Fetch data khi mount
@@ -135,24 +157,11 @@ export function RemoteTransfer({
     reloadData();
   }, [reloadData]);
 
-  // Khi chuyển record (sang phải/trái)
-  const handleChange = async (_, direction, moveKeys) => {
-    if (direction === "right") {
-      await handleAddTarget(moveKeys);
-    } else {
-      await handleRemoveTarget(moveKeys);
-    }
-  };
-
-  const handleSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
-    setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
-  };
-
   return (
     <>
       {contextHolder}
       <div className={styles.remoteTransfer}>
-        <Transfer
+        <AntTransfer
           {...props}
           direction="vertical"
           dataSource={dataSource}

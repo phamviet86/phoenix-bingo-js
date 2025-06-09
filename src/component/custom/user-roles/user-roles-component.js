@@ -5,7 +5,7 @@ import {
   DrawerForm,
   DrawerInfo,
   ProDescriptions,
-  RemoteTransfer,
+  Transfer,
 } from "@/component/common";
 import { fetchList, fetchPost, fetchDelete } from "@/lib/util/fetch-util";
 
@@ -39,7 +39,7 @@ export function UserRoleDesc(props) {
 
 export function UserRoleTransfer({ userId, ...props }) {
   return (
-    <RemoteTransfer
+    <Transfer
       {...props}
       onSourceRequest={() =>
         fetchList(`/api/users/${userId}/unassigned-roles`, {})
