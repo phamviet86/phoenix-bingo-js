@@ -46,7 +46,7 @@ export function EnrollmentsColumns() {
     },
     {
       title: "Trạng thái ghi danh",
-      dataIndex: "enrollment_status_dynamic",
+      dataIndex: "enrollment_status",
       valueType: "text",
       sorter: { multiple: 1 },
     },

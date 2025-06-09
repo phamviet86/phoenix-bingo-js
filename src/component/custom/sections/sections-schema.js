@@ -36,7 +36,7 @@ export function SectionsColumns() {
     },
     {
       title: "Trạng thái",
-      dataIndex: "section_status_dynamic",
+      dataIndex: "section_status",
       valueType: "text",
       valueEnum: SECTION_STATUS,
       sorter: { multiple: 1 },

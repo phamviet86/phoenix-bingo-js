@@ -14,3 +14,4 @@ export * from "./result";
 export * from "./pop-confirm";
 export * from "./transfer";
 export * from "./modal";
+export * from "./modal-steps";

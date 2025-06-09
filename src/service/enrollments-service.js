@@ -15,7 +15,7 @@ export async function getEnrollments(searchParams) {
     const sqlText = `
       SELECT e.id, e.user_id, e.module_id, e.section_id, e.enrollment_type_id, 
         e.enrollment_payment_type_id, e.enrollment_payment_amount, e.enrollment_payment_discount,
-        e.enrollment_start_date, e.enrollment_end_date, e.enrollment_status_dynamic,
+        e.enrollment_start_date, e.enrollment_end_date, e.enrollment_status,
         cl.class_name, cl.class_code,
         u.user_name,
         m.module_name,
@@ -44,7 +44,7 @@ export async function getEnrollment(id) {
     return await sql`
       SELECT e.id, e.user_id, e.module_id, e.section_id, e.enrollment_type_id, 
         e.enrollment_payment_type_id, e.enrollment_payment_amount, e.enrollment_payment_discount,
-        e.enrollment_start_date, e.enrollment_end_date, e.enrollment_status_dynamic,
+        e.enrollment_start_date, e.enrollment_end_date, e.enrollment_status,
         cl.class_name, cl.class_code,
         u.user_name,
         m.module_name,

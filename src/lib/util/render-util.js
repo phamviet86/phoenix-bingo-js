@@ -182,14 +182,14 @@ export function renderResourceEndpoint(record, methodEnum) {
 }
 
 export function renderSectionModule(record, statusEnum) {
-  const { course_name, module_name, section_status_dynamic } = record;
+  const { course_name, module_name, section_status } = record;
   return (
     <Space direction="vertical" size={4}>
       <Space>
         <Text strong>{module_name}</Text>
         <Text type="secondary">{course_name}</Text>
       </Space>
-      {renderTagFromEnum(section_status_dynamic, statusEnum)}
+      {renderTagFromEnum(section_status, statusEnum)}
     </Space>
   );
 }
@@ -205,13 +205,13 @@ export function renderSectionFee(record) {
 }
 
 export function renderEnrollment(record, typeEnum, statusEnum) {
-  const { user_name, enrollment_type_id, enrollment_status_dynamic } = record;
+  const { user_name, enrollment_type_id, enrollment_status } = record;
   return (
     <Space direction="vertical" size={4}>
       <Text strong>{user_name}</Text>
       <Space>
         {renderTagFromEnum(enrollment_type_id, typeEnum)}
-        {renderTagFromEnum(enrollment_status_dynamic, statusEnum)}
+        {renderTagFromEnum(enrollment_status, statusEnum)}
       </Space>
     </Space>
   );

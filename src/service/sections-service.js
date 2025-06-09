@@ -11,7 +11,7 @@ export async function getSections(searchParams) {
 
     const sqlValue = [...queryValues];
     const sqlText = `
-      SELECT s.id, s.class_id, s.module_id, s.section_start_date, s.section_end_date, s.section_fee, s.section_total_fee, s.section_status_dynamic,
+      SELECT s.id, s.class_id, s.module_id, s.section_start_date, s.section_end_date, s.section_fee, s.section_total_fee, s.section_status,
         c.class_name, c.class_code,
         m.module_name,
         co.course_name, co.course_status_id,
@@ -36,7 +36,7 @@ export async function getSections(searchParams) {
 export async function getSection(id) {
   try {
     return await sql`
-      SELECT s.id, s.class_id, s.module_id, s.section_start_date, s.section_end_date, s.section_fee, s.section_total_fee, s.section_status_dynamic,
+      SELECT s.id, s.class_id, s.module_id, s.section_start_date, s.section_end_date, s.section_fee, s.section_total_fee, s.section_status,
         c.class_name, c.class_code,
         m.module_name,
         co.course_name, co.course_status_id,
@@ -120,7 +120,7 @@ export async function getSectionsByClass(searchParams, classId) {
 
     const sqlValue = [classId, ...queryValues];
     const sqlText = `
-      SELECT s.id, s.class_id, s.module_id, s.section_start_date, s.section_end_date, s.section_fee, s.section_total_fee, s.section_status_dynamic,
+      SELECT s.id, s.class_id, s.module_id, s.section_start_date, s.section_end_date, s.section_fee, s.section_total_fee, s.section_status,
         c.class_name, c.class_code,
         m.module_name,
         co.course_name, co.course_status_id,

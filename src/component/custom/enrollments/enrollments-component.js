@@ -1,14 +1,15 @@
+import { useState } from "react";
+import { Radio } from "antd";
 import {
   ProTable,
   DrawerForm,
   DrawerInfo,
   ProDescriptions,
+  ModalSteps,
+  Transfer,
 } from "@/component/common";
 import { fetchList, fetchPost } from "@/lib/util/fetch-util";
 
-/**
- * Bảng danh sách ghi danh với phân trang, lọc và sắp xếp
- */
 export function EnrollmentTable(props) {
   return (
     <ProTable
@@ -20,9 +21,6 @@ export function EnrollmentTable(props) {
   );
 }
 
-/**
- * Form tạo và chỉnh sửa ghi danh
- */
 export function EnrollmentForm(props) {
   return (
     <DrawerForm
@@ -32,16 +30,19 @@ export function EnrollmentForm(props) {
   );
 }
 
-/**
- * Drawer hiển thị thông tin chi tiết ghi danh
- */
 export function EnrollmentInfo(props) {
   return <DrawerInfo {...props} />;
 }
 
-/**
- * Component mô tả chi tiết thông tin ghi danh
- */
 export function EnrollmentDesc(props) {
   return <ProDescriptions {...props} />;
+}
+
+export function EnrollmentModal(props) {
+  const [showRole, setShowRole] = useState("Giáo viên");
+  const [selectTypeId, setSelectTypeId] = useState(11);
+  const [selectUserId, setSelectUserId] = useState(null);
+  const [selectSections, setSelectSections] = useState([]);
+
+  return <DrawerForm {...props} />;
 }

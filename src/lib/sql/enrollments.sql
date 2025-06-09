@@ -27,6 +27,6 @@ SELECT
     WHEN section_id IS NULL THEN 'Chưa xếp lớp'
     WHEN enrollment_end_date IS NULL OR enrollment_end_date >= CURRENT_DATE THEN 'Đã ghi danh'
     ELSE 'Đã nghỉ'
-  END AS enrollment_status_dynamic
+  END AS enrollment_status
 FROM 
   enrollments;
