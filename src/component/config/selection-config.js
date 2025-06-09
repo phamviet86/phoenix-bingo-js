@@ -98,11 +98,6 @@ export const COLOR_ENUM = {
   },
 };
 
-export const COLOR_OPTION = Object.entries(COLOR_ENUM).map(([key, value]) => ({
-  label: value.text,
-  value: value.status || value.color,
-}));
-
 export const RESOURCE_METHOD = {
   GET: { text: "GET", color: "green" },
   POST: { text: "POST", color: "blue" },
