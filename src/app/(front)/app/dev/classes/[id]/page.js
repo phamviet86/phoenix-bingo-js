@@ -19,14 +19,28 @@ import {
   SectionsForm,
   SectionsColumns,
   SectionsFields,
+  EnrollmentTable,
+  EnrollmentInfo,
+  EnrollmentForm,
+  EnrollmentAdd,
+  EnrollmentsColumns,
+  EnrollmentsFields,
+  UsersSelectionColumns,
+  SectionsSelectionColumns,
 } from "@/component/custom";
 import { useDesc, useForm, useTable, useInfo } from "@/component/hook";
+import { PageProvider, usePageContext } from "../provider";
 
 export default function Page(props) {
-  return <PageContent {...props} />;
+  return (
+    <PageProvider>
+      <PageContent {...props} />
+    </PageProvider>
+  );
 }
 
 function PageContent({ params }) {
+  const { userStatus, roleSelection } = usePageContext();
   const { id: classId } = use(params);
 
   // page content: classes
@@ -161,12 +175,93 @@ function PageContent({ params }) {
   };
 
   // enrollments tab
+  const enrollmentTable = useTable();
+  const enrollmentInfo = useInfo();
+  const enrollmentForm = useForm();
+
   const enrollmentsTab = {
     key: "enrollments",
-    label: "Học viên",
+    label: "Danh sách lớp",
     children: (
-      <ProCard boxShadow>
-        <p>Chức năng này đang được phát triển.</p>
+      <ProCard
+        boxShadow
+        extra={[
+          <EnrollmentAdd
+            key="enrolment-add"
+            userTableColumns={UsersSelectionColumns({
+              userStatus,
+              roleSelection,
+            })}
+            sectionTableColumns={SectionsSelectionColumns()}
+            classId={classId}
+            onModalOkSuccess={() => enrollmentTable.reload()}
+            trigger={<Button label="Thêm" color="primary" variant="filled" />}
+          />,
+        ]}
+      >
+        <EnrollmentTable
+          tableHook={enrollmentTable}
+          columns={EnrollmentsColumns()}
+          params={{ class_id: classId }}
+          leftColumns={[
+            {
+              width: 56,
+              align: "center",
+              search: false,
+              render: (_, record) => (
+                <Button
+                  icon={<InfoCircleOutlined />}
+                  variant="link"
+                  onClick={() => enrollmentInfo.open(record)}
+                />
+              ),
+            },
+          ]}
+          rightColumns={[
+            {
+              width: 56,
+              align: "center",
+              search: false,
+              render: (_, record) => (
+                <Button
+                  icon={<EditOutlined />}
+                  variant="link"
+                  onClick={() => {
+                    enrollmentForm.setTitle("Sửa ghi danh");
+                    enrollmentForm.open(record);
+                  }}
+                />
+              ),
+              responsive: ["md"],
+            },
+          ]}
+        />
+        <EnrollmentInfo
+          infoHook={enrollmentInfo}
+          columns={EnrollmentsColumns()}
+          dataSource={enrollmentInfo.record}
+          drawerProps={{
+            title: "Thông tin ghi danh",
+            footer: [
+              <Button
+                key="edit-button"
+                label="Sửa"
+                onClick={() => {
+                  enrollmentInfo.close();
+                  enrollmentForm.setTitle("Sửa ghi danh");
+                  enrollmentForm.open(enrollmentInfo.record);
+                }}
+              />,
+            ],
+          }}
+        />
+        <EnrollmentForm
+          formHook={enrollmentForm}
+          fields={EnrollmentsFields()}
+          onDataSubmitSuccess={() => enrollmentTable.reload()}
+          initialValues={enrollmentForm.record}
+          title={enrollmentForm.title}
+        />
       </ProCard>
     ),
   };

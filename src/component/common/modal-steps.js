@@ -1,6 +1,6 @@
 // path: @/components/common/modal-steps.js
 
-import { useState, useCallback, cloneElement } from "react";
+import React, { useState, useCallback, cloneElement } from "react";
 import { Modal as AntModal, message, Steps, Button, Space } from "antd";
 import { MODAL_CONFIG } from "@/component/config";
 
@@ -138,7 +138,7 @@ export function ModalSteps({
           >
             <Space>
               {extraButtons.map((btn, i) =>
-                isValidElement(btn)
+                React.isValidElement(btn)
                   ? cloneElement(btn, { key: `extra-${i}` })
                   : btn
               )}

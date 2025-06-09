@@ -31,7 +31,7 @@ export function UsersColumns(params) {
     },
     {
       title: "Tên người dùng",
-      dataIndex: "user_name",
+      dataIndex: "user_full_name",
       valueType: "text",
       hidden: true,
     },
@@ -83,6 +83,66 @@ export function UsersColumns(params) {
         renderTagsFromArray(record.role_names, roleSelection?.enums),
       responsive: ["xl"],
       width: 400,
+    },
+  ];
+}
+
+export function UsersSelectionColumns(params) {
+  const { userStatus, roleSelection } = params;
+
+  return [
+    {
+      title: "Người dùng",
+      render: (_, record) => renderUser(record, userStatus?.enums),
+      hideInDescriptions: true,
+      search: false,
+    },
+    {
+      title: "Vai trò",
+      dataIndex: "role_names",
+      valueType: "select",
+      valueEnum: roleSelection?.enums,
+      render: (_, record) =>
+        renderTagsFromArray(record.role_names, roleSelection?.enums),
+      responsive: ["md"],
+      width: 400,
+    },
+    {
+      title: "Tên người dùng",
+      dataIndex: "user_full_name",
+      valueType: "text",
+      hidden: true,
+    },
+    {
+      title: "Mô tả",
+      dataIndex: "user_desc",
+      valueType: "text",
+      hidden: true,
+    },
+    {
+      title: "Trạng thái",
+      dataIndex: "user_status_id",
+      valueType: "select",
+      valueEnum: userStatus?.enums,
+      hidden: true,
+    },
+    {
+      title: "Email",
+      dataIndex: "user_email",
+      valueType: "text",
+      hidden: true,
+    },
+    {
+      title: "SĐT",
+      dataIndex: "user_phone",
+      valueType: "text",
+      hidden: true,
+    },
+    {
+      title: "SĐT phụ huynh",
+      dataIndex: "user_parent_phone",
+      valueType: "text",
+      hidden: true,
     },
   ];
 }

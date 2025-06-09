@@ -37,7 +37,7 @@ export function SectionsColumns() {
     {
       title: "Trạng thái",
       dataIndex: "section_status",
-      valueType: "text",
+      valueType: "select",
       valueEnum: SECTION_STATUS,
       sorter: { multiple: 1 },
     },
@@ -78,6 +78,58 @@ export function SectionsColumns() {
         precision: 0,
       },
       responsive: ["lg"],
+    },
+  ];
+}
+export function SectionsSelectionColumns() {
+  return [
+    {
+      title: "Học phần",
+      render: (_, record) => (
+        <Space wrap>
+          <Typography.Text strong>{record.course_name}</Typography.Text>
+          <Typography.Text>{record.module_name}</Typography.Text>
+        </Space>
+      ),
+      search: false,
+      hideInDescriptions: true,
+    },
+    {
+      title: "Giáo trình",
+      dataIndex: "course_name",
+      valueType: "text",
+      sorter: { multiple: 1 },
+      hidden: true,
+    },
+    {
+      title: "Học phần",
+      dataIndex: "module_name",
+      valueType: "text",
+      sorter: { multiple: 1 },
+      hidden: true,
+    },
+    {
+      title: "Trạng thái",
+      dataIndex: "section_status",
+      valueType: "select",
+      valueEnum: SECTION_STATUS,
+      sorter: { multiple: 1 },
+    },
+    {
+      title: "Bắt đầu",
+      dataIndex: "section_start_date",
+      valueType: "date",
+      sorter: { multiple: 1 },
+      search: false,
+      responsive: ["md"],
+    },
+    {
+      title: "Kết thúc",
+      dataIndex: "section_end_date",
+      valueType: "date",
+      sorter: { multiple: 1 },
+      search: false,
+      responsive: ["md"],
     },
   ];
 }
