@@ -8,7 +8,7 @@ import {
 } from "@/component/common";
 import { fetchList, fetchGet, fetchPost } from "@/lib/util/fetch-util";
 
-export function CourseTable(props) {
+export function CoursesTable(props) {
   return (
     <ProTable
       {...props}
@@ -19,7 +19,7 @@ export function CourseTable(props) {
   );
 }
 
-export function CourseForm(props) {
+export function CoursesForm(props) {
   return (
     <DrawerForm
       {...props}
@@ -28,7 +28,7 @@ export function CourseForm(props) {
   );
 }
 
-export function CourseDesc(props) {
+export function CoursesDesc(props) {
   return (
     <ProDescriptions
       {...props}
@@ -37,6 +37,6 @@ export function CourseDesc(props) {
   );
 }
 
-export function CourseInfo(props) {
+export function CoursesInfo(props) {
   return <DrawerInfo {...props} />;
 }

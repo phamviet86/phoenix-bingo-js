@@ -9,8 +9,8 @@ import {
 import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button, BackButton } from "@/component/common";
 import {
-  ClassDesc,
-  ClassForm,
+  ClassesDesc,
+  ClassesForm,
   ClassesColumns,
   ClassesFields,
   SectionsTransfer,
@@ -19,10 +19,10 @@ import {
   SectionsForm,
   SectionsColumns,
   SectionsFields,
-  EnrollmentTable,
-  EnrollmentInfo,
-  EnrollmentForm,
-  EnrollmentAdd,
+  EnrollmentsTable,
+  EnrollmentsInfo,
+  EnrollmentsForm,
+  EnrollmentsAdd,
   EnrollmentsColumns,
   EnrollmentsFields,
   UsersSelectionColumns,
@@ -62,7 +62,7 @@ function PageContent({ params }) {
 
   const pageContent = (
     <ProCard bordered>
-      <ClassDesc
+      <ClassesDesc
         descHook={classDesc}
         columns={ClassesColumns()}
         params={{ id: classId }}
@@ -70,7 +70,7 @@ function PageContent({ params }) {
           classDesc.setRecord(result?.data?.[0])
         }
       />
-      <ClassForm
+      <ClassesForm
         formHook={classForm}
         fields={ClassesFields()}
         onDataSubmitSuccess={() => classDesc.reload()}
@@ -186,7 +186,7 @@ function PageContent({ params }) {
       <ProCard
         boxShadow
         extra={[
-          <EnrollmentAdd
+          <EnrollmentsAdd
             key="enrolment-add"
             userTableColumns={UsersSelectionColumns({
               userStatus,
@@ -199,7 +199,7 @@ function PageContent({ params }) {
           />,
         ]}
       >
-        <EnrollmentTable
+        <EnrollmentsTable
           tableHook={enrollmentTable}
           columns={EnrollmentsColumns()}
           params={{ class_id: classId }}
@@ -236,7 +236,7 @@ function PageContent({ params }) {
             },
           ]}
         />
-        <EnrollmentInfo
+        <EnrollmentsInfo
           infoHook={enrollmentInfo}
           columns={EnrollmentsColumns()}
           dataSource={enrollmentInfo.record}
@@ -255,7 +255,7 @@ function PageContent({ params }) {
             ],
           }}
         />
-        <EnrollmentForm
+        <EnrollmentsForm
           formHook={enrollmentForm}
           fields={EnrollmentsFields()}
           onDataSubmitSuccess={() => enrollmentTable.reload()}

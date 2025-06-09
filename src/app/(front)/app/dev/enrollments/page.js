@@ -8,9 +8,9 @@ import {
 import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button } from "@/component/common";
 import {
-  EnrollmentTable,
-  EnrollmentInfo,
-  EnrollmentForm,
+  EnrollmentsTable,
+  EnrollmentsInfo,
+  EnrollmentsForm,
   EnrollmentsColumns,
   EnrollmentsFields,
 } from "@/component/custom/enrollments";
@@ -35,7 +35,7 @@ export default function Page() {
 
   const pageContent = (
     <ProCard boxShadow>
-      <EnrollmentTable
+      <EnrollmentsTable
         tableHook={enrollmentTable}
         columns={EnrollmentsColumns()}
         leftColumns={[
@@ -71,7 +71,7 @@ export default function Page() {
           },
         ]}
       />
-      <EnrollmentInfo
+      <EnrollmentsInfo
         infoHook={enrollmentInfo}
         columns={EnrollmentsColumns()}
         dataSource={enrollmentInfo.record}
@@ -90,7 +90,7 @@ export default function Page() {
           ],
         }}
       />
-      <EnrollmentForm
+      <EnrollmentsForm
         formHook={enrollmentForm}
         fields={EnrollmentsFields()}
         onDataSubmitSuccess={() => enrollmentTable.reload()}

@@ -8,7 +8,7 @@ import {
 } from "@/component/common";
 import { fetchList, fetchPost } from "@/lib/util/fetch-util";
 
-export function RoleTable(props) {
+export function RolesTable(props) {
   return (
     <ProTable
       {...props}
@@ -19,7 +19,7 @@ export function RoleTable(props) {
   );
 }
 
-export function RoleForm(props) {
+export function RolesForm(props) {
   return (
     <DrawerForm
       {...props}
@@ -28,10 +28,10 @@ export function RoleForm(props) {
   );
 }
 
-export function RoleInfo(props) {
+export function RolesInfo(props) {
   return <DrawerInfo {...props} />;
 }
 
-export function RoleDesc(props) {
+export function RolesDesc(props) {
   return <ProDescriptions {...props} />;
 }

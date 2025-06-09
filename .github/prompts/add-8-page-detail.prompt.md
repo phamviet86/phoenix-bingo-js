@@ -13,8 +13,8 @@ description: "Create detail page component for entity with display information a
   - `useDesc` - Manage entity description data
   - `useForm` - Manage edit form visibility
 - Implement main components:
-  - Desc component with entity name as prefix (e.g., `OptionDesc`)
-  - Edit form component (e.g., `OptionFormEdit`) with record ID and reload callback
+  - Desc component with entity name as prefix (e.g., `OptionsDesc`)
+  - Edit form component (e.g., `OptionsFormEdit`) with record ID and reload callback
 - Follow established project patterns for:
   - Layout using `PageContainer` and `ProCard` components
   - Responsive design with proper borders
@@ -24,7 +24,7 @@ description: "Create detail page component for entity with display information a
   - pageButton: BackButton and Edit button with `EditOutlined` icon
   - Dynamic title from entity record
 - Use naming conventions:
-  - PascalCase for entity component names (e.g., `OptionDesc`, `OptionFormEdit`)
+  - PascalCase for entity component names (e.g., `OptionsDesc`, `OptionsFormEdit`)
   - Vietnamese labels for UI text
   - Proper breadcrumb structure with title hierarchy
 
@@ -90,8 +90,8 @@ import { EditOutlined } from "@ant-design/icons";
 import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button, BackButton } from "@/component/common";
 import {
-  OptionDesc,
-  OptionForm,
+  OptionsDesc,
+  OptionsForm,
   OptionsColumns,
   OptionsFields,
 } from "@/component/custom";
@@ -123,7 +123,7 @@ function PageContent({ params }) {
 
   const pageContent = (
     <ProCard bordered>
-      <OptionDesc
+      <OptionsDesc
         descHook={optionDesc}
         columns={OptionsColumns()}
         params={{ id: optionId }}
@@ -131,7 +131,7 @@ function PageContent({ params }) {
           optionDesc.setRecord(result?.data?.[0])
         }
       />
-      <OptionForm
+      <OptionsForm
         formHook={optionForm}
         fields={OptionsFields()}
         onDataSubmitSuccess={() => optionDesc.reload()}

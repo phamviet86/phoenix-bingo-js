@@ -14,9 +14,9 @@ description: "Create page component for entity list with table display, create f
   - `useInfo` - Manage detail view state
   - `useForm` - Manage creation form state
 - Implement main components:
-  - Table component with entity name as prefix (e.g., `OptionTable`)
-  - Info view component (e.g., `OptionInfo`) with drawer for quick information view
-  - Form component (e.g., `OptionForm`) for creation with proper hooks integration
+  - Table component with entity name as prefix (e.g., `OptionsTable`)
+  - Info view component (e.g., `OptionsInfo`) with drawer for quick information view
+  - Form component (e.g., `OptionsForm`) for creation with proper hooks integration
 - Follow established project patterns for:
   - Layout using `PageContainer` and `ProCard` components
   - Responsive design with boxShadow
@@ -27,7 +27,7 @@ description: "Create page component for entity list with table display, create f
   - Left columns: Info button with `InfoCircleOutlined` icon to open drawer
   - Right columns: Detail button with `EyeOutlined` icon to navigate to detail page
 - Use naming conventions:
-  - PascalCase for entity component names (e.g., `OptionTable`, `OptionInfo`, `OptionForm`)
+  - PascalCase for entity component names (e.g., `OptionsTable`, `OptionsInfo`, `OptionsForm`)
   - Plural form for Columns and Fields (e.g., `OptionsColumns`, `OptionsFields`)
   - Vietnamese labels for UI text
   - Proper breadcrumb structure with title hierarchy
@@ -100,9 +100,9 @@ import {
 import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button, DetailButton } from "@/component/common";
 import {
-  OptionTable,
-  OptionInfo,
-  OptionForm,
+  OptionsTable,
+  OptionsInfo,
+  OptionsForm,
   OptionsColumns,
   OptionsFields,
 } from "@/component/custom";
@@ -124,7 +124,7 @@ export default function Page() {
 
   const pageContent = (
     <ProCard boxShadow>
-      <OptionTable
+      <OptionsTable
         tableHook={optionTable}
         columns={OptionsColumns()}
         leftColumns={[
@@ -157,7 +157,7 @@ export default function Page() {
           },
         ]}
       />
-      <OptionInfo
+      <OptionsInfo
         infoHook={optionInfo}
         columns={OptionsColumns()}
         dataSource={optionInfo.record}
@@ -174,7 +174,7 @@ export default function Page() {
           ],
         }}
       />
-      <OptionForm
+      <OptionsForm
         formHook={optionForm}
         fields={OptionsFields()}
         onDataSubmitSuccess={() => optionTable.reload()}

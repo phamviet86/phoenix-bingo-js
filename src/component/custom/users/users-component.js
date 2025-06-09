@@ -17,7 +17,7 @@ import {
   fetchPut,
 } from "@/lib/util/fetch-util";
 
-export function UserTable(props) {
+export function UsersTable(props) {
   return (
     <ProTable
       {...props}
@@ -28,7 +28,7 @@ export function UserTable(props) {
   );
 }
 
-export function UserForm(props) {
+export function UsersForm(props) {
   return (
     <DrawerForm
       {...props}
@@ -37,11 +37,11 @@ export function UserForm(props) {
   );
 }
 
-export function UserInfo(props) {
+export function UsersInfo(props) {
   return <DrawerInfo {...props} />;
 }
 
-export function UserDesc(props) {
+export function UsersDesc(props) {
   return (
     <ProDescriptions
       {...props}
@@ -50,7 +50,7 @@ export function UserDesc(props) {
   );
 }
 
-export function UserPicture({ userAvatar, ...props }) {
+export function UsersPicture({ userAvatar, ...props }) {
   if (userAvatar)
     return (
       <Image
@@ -75,7 +75,7 @@ export function UserPicture({ userAvatar, ...props }) {
   return <Avatar icon={<UserOutlined />} size={240} shape="square" />;
 }
 
-export function ResetPwButton({ userId, ...props }) {
+export function UsersResetPassword({ userId, ...props }) {
   return (
     <Popconfirm
       onPopConfirm={() => fetchPut(`/api/users/${userId}/reset-password`)}

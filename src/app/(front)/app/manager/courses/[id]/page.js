@@ -9,18 +9,18 @@ import {
 import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button, BackButton } from "@/component/common";
 import {
-  CourseDesc,
-  CourseForm,
+  CoursesDesc,
+  CoursesForm,
   CoursesColumns,
   CoursesFields,
-  ModuleTable,
-  ModuleInfo,
-  ModuleForm,
+  ModulesTable,
+  ModulesInfo,
+  ModulesForm,
   ModulesColumns,
   ModulesFields,
-  LessonTable,
-  LessonInfo,
-  LessonForm,
+  LessonsTable,
+  LessonsInfo,
+  LessonsForm,
   LessonsColumns,
   LessonsFields,
 } from "@/component/custom";
@@ -58,7 +58,7 @@ function PageContent({ params }) {
 
   const pageContent = (
     <ProCard bordered>
-      <CourseDesc
+      <CoursesDesc
         descHook={courseDesc}
         columns={CoursesColumns({ courseStatus })}
         params={{ id: courseId }}
@@ -66,7 +66,7 @@ function PageContent({ params }) {
           courseDesc.setRecord(result?.data?.[0]);
         }}
       />
-      <CourseForm
+      <CoursesForm
         formHook={courseForm}
         fields={CoursesFields({ courseStatus })}
         onDataSubmitSuccess={() => courseDesc.reload()}
@@ -101,7 +101,7 @@ function PageContent({ params }) {
           />,
         ]}
       >
-        <ModuleTable
+        <ModulesTable
           tableHook={moduleTable}
           columns={ModulesColumns()}
           leftColumns={[
@@ -139,7 +139,7 @@ function PageContent({ params }) {
           params={{ course_id: courseId }}
           showSearch={false}
         />
-        <ModuleInfo
+        <ModulesInfo
           infoHook={moduleInfo}
           columns={ModulesColumns()}
           dataSource={moduleInfo.record}
@@ -158,7 +158,7 @@ function PageContent({ params }) {
             ],
           }}
         />
-        <ModuleForm
+        <ModulesForm
           formHook={moduleForm}
           fields={ModulesFields()}
           onDataSubmitSuccess={() => moduleTable.reload()}
@@ -194,7 +194,7 @@ function PageContent({ params }) {
           />,
         ]}
       >
-        <LessonTable
+        <LessonsTable
           tableHook={lessonTable}
           columns={LessonsColumns({ courseId })}
           leftColumns={[
@@ -230,7 +230,7 @@ function PageContent({ params }) {
             },
           ]}
         />
-        <LessonInfo
+        <LessonsInfo
           infoHook={lessonInfo}
           columns={LessonsColumns({ courseId })}
           dataSource={lessonInfo.record}
@@ -249,7 +249,7 @@ function PageContent({ params }) {
             ],
           }}
         />
-        <LessonForm
+        <LessonsForm
           formHook={lessonForm}
           fields={LessonsFields({ courseId })}
           onDataSubmitSuccess={() => lessonTable.reload()}

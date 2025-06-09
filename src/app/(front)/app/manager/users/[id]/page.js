@@ -10,12 +10,12 @@ import {
   ResponsiveCard,
 } from "@/component/common";
 import {
-  UserDesc,
-  UserForm,
+  UsersDesc,
+  UsersForm,
   UsersColumns,
   UsersFields,
-  UserPicture,
-  ResetPwButton,
+  UsersPicture,
+  UsersResetPassword,
   UserRoleTransfer,
 } from "@/component/custom";
 import { useDesc, useForm } from "@/component/hook";
@@ -54,7 +54,7 @@ function PageContent({ params }) {
     <ResponsiveCard
       bordered
       splitAt="md"
-      actions={[<ResetPwButton key="reset-password" userId={userId} />]}
+      actions={[<UsersResetPassword key="reset-password" userId={userId} />]}
     >
       <ProCard
         layout="center"
@@ -67,10 +67,10 @@ function PageContent({ params }) {
           xxl: "290px",
         }}
       >
-        <UserPicture userAvatar={userDesc?.record?.user_avatar} />
+        <UsersPicture userAvatar={userDesc?.record?.user_avatar} />
       </ProCard>
       <ProCard>
-        <UserDesc
+        <UsersDesc
           descHook={userDesc}
           columns={UsersColumns({ userStatus, roleSelection })}
           params={{ id: userId }}
@@ -79,7 +79,7 @@ function PageContent({ params }) {
           }
           column={{ xs: 1, sm: 1, md: 1, lg: 2, xl: 2, xxl: 3 }}
         />
-        <UserForm
+        <UsersForm
           formHook={userForm}
           fields={UsersFields({ userStatus })}
           onDataSubmitSuccess={() => userDesc.reload()}

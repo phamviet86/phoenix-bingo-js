@@ -14,9 +14,9 @@ description: "Create complete page component for entity management with table di
   - `useForm` - Manage form state, title, record and visibility
   - `useInfo` - Manage detail view state
 - Implement main components:
-  - Table component with entity name as prefix (e.g., `OptionTable`)
-  - Single form component to handle both create and edit (e.g., `OptionForm`)
-  - Detail info component (e.g., `OptionInfo`) with drawer actions
+  - Table component with entity name as prefix (e.g., `OptionsTable`)
+  - Single form component to handle both create and edit (e.g., `OptionsForm`)
+  - Detail info component (e.g., `OptionsInfo`) with drawer actions
   - Columns configuration (e.g., `OptionsColumns`)
   - Fields configuration (e.g., `OptionsFields`)
 - Follow established project patterns for:
@@ -29,7 +29,7 @@ description: "Create complete page component for entity management with table di
   - leftColumns: Info button with `InfoCircleOutlined` icon
   - rightColumns: Edit button with `EditOutlined` icon (responsive md)
 - Use naming conventions:
-  - PascalCase for entity component names (e.g., `OptionTable`, `OptionForm`)
+  - PascalCase for entity component names (e.g., `OptionsTable`, `OptionsForm`)
   - Vietnamese labels for UI text
   - Proper breadcrumb structure with title hierarchy
 
@@ -99,9 +99,9 @@ import {
 import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button } from "@/component/common";
 import {
-  OptionTable,
-  OptionInfo,
-  OptionForm,
+  OptionsTable,
+  OptionsInfo,
+  OptionsForm,
   OptionsColumns,
   OptionsFields,
 } from "@/component/custom";
@@ -126,7 +126,7 @@ export default function Page() {
 
   const pageContent = (
     <ProCard boxShadow>
-      <OptionTable
+      <OptionsTable
         tableHook={optionTable}
         columns={OptionsColumns()}
         leftColumns={[
@@ -162,7 +162,7 @@ export default function Page() {
           },
         ]}
       />
-      <OptionInfo
+      <OptionsInfo
         infoHook={optionInfo}
         columns={OptionsColumns()}
         dataSource={optionInfo.record}
@@ -181,7 +181,7 @@ export default function Page() {
           ],
         }}
       />
-      <OptionForm
+      <OptionsForm
         formHook={optionForm}
         fields={OptionsFields()}
         onDataSubmitSuccess={() => optionTable.reload()}

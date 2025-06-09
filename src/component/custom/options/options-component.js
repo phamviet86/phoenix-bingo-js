@@ -8,7 +8,7 @@ import {
 } from "@/component/common";
 import { fetchList, fetchPost } from "@/lib/util/fetch-util";
 
-export function OptionTable(props) {
+export function OptionsTable(props) {
   return (
     <ProTable
       {...props}
@@ -19,7 +19,7 @@ export function OptionTable(props) {
   );
 }
 
-export function OptionForm(props) {
+export function OptionsForm(props) {
   return (
     <DrawerForm
       {...props}
@@ -28,10 +28,10 @@ export function OptionForm(props) {
   );
 }
 
-export function OptionInfo(props) {
+export function OptionsInfo(props) {
   return <DrawerInfo {...props} />;
 }
 
-export function OptionDesc(props) {
+export function OptionsDesc(props) {
   return <ProDescriptions {...props} />;
 }

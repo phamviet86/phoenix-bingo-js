@@ -8,9 +8,9 @@ import {
 import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button } from "@/component/common";
 import {
-  OptionTable,
-  OptionInfo,
-  OptionForm,
+  OptionsTable,
+  OptionsInfo,
+  OptionsForm,
   OptionsColumns,
   OptionsFields,
 } from "@/component/custom";
@@ -35,7 +35,7 @@ export default function Page() {
 
   const pageContent = (
     <ProCard boxShadow>
-      <OptionTable
+      <OptionsTable
         tableHook={optionTable}
         columns={OptionsColumns()}
         leftColumns={[
@@ -71,7 +71,7 @@ export default function Page() {
           },
         ]}
       />
-      <OptionInfo
+      <OptionsInfo
         infoHook={optionInfo}
         columns={OptionsColumns()}
         dataSource={optionInfo.record}
@@ -90,7 +90,7 @@ export default function Page() {
           ],
         }}
       />
-      <OptionForm
+      <OptionsForm
         formHook={optionForm}
         fields={OptionsFields()}
         onDataSubmitSuccess={() => optionTable.reload()}

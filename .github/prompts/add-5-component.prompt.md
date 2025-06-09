@@ -25,7 +25,7 @@ description: "Create a complete component file with CRUD operations based on pro
   - Description component: use `ProDescriptions` wrapper
 - Use naming conventions:
   - File names: kebab-case (e.g., `options-component.js`)
-  - Function names: PascalCase with table name (e.g., `OptionTable`, `OptionForm`)
+  - Function names: PascalCase with table name (e.g., `OptionsTable`, `OptionsForm`)
   - Component titles: Vietnamese with proper context (e.g., "Tạo tùy chọn", "Sửa tùy chọn")
 - Implement component pattern:
   - Props spreading: `{...props}` for all components
@@ -34,7 +34,7 @@ description: "Create a complete component file with CRUD operations based on pro
 ## Notes
 
 - Use table name to:
-  - Create PascalCase function names (e.g., "options" → "OptionTable")
+  - Create PascalCase function names (e.g., "options" → "OptionsTable")
   - Determine appropriate API endpoints
   - Create meaningful Vietnamese titles for forms
 - Import patterns:
@@ -76,7 +76,7 @@ import {
 } from "@/component/common";
 import { fetchList, fetchPost } from "@/lib/util/fetch-util";
 
-export function OptionTable(props) {
+export function OptionsTable(props) {
   return (
     <ProTable
       {...props}
@@ -87,7 +87,7 @@ export function OptionTable(props) {
   );
 }
 
-export function OptionForm(props) {
+export function OptionsForm(props) {
   return (
     <DrawerForm
       {...props}
@@ -96,11 +96,11 @@ export function OptionForm(props) {
   );
 }
 
-export function OptionInfo(props) {
+export function OptionsInfo(props) {
   return <DrawerInfo {...props} />;
 }
 
-export function OptionDesc(props) {
+export function OptionsDesc(props) {
   return <ProDescriptions {...props} />;
 }
 ```

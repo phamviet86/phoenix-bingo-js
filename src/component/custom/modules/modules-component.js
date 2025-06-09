@@ -8,7 +8,7 @@ import {
 } from "@/component/common";
 import { fetchList, fetchPost } from "@/lib/util/fetch-util";
 
-export function ModuleTable(props) {
+export function ModulesTable(props) {
   return (
     <ProTable
       {...props}
@@ -19,7 +19,7 @@ export function ModuleTable(props) {
   );
 }
 
-export function ModuleForm(props) {
+export function ModulesForm(props) {
   return (
     <DrawerForm
       {...props}
@@ -28,10 +28,10 @@ export function ModuleForm(props) {
   );
 }
 
-export function ModuleDesc(props) {
+export function ModulesDesc(props) {
   return <ProDescriptions {...props} />;
 }
 
-export function ModuleInfo(props) {
+export function ModulesInfo(props) {
   return <DrawerInfo {...props} />;
 }

@@ -8,9 +8,9 @@ import {
 import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button } from "@/component/common";
 import {
-  ShiftTable,
-  ShiftInfo,
-  ShiftForm,
+  ShiftsTable,
+  ShiftsInfo,
+  ShiftsForm,
   ShiftsColumns,
   ShiftsFields,
 } from "@/component/custom";
@@ -35,7 +35,7 @@ export default function Page() {
 
   const pageContent = (
     <ProCard boxShadow>
-      <ShiftTable
+      <ShiftsTable
         tableHook={shiftTable}
         columns={ShiftsColumns()}
         leftColumns={[
@@ -71,7 +71,7 @@ export default function Page() {
           },
         ]}
       />
-      <ShiftInfo
+      <ShiftsInfo
         infoHook={shiftInfo}
         columns={ShiftsColumns()}
         dataSource={shiftInfo.record}
@@ -90,7 +90,7 @@ export default function Page() {
           ],
         }}
       />
-      <ShiftForm
+      <ShiftsForm
         formHook={shiftForm}
         fields={ShiftsFields()}
         onDataSubmitSuccess={() => shiftTable.reload()}

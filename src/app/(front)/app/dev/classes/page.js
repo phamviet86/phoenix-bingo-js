@@ -8,9 +8,9 @@ import {
 import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button, DetailButton } from "@/component/common";
 import {
-  ClassTable,
-  ClassInfo,
-  ClassForm,
+  ClassesTable,
+  ClassesInfo,
+  ClassesForm,
   ClassesColumns,
   ClassesFields,
 } from "@/component/custom";
@@ -32,7 +32,7 @@ export default function Page() {
 
   const pageContent = (
     <ProCard boxShadow>
-      <ClassTable
+      <ClassesTable
         tableHook={classTable}
         columns={ClassesColumns()}
         leftColumns={[
@@ -65,7 +65,7 @@ export default function Page() {
           },
         ]}
       />
-      <ClassInfo
+      <ClassesInfo
         infoHook={classInfo}
         columns={ClassesColumns()}
         dataSource={classInfo.record}
@@ -82,7 +82,7 @@ export default function Page() {
           ],
         }}
       />
-      <ClassForm
+      <ClassesForm
         formHook={classForm}
         fields={ClassesFields()}
         onDataSubmitSuccess={() => classTable.reload()}

@@ -8,7 +8,7 @@ import {
 } from "@/component/common";
 import { fetchList, fetchPost } from "@/lib/util/fetch-util";
 
-export function RoomTable(props) {
+export function RoomsTable(props) {
   return (
     <ProTable
       {...props}
@@ -19,7 +19,7 @@ export function RoomTable(props) {
   );
 }
 
-export function RoomForm(props) {
+export function RoomsForm(props) {
   return (
     <DrawerForm
       {...props}
@@ -28,10 +28,10 @@ export function RoomForm(props) {
   );
 }
 
-export function RoomInfo(props) {
+export function RoomsInfo(props) {
   return <DrawerInfo {...props} />;
 }
 
-export function RoomDesc(props) {
+export function RoomsDesc(props) {
   return <ProDescriptions {...props} />;
 }

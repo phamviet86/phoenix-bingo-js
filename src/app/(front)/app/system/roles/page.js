@@ -8,9 +8,9 @@ import {
 import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button } from "@/component/common";
 import {
-  RoleTable,
-  RoleInfo,
-  RoleForm,
+  RolesTable,
+  RolesInfo,
+  RolesForm,
   RolesColumns,
   RolesFields,
 } from "@/component/custom";
@@ -35,7 +35,7 @@ export default function Page() {
 
   const pageContent = (
     <ProCard boxShadow>
-      <RoleTable
+      <RolesTable
         tableHook={roleTable}
         columns={RolesColumns()}
         leftColumns={[
@@ -71,7 +71,7 @@ export default function Page() {
           },
         ]}
       />
-      <RoleInfo
+      <RolesInfo
         infoHook={roleInfo}
         columns={RolesColumns()}
         dataSource={roleInfo.record}
@@ -90,7 +90,7 @@ export default function Page() {
           ],
         }}
       />
-      <RoleForm
+      <RolesForm
         formHook={roleForm}
         fields={RolesFields()}
         onDataSubmitSuccess={() => roleTable.reload()}

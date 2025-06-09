@@ -9,7 +9,7 @@ import {
 } from "@/component/common";
 import { fetchList, fetchPost, fetchDelete } from "@/lib/util/fetch-util";
 
-export function UserRoleTable(props) {
+export function UserRolesTable(props) {
   return (
     <ProTable
       {...props}
@@ -20,7 +20,7 @@ export function UserRoleTable(props) {
   );
 }
 
-export function UserRoleForm(props) {
+export function UserRolesForm(props) {
   return (
     <DrawerForm
       {...props}
@@ -29,11 +29,11 @@ export function UserRoleForm(props) {
   );
 }
 
-export function UserRoleInfo(props) {
+export function UserRolesInfo(props) {
   return <DrawerInfo {...props} />;
 }
 
-export function UserRoleDesc(props) {
+export function UserRolesDesc(props) {
   return <ProDescriptions {...props} />;
 }
 

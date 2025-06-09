@@ -8,7 +8,7 @@ import {
 } from "@/component/common";
 import { fetchList, fetchPost } from "@/lib/util/fetch-util";
 
-export function ShiftTable(props) {
+export function ShiftsTable(props) {
   return (
     <ProTable
       {...props}
@@ -19,7 +19,7 @@ export function ShiftTable(props) {
   );
 }
 
-export function ShiftForm(props) {
+export function ShiftsForm(props) {
   return (
     <DrawerForm
       {...props}
@@ -28,10 +28,10 @@ export function ShiftForm(props) {
   );
 }
 
-export function ShiftInfo(props) {
+export function ShiftsInfo(props) {
   return <DrawerInfo {...props} />;
 }
 
-export function ShiftDesc(props) {
+export function ShiftsDesc(props) {
   return <ProDescriptions {...props} />;
 }

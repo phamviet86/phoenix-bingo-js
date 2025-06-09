@@ -8,9 +8,9 @@ import {
 import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button } from "@/component/common";
 import {
-  RoomTable,
-  RoomInfo,
-  RoomForm,
+  RoomsTable,
+  RoomsInfo,
+  RoomsForm,
   RoomsColumns,
   RoomsFields,
 } from "@/component/custom";
@@ -35,7 +35,7 @@ export default function Page() {
 
   const pageContent = (
     <ProCard boxShadow>
-      <RoomTable
+      <RoomsTable
         tableHook={roomTable}
         columns={RoomsColumns()}
         leftColumns={[
@@ -71,7 +71,7 @@ export default function Page() {
           },
         ]}
       />
-      <RoomInfo
+      <RoomsInfo
         infoHook={roomInfo}
         columns={RoomsColumns()}
         dataSource={roomInfo.record}
@@ -90,7 +90,7 @@ export default function Page() {
           ],
         }}
       />
-      <RoomForm
+      <RoomsForm
         formHook={roomForm}
         fields={RoomsFields()}
         onDataSubmitSuccess={() => roomTable.reload()}

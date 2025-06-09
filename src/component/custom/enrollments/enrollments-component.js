@@ -8,7 +8,7 @@ import {
 } from "@/component/common";
 import { fetchList, fetchPost } from "@/lib/util/fetch-util";
 
-export function EnrollmentTable(props) {
+export function EnrollmentsTable(props) {
   return (
     <ProTable
       {...props}
@@ -19,7 +19,7 @@ export function EnrollmentTable(props) {
   );
 }
 
-export function EnrollmentForm(props) {
+export function EnrollmentsForm(props) {
   return (
     <DrawerForm
       {...props}
@@ -28,15 +28,15 @@ export function EnrollmentForm(props) {
   );
 }
 
-export function EnrollmentInfo(props) {
+export function EnrollmentsInfo(props) {
   return <DrawerInfo {...props} />;
 }
 
-export function EnrollmentDesc(props) {
+export function EnrollmentsDesc(props) {
   return <ProDescriptions {...props} />;
 }
 
-export function EnrollmentAdd({
+export function EnrollmentsAdd({
   classId,
   userTableColumns,
   sectionTableColumns,

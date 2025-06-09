@@ -8,9 +8,9 @@ import {
 import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button, DetailButton } from "@/component/common";
 import {
-  UserTable,
-  UserInfo,
-  UserForm,
+  UsersTable,
+  UsersInfo,
+  UsersForm,
   UsersColumns,
   UsersFields,
 } from "@/component/custom";
@@ -43,7 +43,7 @@ function PageContent() {
 
   const pageContent = (
     <ProCard boxShadow>
-      <UserTable
+      <UsersTable
         tableHook={userTable}
         columns={UsersColumns({ userStatus, roleSelection })}
         leftColumns={[
@@ -74,7 +74,7 @@ function PageContent() {
           },
         ]}
       />
-      <UserInfo
+      <UsersInfo
         infoHook={userInfo}
         columns={UsersColumns({ userStatus, roleSelection })}
         dataSource={userInfo.record}
@@ -91,7 +91,7 @@ function PageContent() {
           ],
         }}
       />
-      <UserForm
+      <UsersForm
         formHook={userForm}
         fields={UsersFields({ userStatus })}
         onDataSubmitSuccess={() => userTable.reload()}
