@@ -25,13 +25,36 @@ export function PageProvider({ children }) {
     color: "role_color",
   });
 
+  // Create selections for enrollment types and payment types
+  const enrollmentType = setSelection(
+    optionData,
+    {
+      value: "id",
+      label: "option_label",
+      color: "option_color",
+    },
+    { option_table: "enrollments", option_column: "enrollment_type_id" }
+  );
+
+  const enrollmentPaymentType = setSelection(
+    optionData,
+    {
+      value: "id",
+      label: "option_label",
+      color: "option_color",
+    },
+    { option_table: "enrollments", option_column: "enrollment_payment_type_id" }
+  );
+
   // Memoize the context value to avoid unnecessary re-renders
   const contextValue = useMemo(
     () => ({
       userStatus,
       roleSelection,
+      enrollmentType,
+      enrollmentPaymentType,
     }),
-    [userStatus, roleSelection]
+    [userStatus, roleSelection, enrollmentType, enrollmentPaymentType]
   );
 
   // Provide the context to children components

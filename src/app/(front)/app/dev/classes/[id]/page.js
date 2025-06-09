@@ -40,7 +40,8 @@ export default function Page(props) {
 }
 
 function PageContent({ params }) {
-  const { userStatus, roleSelection } = usePageContext();
+  const { userStatus, roleSelection, enrollmentType, enrollmentPaymentType } =
+    usePageContext();
   const { id: classId } = use(params);
 
   // page content: classes
@@ -201,7 +202,10 @@ function PageContent({ params }) {
       >
         <EnrollmentsTable
           tableHook={enrollmentTable}
-          columns={EnrollmentsColumns()}
+          columns={EnrollmentsColumns({
+            enrollmentType,
+            enrollmentPaymentType,
+          })}
           params={{ class_id: classId }}
           leftColumns={[
             {
@@ -238,7 +242,10 @@ function PageContent({ params }) {
         />
         <EnrollmentsInfo
           infoHook={enrollmentInfo}
-          columns={EnrollmentsColumns()}
+          columns={EnrollmentsColumns({
+            enrollmentType,
+            enrollmentPaymentType,
+          })}
           dataSource={enrollmentInfo.record}
           drawerProps={{
             title: "Thông tin ghi danh",
@@ -257,7 +264,10 @@ function PageContent({ params }) {
         />
         <EnrollmentsForm
           formHook={enrollmentForm}
-          fields={EnrollmentsFields()}
+          fields={EnrollmentsFields({
+            enrollmentType,
+            enrollmentPaymentType,
+          })}
           onDataSubmitSuccess={() => enrollmentTable.reload()}
           initialValues={enrollmentForm.record}
           title={enrollmentForm.title}
