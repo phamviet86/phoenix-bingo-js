@@ -1,7 +1,12 @@
 // path: @/component/custom/options/options-schema.js
 
-import { ProForm, ProFormText, ProFormSelect } from "@ant-design/pro-form";
-import { COLORS } from "@/component/config";
+import {
+  ProForm,
+  ProFormText,
+  ProFormSelect,
+  ProFormColorPicker,
+} from "@ant-design/pro-form";
+import { COLORS_ENUM } from "@/component/config";
 
 export function OptionsColumns() {
   return [
@@ -36,7 +41,7 @@ export function OptionsColumns() {
       title: "Màu sắc",
       dataIndex: "option_color",
       valueType: "select",
-      valueEnum: COLORS,
+      valueEnum: COLORS_ENUM,
       sorter: { multiple: 1 },
       responsive: ["xl"],
     },
@@ -76,7 +81,17 @@ export function OptionsFields() {
         name="option_color"
         label="Màu sắc"
         placeholder="Chọn màu sắc"
-        valueEnum={COLORS}
+        valueEnum={COLORS_ENUM}
+        width="100%"
+        colProps={{ xs: 12 }}
+      />
+      <ProFormColorPicker
+        name="option_color"
+        label="Màu sắc"
+        placeholder="Chọn màu sắc"
+        // valueEnum={COLORS_ENUM}
+        width="100%"
+        colProps={{ xs: 12 }}
       />
       <ProFormText
         name="option_group"

@@ -1,6 +1,6 @@
-// path: @/component/config/enum-config.js
+// path: @/component/config/selection-config.js
 
-export const COLORS = {
+export const COLORS_ENUM = {
   default: {
     text: "Default",
     status: "default",
