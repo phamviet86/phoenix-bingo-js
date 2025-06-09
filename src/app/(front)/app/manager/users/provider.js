@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo } from "react";
 import { useAppContext } from "../../provider";
 import { setSelection } from "@/lib/util/convert-util";
+import { useFetch } from "@/component/hook";
 
 const PageContext = createContext(null);
 
@@ -15,12 +16,22 @@ export function PageProvider({ children }) {
     { option_table: "users", option_column: "user_status_id" }
   );
 
+  // Fetch roles data from the API
+  const { useFetchList } = useFetch();
+  const { data: roleData = [] } = useFetchList("/api/roles");
+  const roleEnum = setSelection(roleData, {
+    value: "id",
+    label: "role_name",
+    color: "role_color",
+  });
+
   // Memoize the context value to avoid unnecessary re-renders
   const contextValue = useMemo(
     () => ({
       userStatus,
+      roleEnum,
     }),
-    [userStatus]
+    [userStatus, roleEnum]
   );
 
   // Provide the context to children components
