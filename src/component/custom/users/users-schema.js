@@ -6,10 +6,14 @@ import {
   ProFormTextArea,
   ProFormSelect,
 } from "@ant-design/pro-form";
-import { renderUser, renderUserContact } from "@/lib/util/render-util";
+import {
+  renderUser,
+  renderUserContact,
+  renderTagsFromArray,
+} from "@/lib/util/render-util";
 
 export function UsersColumns(params) {
-  const { userStatus } = params;
+  const { userStatus, roleSelection } = params;
 
   return [
     {
@@ -69,6 +73,16 @@ export function UsersColumns(params) {
       ellipsis: true,
       search: false,
       hidden: true,
+    },
+    {
+      title: "Vai trò",
+      dataIndex: "role_names",
+      valueType: "select",
+      valueEnum: roleSelection?.enums,
+      render: (_, record) =>
+        renderTagsFromArray(record.role_names, roleSelection?.enums),
+      responsive: ["xl"],
+      width: 400,
     },
   ];
 }

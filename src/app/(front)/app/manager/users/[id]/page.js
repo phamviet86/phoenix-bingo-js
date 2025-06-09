@@ -30,7 +30,7 @@ export default function Page(props) {
 }
 
 function PageContent({ params }) {
-  const { userStatus } = usePageContext();
+  const { userStatus, roleSelection } = usePageContext();
   const { id: userId } = use(params);
 
   // page content: users
@@ -72,7 +72,7 @@ function PageContent({ params }) {
       <ProCard>
         <UserDesc
           descHook={userDesc}
-          columns={UsersColumns({ userStatus })}
+          columns={UsersColumns({ userStatus, roleSelection })}
           params={{ id: userId }}
           onDataRequestSuccess={(result) =>
             userDesc.setRecord(result?.data?.[0])

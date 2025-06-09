@@ -106,7 +106,7 @@ export function renderTimeRange(start, end) {
 }
 
 // Table's column render
-export function renderUser(record, statusEnum, roleEnum) {
+export function renderUser(record, statusEnum) {
   const { user_name, user_desc, user_status_id, role_names } = record;
   return (
     <Space direction="vertical" size={4} wrap>
@@ -118,7 +118,6 @@ export function renderUser(record, statusEnum, roleEnum) {
         </Text>
       )}
       {user_desc && <Text type="secondary">{user_desc}</Text>}
-      {role_names && renderTagsFromArray(record.role_names, roleEnum)}
     </Space>
   );
 }

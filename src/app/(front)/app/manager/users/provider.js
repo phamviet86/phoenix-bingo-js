@@ -19,8 +19,8 @@ export function PageProvider({ children }) {
   // Fetch roles data from the API
   const { useFetchList } = useFetch();
   const { data: roleData = [] } = useFetchList("/api/roles");
-  const roleEnum = setSelection(roleData, {
-    value: "id",
+  const roleSelection = setSelection(roleData, {
+    value: "role_name",
     label: "role_name",
     color: "role_color",
   });
@@ -29,9 +29,9 @@ export function PageProvider({ children }) {
   const contextValue = useMemo(
     () => ({
       userStatus,
-      roleEnum,
+      roleSelection,
     }),
-    [userStatus, roleEnum]
+    [userStatus, roleSelection]
   );
 
   // Provide the context to children components

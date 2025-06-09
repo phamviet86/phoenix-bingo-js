@@ -27,7 +27,7 @@ export default function Page(props) {
 }
 
 function PageContent() {
-  const { userStatus } = usePageContext();
+  const { userStatus, roleSelection } = usePageContext();
   const userTable = useTable();
   const userInfo = useInfo();
   const userForm = useForm();
@@ -45,7 +45,7 @@ function PageContent() {
     <ProCard boxShadow>
       <UserTable
         tableHook={userTable}
-        columns={UsersColumns({ userStatus })}
+        columns={UsersColumns({ userStatus, roleSelection })}
         leftColumns={[
           {
             title: "Avatar",
@@ -76,7 +76,7 @@ function PageContent() {
       />
       <UserInfo
         infoHook={userInfo}
-        columns={UsersColumns({ userStatus })}
+        columns={UsersColumns({ userStatus, roleSelection })}
         dataSource={userInfo.record}
         drawerProps={{
           title: "Thông tin người dùng",
