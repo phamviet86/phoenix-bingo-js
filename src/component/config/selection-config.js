@@ -1,6 +1,6 @@
 // path: @/component/config/selection-config.js
 
-export const COLORS_ENUM = {
+export const COLOR_ENUM = {
   default: {
     text: "Default",
     status: "default",
@@ -97,6 +97,11 @@ export const COLORS_ENUM = {
     bgColor: "#fafafa",
   },
 };
+
+export const COLOR_OPTION = Object.entries(COLOR_ENUM).map(([key, value]) => ({
+  label: value.text,
+  value: value.status || value.color,
+}));
 
 export const RESOURCE_METHOD = {
   GET: { text: "GET", color: "green" },

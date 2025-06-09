@@ -9,7 +9,7 @@ import {
   formatMoneyVND,
   formatPercentage,
 } from "@/lib/util/format-util";
-import { COLORS_ENUM } from "@/component/config/selection-config";
+import { COLOR_ENUM } from "@/component/config/selection-config";
 
 const { Text } = Typography;
 
@@ -258,7 +258,7 @@ export function renderEventCard(info) {
     schedule_status_color,
   } = info.event.extendedProps;
 
-  const { color, bgColor } = COLORS_ENUM[schedule_status_color];
+  const { color, bgColor } = COLOR_ENUM[schedule_status_color];
 
   const styles = {
     title: {
@@ -305,7 +305,7 @@ export function renderEventCard(info) {
 export function renderMSCard(info) {
   const { class_name, module_name, schedule_status_color } =
     info.event.extendedProps;
-  const { color } = COLORS_ENUM[schedule_status_color];
+  const { color } = COLOR_ENUM[schedule_status_color];
 
   const styles = {
     title: {

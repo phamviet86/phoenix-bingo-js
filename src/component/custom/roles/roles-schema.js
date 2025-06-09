@@ -1,7 +1,7 @@
 // path: @/component/custom/roles/roles-schema.js
 
 import { ProForm, ProFormText, ProFormSelect } from "@ant-design/pro-form";
-import { COLORS_ENUM } from "@/component/config";
+import { COLOR_ENUM } from "@/component/config";
 
 export function RolesColumns() {
   return [
@@ -21,7 +21,7 @@ export function RolesColumns() {
       title: "Màu sắc",
       dataIndex: "role_color",
       valueType: "select",
-      valueEnum: COLORS_ENUM,
+      valueEnum: COLOR_ENUM,
       sorter: { multiple: 1 },
       responsive: ["md"],
     },
@@ -49,7 +49,7 @@ export function RolesFields() {
         label="Màu sắc"
         placeholder="Chọn màu sắc"
         rules={[{ required: true }]}
-        valueEnum={COLORS_ENUM}
+        valueEnum={COLOR_ENUM}
       />
     </ProForm.Group>
   );

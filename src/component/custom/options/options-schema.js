@@ -6,7 +6,7 @@ import {
   ProFormSelect,
   ProFormColorPicker,
 } from "@ant-design/pro-form";
-import { COLORS_ENUM } from "@/component/config";
+import { COLOR_ENUM } from "@/component/config";
 
 export function OptionsColumns() {
   return [
@@ -41,7 +41,7 @@ export function OptionsColumns() {
       title: "Màu sắc",
       dataIndex: "option_color",
       valueType: "select",
-      valueEnum: COLORS_ENUM,
+      valueEnum: COLOR_ENUM,
       sorter: { multiple: 1 },
       responsive: ["xl"],
     },
@@ -81,7 +81,7 @@ export function OptionsFields() {
         name="option_color"
         label="Màu sắc"
         placeholder="Chọn màu sắc"
-        valueEnum={COLORS_ENUM}
+        valueEnum={COLOR_ENUM}
         width="100%"
         colProps={{ xs: 12 }}
       />
@@ -89,7 +89,7 @@ export function OptionsFields() {
         name="option_color"
         label="Màu sắc"
         placeholder="Chọn màu sắc"
-        // valueEnum={COLORS_ENUM}
+        // valueEnum={COLOR_ENUM}
         width="100%"
         colProps={{ xs: 12 }}
       />
