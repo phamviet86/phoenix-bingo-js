@@ -1,4 +1,9 @@
-import { ProForm, ProFormText, ProFormSelect, ProFormDatePicker } from "@ant-design/pro-form";
+import {
+  ProForm,
+  ProFormText,
+  ProFormSelect,
+  ProFormDatePicker,
+} from "@ant-design/pro-form";
 
 export function EnrollmentsColumns() {
   return [
