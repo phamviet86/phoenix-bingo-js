@@ -112,6 +112,7 @@ function PageContent({ params }) {
         <SectionsTable
           tableHook={sectionTable}
           columns={SectionsColumns()}
+          params={{ class_id: classId }}
           leftColumns={[
             {
               width: 56,
