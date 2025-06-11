@@ -11,7 +11,7 @@ export function useCalendar() {
 
   const reload = () => {
     if (calendarApi) {
-      calendarApi.reload();
+      calendarApi.refetchEvents();
     }
   };
 
