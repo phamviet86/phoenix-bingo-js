@@ -115,7 +115,7 @@ export function EnrollmentsFields(params) {
           name="user_name"
           label="Tên người dùng"
           disabled
-          colProps={{ xs: 16 }}
+          colProps={{ xs: 12 }}
         />
         <ProFormSelect
           name="enrollment_type_id"
@@ -123,7 +123,7 @@ export function EnrollmentsFields(params) {
           placeholder="Chọn loại công việc"
           options={enrollmentType?.options}
           disabled
-          colProps={{ xs: 8 }}
+          colProps={{ xs: 12 }}
         />
       </ProForm.Group>
       <ProForm.Group>
