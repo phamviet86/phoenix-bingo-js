@@ -79,13 +79,14 @@ function PageContent() {
         columns={UsersColumns({ userStatus, roleSelection })}
         dataSource={userInfo.record}
         drawerProps={{
-          title: "Thông tin người dùng",
-          footer: [
+          title: "Thông tin",
+          extra: [
             <DetailButton
               key="detail-button"
               id={userInfo.record.id}
               label="Chi tiết"
               icon={<EyeOutlined />}
+              variant="filled"
               onClick={() => userInfo.close()}
             />,
           ],

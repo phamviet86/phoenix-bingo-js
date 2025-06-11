@@ -70,13 +70,14 @@ export default function Page() {
         columns={ClassesColumns()}
         dataSource={classInfo.record}
         drawerProps={{
-          title: "Thông tin lớp học",
-          footer: [
+          title: "Thông tin",
+          extra: [
             <DetailButton
               key="detail-button"
               id={classInfo.record.id}
               label="Chi tiết"
               icon={<EyeOutlined />}
+              variant="filled"
               onClick={() => classInfo.close()}
             />,
           ],

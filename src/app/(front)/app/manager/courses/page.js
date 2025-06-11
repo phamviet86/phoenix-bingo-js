@@ -80,13 +80,14 @@ function PageContent() {
         columns={CoursesColumns({ courseStatus })}
         dataSource={courseInfo.record}
         drawerProps={{
-          title: "Thông tin giáo trình",
-          footer: [
+          title: "Thông tin",
+          extra: [
             <DetailButton
               key="detail-button"
               id={courseInfo.record.id}
               label="Chi tiết"
               icon={<EyeOutlined />}
+              variant="filled"
               onClick={() => courseInfo.close()}
             />,
           ],

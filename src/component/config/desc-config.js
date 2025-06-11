@@ -2,6 +2,6 @@
 
 export const INFO_CONFIG = {
   column: 1,
-  size: "small",
-  bordered: true,
+  // size: "small",
+  // bordered: true,
 };

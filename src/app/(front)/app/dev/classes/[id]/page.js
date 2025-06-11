@@ -150,11 +150,13 @@ function PageContent({ params }) {
           columns={SectionsColumns()}
           dataSource={sectionInfo.record}
           drawerProps={{
-            title: "Thông tin lộ trình",
-            footer: [
+            title: "Thông tin",
+            extra: [
               <Button
                 key="edit-button"
                 label="Sửa"
+                icon={<EditOutlined />}
+                variant="filled"
                 onClick={() => {
                   sectionInfo.close();
                   sectionForm.setTitle("Sửa lộ trình");
@@ -248,10 +250,12 @@ function PageContent({ params }) {
           })}
           dataSource={enrollmentInfo.record}
           drawerProps={{
-            title: "Thông tin ghi danh",
-            footer: [
+            title: "Thông tin",
+            extra: [
               <Button
                 key="edit-button"
+                icon={<EditOutlined />}
+                variant="filled"
                 label="Sửa"
                 onClick={() => {
                   enrollmentInfo.close();
