@@ -38,6 +38,18 @@ export async function POST(request) {
     if (!user_id || !module_id || !enrollment_type_id)
       return buildApiResponse(400, false, "Thiếu thông tin bắt buộc");
 
+    // Validate date logic
+    if (
+      enrollment_start_date &&
+      enrollment_end_date &&
+      new Date(enrollment_start_date) > new Date(enrollment_end_date)
+    )
+      return buildApiResponse(
+        400,
+        false,
+        "Ngày bắt đầu không thể sau ngày kết thúc"
+      );
+
     const data = {
       user_id,
       module_id,

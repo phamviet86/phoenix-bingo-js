@@ -24,8 +24,9 @@ CREATE OR REPLACE VIEW enrollments_view AS
 SELECT 
   *,
   CASE
+    WHEN enrollment_end_date IS NOT NULL AND enrollment_start_date > enrollment_end_date THEN 'Nhập sai ngày'
     WHEN section_id IS NULL THEN 'Chưa xếp lớp'
-    WHEN enrollment_end_date IS NULL OR enrollment_end_date >= CURRENT_DATE THEN 'Đã ghi danh'
+    WHEN enrollment_end_date IS NULL OR enrollment_end_date >= CURRENT_DATE THEN 'Đã xếp lớp'
     ELSE 'Đã nghỉ'
   END AS enrollment_status
 FROM 

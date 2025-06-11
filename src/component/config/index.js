@@ -10,7 +10,7 @@ export * from "./drawer-config";
 export * from "./modal-config";
 
 // config for columns and fields
-export * from "./selection-config";
+export * from "./enum-config";
 
 // config for menu
 export * from "./menu-config";

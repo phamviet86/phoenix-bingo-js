@@ -5,7 +5,7 @@ import {
   ProFormMoney,
 } from "@ant-design/pro-form";
 import { Space, Typography } from "antd";
-import { SECTION_STATUS } from "@/component/config/selection-config";
+import { SECTION_STATUS } from "@/component/config/enum-config";
 
 export function SectionsColumns() {
   return [

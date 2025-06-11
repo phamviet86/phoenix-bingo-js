@@ -208,7 +208,7 @@ function PageContent({ params }) {
             enrollmentType,
             enrollmentPaymentType,
           })}
-          params={{ class_id: classId }}
+          params={{ class_id: classId, enrollment_type_id_in: [8, 9] }}
           leftColumns={[
             {
               width: 56,

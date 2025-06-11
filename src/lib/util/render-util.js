@@ -9,7 +9,7 @@ import {
   formatMoneyVND,
   formatPercentage,
 } from "@/lib/util/format-util";
-import { COLOR_ENUM } from "@/component/config/selection-config";
+import { COLOR_ENUM } from "@/component/config/enum-config";
 
 const { Text } = Typography;
 

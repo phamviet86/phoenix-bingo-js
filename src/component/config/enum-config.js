@@ -1,4 +1,4 @@
-// path: @/component/config/selection-config.js
+// path: @/component/config/enum-config.js
 
 export const COLOR_ENUM = {
   default: {
@@ -115,4 +115,14 @@ export const SECTION_STATUS = {
   Chờ: { text: "Chờ", status: "warning" },
   "Đang học": { text: "Đang học", status: "processing" },
   "Đã học xong": { text: "Đã học xong", status: "success" },
+};
+
+export const ENROLLMENT_STATUS = {
+  "Chưa xếp lớp": {
+    text: "Chưa xếp lớp",
+    status: "warning",
+  },
+  "Đã xếp lớp": { text: "Đã xếp lớp", status: "processing" },
+  "Đã nghỉ": { text: "Đã nghỉ", status: "default" },
+  "Nhập sai ngày": { text: "Nhập sai ngày", status: "error" },
 };
