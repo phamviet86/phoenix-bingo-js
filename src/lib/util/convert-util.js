@@ -114,88 +114,6 @@ export function setSelection(data, columnConfig, filterParams = {}) {
 }
 
 /**
- * Helper function to generate ISO formatted event times and display time
- * @param {string} isoDateString - ISO date string (e.g. "2025-04-25T00:00:00.000Z")
- * @param {string} timeString - Time string in format "HH:MM:SS" (e.g. "19:30:00")
- * @returns {Object} Object containing ISO datetime string and display time
- */
-function generateEventTime(isoDateString, timeString) {
-  if (!isoDateString || !timeString)
-    return { eventTime: null, displayTime: null };
-
-  try {
-    // Parse hours and minutes from time string
-    const timeParts = timeString.split(":");
-    const hours = parseInt(timeParts[0], 10);
-    const minutes = parseInt(timeParts[1], 10);
-
-    // Create date from ISO string
-    const baseDate = new Date(isoDateString);
-
-    // Get date components
-    const year = baseDate.getFullYear();
-    const month = String(baseDate.getMonth() + 1).padStart(2, "0");
-    const day = String(baseDate.getDate()).padStart(2, "0");
-
-    // Format time components
-    const formattedHours = String(hours).padStart(2, "0");
-    const formattedMinutes = String(minutes).padStart(2, "0");
-
-    // Build result strings
-    const eventTime = `${year}-${month}-${day}T${formattedHours}:${formattedMinutes}:00`;
-    const displayTime = `${formattedHours}:${formattedMinutes}`;
-
-    return { eventTime, displayTime };
-  } catch (error) {
-    console.error("Error generating event time:", error);
-    return { eventTime: null, displayTime: null };
-  }
-}
-
-/**
- * Converts schedule data to FullCalendar event format
- * @param {Array} data - Array of schedule objects
- * @returns {Array} - Array of events formatted for FullCalendar
- */
-export function convertEvents(data = []) {
-  if (!Array.isArray(data) || data.length === 0) return [];
-
-  return data.map((item) => {
-    const { eventTime: startTime, displayTime: startDisplayTime } =
-      generateEventTime(item.schedule_date, item.shift_start_time);
-    const { eventTime: endTime, displayTime: endDisplayTime } =
-      generateEventTime(item.schedule_date, item.shift_end_time);
-
-    return {
-      id: item.id,
-      title: `${item.class_name} ${item.module_name}`,
-      start: startTime,
-      end: endTime,
-      extendedProps: {
-        id: item.id,
-        updated_at: item.updated_at || null,
-        section_id: item.section_id || null,
-        lesson_id: item.lesson_id || null,
-        shift_id: item.shift_id || null,
-        room_id: item.room_id || null,
-        schedule_date: item.schedule_date || null,
-        schedule_status_id: item.schedule_status_id || null,
-        schedule_status_color: item.schedule_status_color || null,
-        schedule_desc: item.schedule_desc || null,
-        shift_start_time: item.shift_start_time || null,
-        shift_end_time: item.shift_end_time || null,
-        shift_name: item.shift_name || null,
-        class_name: item.class_name || null,
-        class_code: item.class_code || null,
-        room_name: item.room_name || null,
-        module_name: item.module_name || null,
-        lesson_name: item.lesson_name || null,
-      },
-    };
-  });
-}
-
-/**
  * Converts an array of objects into a format suitable for transfer components.
  *
  * @param {Array<Object>} data - The input array of items to convert.
@@ -340,5 +258,87 @@ export function convertTransferItems(data = [], options = {}) {
       convertedItem.disabled = false;
     }
     return convertedItem;
+  });
+}
+
+/**
+ * Helper function to generate ISO formatted event times and display time
+ * @param {string} isoDateString - ISO date string (e.g. "2025-04-25T00:00:00.000Z")
+ * @param {string} timeString - Time string in format "HH:MM:SS" (e.g. "19:30:00")
+ * @returns {Object} Object containing ISO datetime string and display time
+ */
+function generateEventTime(isoDateString, timeString) {
+  if (!isoDateString || !timeString)
+    return { eventTime: null, displayTime: null };
+
+  try {
+    // Parse hours and minutes from time string
+    const timeParts = timeString.split(":");
+    const hours = parseInt(timeParts[0], 10);
+    const minutes = parseInt(timeParts[1], 10);
+
+    // Create date from ISO string
+    const baseDate = new Date(isoDateString);
+
+    // Get date components
+    const year = baseDate.getFullYear();
+    const month = String(baseDate.getMonth() + 1).padStart(2, "0");
+    const day = String(baseDate.getDate()).padStart(2, "0");
+
+    // Format time components
+    const formattedHours = String(hours).padStart(2, "0");
+    const formattedMinutes = String(minutes).padStart(2, "0");
+
+    // Build result strings
+    const eventTime = `${year}-${month}-${day}T${formattedHours}:${formattedMinutes}:00`;
+    const displayTime = `${formattedHours}:${formattedMinutes}`;
+
+    return { eventTime, displayTime };
+  } catch (error) {
+    console.error("Error generating event time:", error);
+    return { eventTime: null, displayTime: null };
+  }
+}
+
+/**
+ * Converts schedule data to FullCalendar event format
+ * @param {Array} data - Array of schedule objects
+ * @returns {Array} - Array of events formatted for FullCalendar
+ */
+export function convertEvents(data = []) {
+  if (!Array.isArray(data) || data.length === 0) return [];
+
+  return data.map((item) => {
+    const { eventTime: startTime, displayTime: startDisplayTime } =
+      generateEventTime(item.schedule_date, item.shift_start_time);
+    const { eventTime: endTime, displayTime: endDisplayTime } =
+      generateEventTime(item.schedule_date, item.shift_end_time);
+
+    return {
+      id: item.id,
+      title: `${item.class_name} ${item.module_name}`,
+      start: startTime,
+      end: endTime,
+      extendedProps: {
+        id: item.id,
+        updated_at: item.updated_at || null,
+        section_id: item.section_id || null,
+        lesson_id: item.lesson_id || null,
+        shift_id: item.shift_id || null,
+        room_id: item.room_id || null,
+        schedule_date: item.schedule_date || null,
+        schedule_status_id: item.schedule_status_id || null,
+        schedule_status_color: item.schedule_status_color || null,
+        schedule_desc: item.schedule_desc || null,
+        shift_start_time: item.shift_start_time || null,
+        shift_end_time: item.shift_end_time || null,
+        shift_name: item.shift_name || null,
+        class_name: item.class_name || null,
+        class_code: item.class_code || null,
+        room_name: item.room_name || null,
+        module_name: item.module_name || null,
+        lesson_name: item.lesson_name || null,
+      },
+    };
   });
 }
