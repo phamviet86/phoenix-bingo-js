@@ -140,6 +140,30 @@ export function SectionsFields() {
       <ProFormText name="id" label="ID" hidden disabled />
       <ProFormText name="class_id" label="ID lớp học" hidden disabled />
       <ProFormText name="module_id" label="ID Học phần" hidden disabled />
+      <ProFormText
+        name="course_name"
+        label="Giáo trình"
+        colProps={{ xs: 12 }}
+        disabled
+      />
+      <ProFormText
+        name="module_name"
+        label="Học phần"
+        colProps={{ xs: 12 }}
+        disabled
+      />
+      <ProFormText
+        name="class_name"
+        label="Lớp học"
+        colProps={{ xs: 12 }}
+        disabled
+      />
+      <ProFormText
+        name="section_status"
+        label="Trạng thái"
+        colProps={{ xs: 12 }}
+        disabled
+      />
       <ProFormDatePicker
         name="section_start_date"
         label="Ngày bắt đầu"

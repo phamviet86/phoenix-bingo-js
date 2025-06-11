@@ -182,7 +182,7 @@ function PageContent({ params }) {
 
   const enrollmentsTab = {
     key: "enrollments",
-    label: "Danh sách lớp",
+    label: "Phụ trách lớp",
     children: (
       <ProCard
         boxShadow

@@ -77,8 +77,6 @@ export function OptionsFields() {
         label="Màu sắc"
         placeholder="Chọn màu sắc"
         valueEnum={COLOR_ENUM}
-        width="100%"
-        colProps={{ xs: 12 }}
       />
       <ProFormText
         name="option_group"
