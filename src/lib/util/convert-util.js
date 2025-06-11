@@ -117,18 +117,18 @@ export function setSelection(data, columnConfig, filterParams = {}) {
  * Converts an array of objects into a format suitable for transfer components.
  *
  * @param {Array<Object>} data - The input array of items to convert.
- * @param {Object} options - The mapping options for keys in the output.
- * @param {string} [options.key] - The property name to use as the unique key for each item.
- * @param {string} [options.title] - The property name to use as the title for each item.
- * @param {string} [options.description] - The property name to use as the description for each item.
- * @param {string|Array} [options.disabled] - The property name or array to determine if the item is disabled.
+ * @param {Object} transferProps - The mapping options for keys in the output.
+ * @param {string} [transferProps.key] - The property name to use as the unique key for each item.
+ * @param {string} [transferProps.title] - The property name to use as the title for each item.
+ * @param {string} [transferProps.description] - The property name to use as the description for each item.
+ * @param {string|Array} [transferProps.disabled] - The property name or array to determine if the item is disabled.
  *   - String: Field name to map directly (e.g., 'isDisabled')
  *   - Array [fieldName, values]: Check if field value is in values array (legacy format)
  *   - Array [fieldName, inArray, notInArray]: Advanced conditional logic
  *     - If field value is in inArray → disabled = true
  *     - If field value is NOT in notInArray → disabled = true
  *     - If both arrays are empty → treat as string mapping (!!fieldValue)
- * @param {string} [options.customProps] - Additional custom properties to include in the output.
+ * @param {string} [transferProps.customProps] - Additional custom properties to include in the output.
  * @returns {Array<Object>} The converted array of items with mapped properties.
  *
  * @example
@@ -165,14 +165,14 @@ export function setSelection(data, columnConfig, filterParams = {}) {
  *   disabled: ['status', ['inactive'], ['active', 'pending']]
  * });
  */
-export function convertTransferItems(data = [], options = {}) {
+export function convertTransferItems(data = [], transferProps = {}) {
   if (!Array.isArray(data) || data.length === 0) return [];
 
   return data.map((item) => {
     const convertedItem = {};
 
-    // Map all specified properties from options except disabled
-    Object.entries(options).forEach(([outputKey, sourceKey]) => {
+    // Map all specified properties from transferProps except disabled
+    Object.entries(transferProps).forEach(([outputKey, sourceKey]) => {
       if (outputKey === "disabled") return; // Handle disabled separately
 
       if (sourceKey && item.hasOwnProperty(sourceKey)) {
@@ -188,20 +188,20 @@ export function convertTransferItems(data = [], options = {}) {
     });
 
     // Handle disabled property
-    if (!options.disabled) {
+    if (!transferProps.disabled) {
       // Default case: disabled is false
       convertedItem.disabled = false;
-    } else if (typeof options.disabled === "string") {
+    } else if (typeof transferProps.disabled === "string") {
       // String case: map from source field
-      convertedItem.disabled = item.hasOwnProperty(options.disabled)
-        ? item[options.disabled]
+      convertedItem.disabled = item.hasOwnProperty(transferProps.disabled)
+        ? item[transferProps.disabled]
         : false;
     } else if (
-      Array.isArray(options.disabled) &&
-      options.disabled.length === 3
+      Array.isArray(transferProps.disabled) &&
+      transferProps.disabled.length === 3
     ) {
       // Array case: [fieldName, inArray, notInArray]
-      const [fieldName, inArray, notInArray] = options.disabled;
+      const [fieldName, inArray, notInArray] = transferProps.disabled;
 
       if (fieldName && item.hasOwnProperty(fieldName)) {
         const fieldValue = item[fieldName];
@@ -239,11 +239,11 @@ export function convertTransferItems(data = [], options = {}) {
         convertedItem.disabled = false;
       }
     } else if (
-      Array.isArray(options.disabled) &&
-      options.disabled.length === 2
+      Array.isArray(transferProps.disabled) &&
+      transferProps.disabled.length === 2
     ) {
       // Legacy array case: [fieldName, values] - check if field value is in the array
-      const [fieldName, disabledValues] = options.disabled;
+      const [fieldName, disabledValues] = transferProps.disabled;
       if (
         fieldName &&
         Array.isArray(disabledValues) &&
@@ -262,14 +262,13 @@ export function convertTransferItems(data = [], options = {}) {
 }
 
 /**
- * Helper function to generate ISO formatted event times and display time
+ * Helper function to generate ISO formatted event time
  * @param {string} isoDateString - ISO date string (e.g. "2025-04-25T00:00:00.000Z")
  * @param {string} timeString - Time string in format "HH:MM:SS" (e.g. "19:30:00")
- * @returns {Object} Object containing ISO datetime string and display time
+ * @returns {string|null} ISO formatted datetime string or null if invalid
  */
 function generateEventTime(isoDateString, timeString) {
-  if (!isoDateString || !timeString)
-    return { eventTime: null, displayTime: null };
+  if (!isoDateString || !timeString) return null;
 
   try {
     // Parse hours and minutes from time string
@@ -289,56 +288,84 @@ function generateEventTime(isoDateString, timeString) {
     const formattedHours = String(hours).padStart(2, "0");
     const formattedMinutes = String(minutes).padStart(2, "0");
 
-    // Build result strings
-    const eventTime = `${year}-${month}-${day}T${formattedHours}:${formattedMinutes}:00`;
-    const displayTime = `${formattedHours}:${formattedMinutes}`;
-
-    return { eventTime, displayTime };
+    // Build result string
+    return `${year}-${month}-${day}T${formattedHours}:${formattedMinutes}:00`;
   } catch (error) {
     console.error("Error generating event time:", error);
-    return { eventTime: null, displayTime: null };
+    return null;
   }
 }
 
 /**
- * Converts schedule data to FullCalendar event format
- * @param {Array} data - Array of schedule objects
- * @returns {Array} - Array of events formatted for FullCalendar
+ * Converts an array of data items to event format using property mapping configuration
+ * @param {Array} data - Array of data objects to convert
+ * @param {Object} eventProps - Configuration object mapping target properties to source properties
+ * @param {string} eventProps.id - Source property for event id
+ * @param {string} eventProps.title - Source property for event title
+ * @param {string} eventProps.startDate - Source property for event start date
+ * @param {string} [eventProps.endDate] - Source property for event end date (optional)
+ * @param {string} [eventProps.startTime] - Source property for start time (used with start date)
+ * @param {string} [eventProps.endTime] - Source property for end time (used with end date)
+ * @param {Object} [extProps={}] - Configuration object mapping extended properties to source properties
+ * @returns {Array} - Array of converted event items with required format {id, title, start, end?, extendedProps}
  */
-export function convertEvents(data = []) {
+export function convertEventItems(data = [], eventProps = {}, extProps = {}) {
   if (!Array.isArray(data) || data.length === 0) return [];
 
-  return data.map((item) => {
-    const { eventTime: startTime, displayTime: startDisplayTime } =
-      generateEventTime(item.schedule_date, item.shift_start_time);
-    const { eventTime: endTime, displayTime: endDisplayTime } =
-      generateEventTime(item.schedule_date, item.shift_end_time);
+  return data.map((sourceItem) => {
+    const eventItem = {};
 
-    return {
-      id: item.id,
-      title: `${item.class_name} ${item.module_name}`,
-      start: startTime,
-      end: endTime,
-      extendedProps: {
-        id: item.id,
-        updated_at: item.updated_at || null,
-        section_id: item.section_id || null,
-        lesson_id: item.lesson_id || null,
-        shift_id: item.shift_id || null,
-        room_id: item.room_id || null,
-        schedule_date: item.schedule_date || null,
-        schedule_status_id: item.schedule_status_id || null,
-        schedule_status_color: item.schedule_status_color || null,
-        schedule_desc: item.schedule_desc || null,
-        shift_start_time: item.shift_start_time || null,
-        shift_end_time: item.shift_end_time || null,
-        shift_name: item.shift_name || null,
-        class_name: item.class_name || null,
-        class_code: item.class_code || null,
-        room_name: item.room_name || null,
-        module_name: item.module_name || null,
-        lesson_name: item.lesson_name || null,
-      },
-    };
+    // Required properties: id and title
+    if (eventProps.id && sourceItem.hasOwnProperty(eventProps.id)) {
+      eventItem.id = sourceItem[eventProps.id];
+    }
+
+    if (eventProps.title && sourceItem.hasOwnProperty(eventProps.title)) {
+      eventItem.title = sourceItem[eventProps.title];
+    }
+
+    // Required property: start - convert using generateEventTime
+    if (
+      eventProps.startDate &&
+      sourceItem.hasOwnProperty(eventProps.startDate)
+    ) {
+      const startDateValue = sourceItem[eventProps.startDate];
+      const startTimeValue =
+        eventProps.startTime && sourceItem.hasOwnProperty(eventProps.startTime)
+          ? sourceItem[eventProps.startTime]
+          : "00:00:00";
+
+      const eventTime = generateEventTime(startDateValue, startTimeValue);
+      if (eventTime) {
+        eventItem.start = eventTime;
+      }
+    }
+
+    // Optional property: end - convert using generateEventTime
+    if (eventProps.endDate && sourceItem.hasOwnProperty(eventProps.endDate)) {
+      const endDateValue = sourceItem[eventProps.endDate];
+      const endTimeValue =
+        eventProps.endTime && sourceItem.hasOwnProperty(eventProps.endTime)
+          ? sourceItem[eventProps.endTime]
+          : "23:59:59";
+
+      const eventTime = generateEventTime(endDateValue, endTimeValue);
+      if (eventTime) {
+        eventItem.end = eventTime;
+      }
+    }
+
+    // Extended properties mapping
+    if (extProps && Object.keys(extProps).length > 0) {
+      eventItem.extendedProps = {};
+
+      Object.entries(extProps).forEach(([targetKey, sourceKey]) => {
+        if (sourceKey && sourceItem.hasOwnProperty(sourceKey)) {
+          eventItem.extendedProps[targetKey] = sourceItem[sourceKey];
+        }
+      });
+    }
+
+    return eventItem;
   });
 }

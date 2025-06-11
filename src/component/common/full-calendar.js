@@ -10,13 +10,21 @@ export function FullCalendar({
   onDataRequest = undefined,
   onDataRequestError = undefined,
   onDataRequestSuccess = undefined,
+  
   plugins = [],
   height = "auto",
   calendarHook = {},
   ...props
 }) {
-  const { calendarRef, setStartDate, setEndDate, startDate, endDate } =
-    calendarHook;
+  const {
+    calendarRef,
+    setStartDate,
+    setEndDate,
+    startDate,
+    endDate,
+    loading,
+    setLoading,
+  } = calendarHook;
   const [messageApi, contextHolder] = message.useMessage();
   const allPlugins = [dayGridPlugin, ...plugins];
 
@@ -27,22 +35,31 @@ export function FullCalendar({
       return false;
     }
 
+    if (!startDate || !endDate) {
+      messageApi.error("Start date and end date must be set");
+      return false;
+    }
+
     try {
       const result = await onDataRequest(startDate, endDate);
       onDataRequestSuccess?.(result);
+      console.log("Data request successful:", result.total);
       return result;
     } catch (error) {
       messageApi.error(error?.message || "Đã xảy ra lỗi");
       onDataRequestError?.(error);
       return false;
+    } finally {
+      setLoading(false);
     }
   }, [
-    startDate,
-    endDate,
     onDataRequest,
     onDataRequestSuccess,
     onDataRequestError,
     messageApi,
+    setLoading,
+    startDate,
+    endDate,
   ]);
 
   const handleDatesSet = useCallback(
@@ -50,18 +67,20 @@ export function FullCalendar({
       if (setStartDate && setEndDate) {
         setStartDate(dateInfo.startStr);
         setEndDate(dateInfo.endStr);
+        setLoading(true);
       }
     },
-    [setStartDate, setEndDate]
+    [setStartDate, setEndDate, setLoading]
   );
 
-  // Handle data request on component mount and when dates change
+  // Handle data request on component mount and when dates or loading state change
   useEffect(() => {
-    if (onDataRequest && startDate && endDate) {
+    if (onDataRequest && startDate && endDate && loading) {
       handleDataRequest();
     }
-  }, [handleDataRequest, onDataRequest, startDate, endDate]);
+  }, [handleDataRequest, onDataRequest, startDate, endDate, loading]);
 
+  // Return the component
   return (
     <>
       {contextHolder}

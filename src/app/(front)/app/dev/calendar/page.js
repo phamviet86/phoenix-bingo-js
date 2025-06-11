@@ -38,7 +38,7 @@ const SAMPLE_EVENTS = [
 
 export default function Page() {
   const calendarHook = useCalendar();
-  const { reload, startDate, endDate } = calendarHook;
+  const { reload, startDate, endDate, loading } = calendarHook;
 
   const handleEventClick = (clickInfo) => {
     alert(`Event: ${clickInfo.event.title}`);
@@ -68,6 +68,7 @@ export default function Page() {
               <span>
                 {new Date(startDate).toLocaleDateString()} -{" "}
                 {new Date(endDate).toLocaleDateString()}
+                {` (Loading: ${loading ? "Yes" : "No"})`}
               </span>
             ) : (
               <span>Not set</span>

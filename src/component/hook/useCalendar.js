@@ -6,13 +6,10 @@ export function useCalendar() {
   const calendarRef = useRef();
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-
-  const calendarApi = calendarRef.current?.getApi();
+  const [loading, setLoading] = useState(true);
 
   const reload = () => {
-    if (calendarApi) {
-      calendarApi.refetchEvents();
-    }
+    setLoading(true);
   };
 
   return {
@@ -22,5 +19,7 @@ export function useCalendar() {
     setStartDate,
     endDate,
     setEndDate,
+    loading,
+    setLoading,
   };
 }
