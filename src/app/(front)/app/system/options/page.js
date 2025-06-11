@@ -76,11 +76,13 @@ export default function Page() {
         columns={OptionsColumns()}
         dataSource={optionInfo.record}
         drawerProps={{
-          title: "Thông tin tùy chọn",
-          footer: [
+          title: "Thông tin",
+          extra: [
             <Button
               key="edit-button"
               label="Sửa"
+              icon={<EditOutlined />}
+              variant="filled"
               onClick={() => {
                 optionInfo.close();
                 optionForm.setTitle("Sửa tùy chọn");

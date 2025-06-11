@@ -76,11 +76,13 @@ export default function Page() {
         columns={ShiftsColumns()}
         dataSource={shiftInfo.record}
         drawerProps={{
-          title: "Thông tin giờ học",
-          footer: [
+          title: "Thông tin",
+          extra: [
             <Button
               key="edit-button"
               label="Sửa"
+              icon={<EditOutlined />}
+              variant="filled"
               onClick={() => {
                 shiftInfo.close();
                 shiftForm.setTitle("Sửa ca học");

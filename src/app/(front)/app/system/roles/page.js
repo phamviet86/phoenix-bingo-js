@@ -76,11 +76,13 @@ export default function Page() {
         columns={RolesColumns()}
         dataSource={roleInfo.record}
         drawerProps={{
-          title: "Thông tin vai trò",
-          footer: [
+          title: "Thông tin",
+          extra: [
             <Button
               key="edit-button"
               label="Sửa"
+              icon={<EditOutlined />}
+              variant="filled"
               onClick={() => {
                 roleInfo.close();
                 roleForm.setTitle("Sửa vai trò");

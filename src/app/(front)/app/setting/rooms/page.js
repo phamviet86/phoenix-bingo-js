@@ -76,11 +76,13 @@ export default function Page() {
         columns={RoomsColumns()}
         dataSource={roomInfo.record}
         drawerProps={{
-          title: "Thông tin phòng học",
-          footer: [
+          title: "Thông tin",
+          extra: [
             <Button
               key="edit-button"
               label="Sửa"
+              icon={<EditOutlined />}
+              variant="filled"
               onClick={() => {
                 roomInfo.close();
                 roomForm.setTitle("Sửa phòng học");
