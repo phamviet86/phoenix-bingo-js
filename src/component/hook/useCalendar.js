@@ -7,6 +7,7 @@ export function useCalendar() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [calendarEvents, setCalendarEvents] = useState([]);
 
   const reload = () => {
     setLoading(true);
@@ -21,5 +22,7 @@ export function useCalendar() {
     setEndDate,
     loading,
     setLoading,
+    calendarEvents,
+    setCalendarEvents,
   };
 }

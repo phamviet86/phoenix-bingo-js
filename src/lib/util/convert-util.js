@@ -303,14 +303,26 @@ function generateEventTime(isoDateString, timeString) {
  * @param {string} eventProps.id - Source property for event id
  * @param {string} eventProps.title - Source property for event title
  * @param {string} eventProps.startDate - Source property for event start date
- * @param {string} [eventProps.endDate] - Source property for event end date (optional)
- * @param {string} [eventProps.startTime] - Source property for start time (used with start date)
- * @param {string} [eventProps.endTime] - Source property for end time (used with end date)
- * @param {Object} [extProps={}] - Configuration object mapping extended properties to source properties
- * @returns {Array} - Array of converted event items with required format {id, title, start, end?, extendedProps}
+ * @param {string} [eventProps.endDate] - Source property for event end date
+ * @param {string} [eventProps.startTime] - Source property for start time (used with startDate)
+ * @param {string} [eventProps.endTime] - Source property for end time (used with endDate)
+ * @param {string} [eventProps.*] - Any other custom property mappings (applied directly to event item)
+ * @param {Object} [eventProps.extendedProps] - Object mapping extended property keys to source properties
+ * @returns {Array} - Array of converted event items with required format {id, title, start, end?, extendedProps, ...customProps}
  */
-export function convertEventItems(data = [], eventProps = {}, extProps = {}) {
+export function convertEventItems(data = [], eventProps = {}) {
   if (!Array.isArray(data) || data.length === 0) return [];
+
+  // Reserved property names that have special handling
+  const reservedProps = [
+    "id",
+    "title",
+    "startDate",
+    "endDate",
+    "startTime",
+    "endTime",
+    "extendedProps",
+  ];
 
   return data.map((sourceItem) => {
     const eventItem = {};
@@ -324,7 +336,7 @@ export function convertEventItems(data = [], eventProps = {}, extProps = {}) {
       eventItem.title = sourceItem[eventProps.title];
     }
 
-    // Required property: start - convert using generateEventTime
+    // Handle start property - combine startDate and startTime
     if (
       eventProps.startDate &&
       sourceItem.hasOwnProperty(eventProps.startDate)
@@ -341,9 +353,15 @@ export function convertEventItems(data = [], eventProps = {}, extProps = {}) {
       }
     }
 
-    // Optional property: end - convert using generateEventTime
-    if (eventProps.endDate && sourceItem.hasOwnProperty(eventProps.endDate)) {
-      const endDateValue = sourceItem[eventProps.endDate];
+    // Handle end property - combine endDate and endTime
+    // If only startDate is provided, use startDate as endDate
+    const shouldUseStartDateAsEnd = eventProps.startDate && !eventProps.endDate;
+    const endDateSource = shouldUseStartDateAsEnd
+      ? eventProps.startDate
+      : eventProps.endDate;
+
+    if (endDateSource && sourceItem.hasOwnProperty(endDateSource)) {
+      const endDateValue = sourceItem[endDateSource];
       const endTimeValue =
         eventProps.endTime && sourceItem.hasOwnProperty(eventProps.endTime)
           ? sourceItem[eventProps.endTime]
@@ -355,15 +373,32 @@ export function convertEventItems(data = [], eventProps = {}, extProps = {}) {
       }
     }
 
-    // Extended properties mapping
-    if (extProps && Object.keys(extProps).length > 0) {
+    // Handle custom properties (any property not in reservedProps)
+    Object.entries(eventProps).forEach(([targetKey, sourceKey]) => {
+      if (
+        !reservedProps.includes(targetKey) &&
+        sourceKey &&
+        sourceItem.hasOwnProperty(sourceKey)
+      ) {
+        eventItem[targetKey] = sourceItem[sourceKey];
+      }
+    });
+
+    // Handle extended properties
+    if (
+      eventProps.extendedProps &&
+      typeof eventProps.extendedProps === "object" &&
+      Object.keys(eventProps.extendedProps).length > 0
+    ) {
       eventItem.extendedProps = {};
 
-      Object.entries(extProps).forEach(([targetKey, sourceKey]) => {
-        if (sourceKey && sourceItem.hasOwnProperty(sourceKey)) {
-          eventItem.extendedProps[targetKey] = sourceItem[sourceKey];
+      Object.entries(eventProps.extendedProps).forEach(
+        ([targetKey, sourceKey]) => {
+          if (sourceKey && sourceItem.hasOwnProperty(sourceKey)) {
+            eventItem.extendedProps[targetKey] = sourceItem[sourceKey];
+          }
         }
-      });
+      );
     }
 
     return eventItem;

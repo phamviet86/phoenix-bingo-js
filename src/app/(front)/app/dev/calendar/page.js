@@ -82,7 +82,7 @@ export default function Page() {
         <ProCard title="FullCalendar Demo">
           <FullCalendar
             calendarHook={calendarHook}
-            events={SAMPLE_EVENTS}
+            // events={SAMPLE_EVENTS}
             eventClick={handleEventClick}
             headerToolbar={{
               left: "prev,next today",
@@ -96,6 +96,13 @@ export default function Page() {
             onDataRequest={(start, end) =>
               fetchList("/api/sections", { section_start_date: [start, end] })
             }
+            onDataItem={{
+              id: "id",
+              title: "class_name",
+              startDate: "section_start_date",
+              endDate: "section_start_date",
+              backgroundColor: "class_name",
+            }}
           />
         </ProCard>
       </ProCard>
