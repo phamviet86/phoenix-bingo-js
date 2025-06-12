@@ -29,6 +29,12 @@ description: "Create complete API route files for a service with CRUD operations
   - Structure response data appropriately
 - Provide error messages in English in response format
 
+## Naming Conventions
+
+- Use camelCase for variable names (e.g., userId, totalPrice)
+- Use camelCase for function names, starting with a verb (e.g., getUser, setProfile)
+- **Use snake_case for data object keys that map to database columns** (e.g., { section_id, lesson_id, schedule_date })
+
 ## Notes
 
 - Use SQL table definition to:
