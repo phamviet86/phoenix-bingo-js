@@ -108,6 +108,7 @@ export function EnrollmentsFields(params) {
         <ProFormText name="user_id" label="ID người dùng" hidden disabled />
         <ProFormText name="module_id" label="ID học phần" hidden disabled />
         <ProFormText name="section_id" label="ID lộ trình" hidden disabled />
+
         <ProFormText
           name="course_name"
           label="Giáo trình"
@@ -134,8 +135,7 @@ export function EnrollmentsFields(params) {
           disabled
           colProps={{ xs: 12 }}
         />
-      </ProForm.Group>
-      <ProForm.Group>
+
         <ProFormDatePicker
           name="enrollment_start_date"
           label="Ngày bắt đầu"

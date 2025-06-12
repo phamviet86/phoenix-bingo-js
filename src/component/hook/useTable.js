@@ -1,9 +1,11 @@
 // path: @/component/hook/useTable.js
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export function useTable() {
   const tableRef = useRef();
+  const [dataSource, setDataSource] = useState({});
+  const [params, setParams] = useState({});
 
   const reload = () => {
     if (tableRef.current) {
@@ -14,5 +16,9 @@ export function useTable() {
   return {
     tableRef,
     reload,
+    dataSource,
+    setDataSource,
+    params,
+    setParams,
   };
 }

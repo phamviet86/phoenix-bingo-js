@@ -7,7 +7,7 @@ import {
 } from "@ant-design/pro-form";
 
 export function SchedulesColumns(params) {
-  const { scheduleStatus } = params;
+  const { scheduleStatus, shiftSelection, roomSelection } = params;
   return [
     {
       title: "ID",
@@ -31,13 +31,15 @@ export function SchedulesColumns(params) {
     {
       title: "Ca học",
       dataIndex: "shift_id",
-      valueType: "text",
+      valueType: "select",
+      valueEnum: shiftSelection?.enums,
       sorter: { multiple: 1 },
     },
     {
       title: "Phòng học",
       dataIndex: "room_id",
-      valueType: "text",
+      valueType: "select",
+      valueEnum: roomSelection?.enums,
       sorter: { multiple: 1 },
     },
     {
@@ -63,37 +65,37 @@ export function SchedulesColumns(params) {
 }
 
 export function SchedulesFields(params) {
-  const { scheduleStatus } = params;
+  const { scheduleStatus, shiftSelection, roomSelection } = params;
   return (
     <ProForm.Group>
       <ProFormText name="id" label="ID" hidden disabled />
-      <ProFormText
-        name="section_id"
-        label="Lớp học"
-        placeholder="Chọn lớp học"
-        rules={[{ required: true }]}
-      />
-      <ProFormText
-        name="lesson_id"
-        label="Bài học"
-        placeholder="Chọn bài học"
-      />
-      <ProFormText
-        name="shift_id"
-        label="Ca học"
-        placeholder="Chọn ca học"
-        rules={[{ required: true }]}
-      />
-      <ProFormText
-        name="room_id"
-        label="Phòng học"
-        placeholder="Chọn phòng học"
-      />
+      <ProFormText name="section_id" label="ID lộ trình" hidden disabled />
+      <ProFormText name="lesson_id" label="ID bài học" hidden disabled />
+
       <ProFormDatePicker
         name="schedule_date"
         label="Ngày học"
         placeholder="Chọn ngày học"
         rules={[{ required: true }]}
+        width="100%"
+        colProps={{ xs: 12 }}
+      />
+      <ProFormSelect
+        name="shift_id"
+        label="Ca học"
+        placeholder="Chọn ca học"
+        options={shiftSelection?.options}
+        rules={[{ required: true }]}
+        width="100%"
+        colProps={{ xs: 12 }}
+      />
+      <ProFormSelect
+        name="room_id"
+        label="Phòng học"
+        placeholder="Chọn phòng học"
+        options={roomSelection?.options}
+        width="100%"
+        colProps={{ xs: 12 }}
       />
       <ProFormSelect
         name="schedule_status_id"
@@ -101,6 +103,8 @@ export function SchedulesFields(params) {
         placeholder="Chọn trạng thái"
         options={scheduleStatus?.options}
         rules={[{ required: true }]}
+        width="100%"
+        colProps={{ xs: 12 }}
       />
       <ProFormTextArea
         name="schedule_desc"

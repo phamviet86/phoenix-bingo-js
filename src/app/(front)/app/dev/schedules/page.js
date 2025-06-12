@@ -31,7 +31,7 @@ function PageContent() {
   const scheduleInfo = useInfo();
   const scheduleForm = useForm();
   const scheduleCalendar = useCalendar();
-  const { scheduleStatus } = usePageContext();
+  const { scheduleStatus, shiftSelection, roomSelection } = usePageContext();
 
   const pageButton = [
     <Button
@@ -50,7 +50,15 @@ function PageContent() {
     <ProCard boxShadow>
       <SchedulesTable
         tableHook={scheduleTable}
-        columns={SchedulesColumns({ scheduleStatus })}
+        columns={SchedulesColumns({
+          scheduleStatus,
+          shiftSelection,
+          roomSelection,
+        })}
+        onDataRequestSuccess={() => scheduleCalendar.reload()}
+        params={{
+          schedule_date: [scheduleCalendar.startDate, scheduleCalendar.endDate],
+        }}
         leftColumns={[
           {
             width: 56,
@@ -90,8 +98,11 @@ function PageContent() {
       />
       <SchedulesInfo
         infoHook={scheduleInfo}
-        columns={SchedulesColumns({ scheduleStatus })}
-        // dataSource={scheduleInfo.dataSource}
+        columns={SchedulesColumns({
+          scheduleStatus,
+          shiftSelection,
+          roomSelection,
+        })}
         onDataRequestSuccess={(result) => {
           scheduleInfo.setDataSource(result?.data?.[0]);
         }}
@@ -114,8 +125,15 @@ function PageContent() {
       />
       <SchedulesForm
         formHook={scheduleForm}
-        fields={SchedulesFields({ scheduleStatus })}
-        onDataSubmitSuccess={() => scheduleTable.reload()}
+        fields={SchedulesFields({
+          scheduleStatus,
+          shiftSelection,
+          roomSelection,
+        })}
+        onDataSubmitSuccess={() => {
+          scheduleTable.reload();
+          scheduleCalendar.reload();
+        }}
         initialValues={scheduleForm.initialValues}
         title={scheduleForm.title}
       />
@@ -132,12 +150,7 @@ function PageContent() {
       <ProCard boxShadow>
         <SchedulesCalendar
           calendarHook={scheduleCalendar}
-          params={{
-            schedule_date: [
-              scheduleCalendar.startDate,
-              scheduleCalendar.endDate,
-            ],
-          }}
+          params={scheduleTable.params}
           eventClick={(clickInfo) => {
             scheduleInfo.setParams({ id: clickInfo.event.id });
             scheduleInfo.open();
