@@ -25,6 +25,12 @@ export function FullCalendar({
   plugins = [],
   height = "auto",
   responsive = RESPONSIVE_CONFIG,
+  headerToolbar = {
+    // center: "title",
+    left: "prev,next today",
+    right: "dayGrid,dayGridWeek,dayGridMonth",
+  },
+  params = {},
   calendarHook = {},
   ...props
 }) {
@@ -56,7 +62,7 @@ export function FullCalendar({
     }
 
     try {
-      const result = await onDataRequest(startDate, endDate);
+      const result = await onDataRequest(params);
       let finalEvents = [];
 
       if (onDataItem) {
@@ -79,6 +85,7 @@ export function FullCalendar({
     onDataRequestSuccess,
     onDataRequestError,
     onDataItem,
+    params,
     messageApi,
     setLoading,
     setCalendarEvents,
@@ -138,6 +145,7 @@ export function FullCalendar({
         {...CALENDAR_CONFIG}
         ref={calendarRef}
         plugins={allPlugins}
+        headerToolbar={headerToolbar}
         height={height}
         datesSet={handleDatesSet}
         events={calendarEvents}

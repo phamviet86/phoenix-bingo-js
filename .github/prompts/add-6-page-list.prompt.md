@@ -138,7 +138,10 @@ export default function Page() {
               <Button
                 icon={<InfoCircleOutlined />}
                 variant="link"
-                onClick={() => optionInfo.open(record)}
+                onClick={() => {
+                  optionInfo.setRecord(record);
+                  optionInfo.open();
+                }}
               />
             ),
           },

@@ -7,9 +7,9 @@ export function useInfo() {
   const [record, setRecord] = useState({});
   const [visible, setVisible] = useState(false);
   const [title, setTitle] = useState("");
+  const [params, setParams] = useState({});
 
-  const open = (record) => {
-    setRecord(record);
+  const open = () => {
     setVisible(true);
   };
 
@@ -30,6 +30,8 @@ export function useInfo() {
     visible,
     record,
     setRecord,
+    params,
+    setParams,
     title,
     setTitle,
     open,

@@ -54,7 +54,10 @@ function PageContent() {
               <Button
                 icon={<InfoCircleOutlined />}
                 variant="link"
-                onClick={() => courseInfo.open(record)}
+                onClick={() => {
+                  courseInfo.setRecord(record);
+                  courseInfo.open();
+                }}
               />
             ),
           },

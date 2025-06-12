@@ -47,7 +47,10 @@ export default function Page() {
               <Button
                 icon={<InfoCircleOutlined />}
                 variant="link"
-                onClick={() => roomInfo.open(record)}
+                onClick={() => {
+                  roomInfo.setRecord(record);
+                  roomInfo.open();
+                }}
               />
             ),
           },

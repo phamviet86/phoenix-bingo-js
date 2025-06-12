@@ -11,10 +11,11 @@ import {
   SchedulesTable,
   SchedulesInfo,
   SchedulesForm,
+  SchedulesCalendar,
   SchedulesColumns,
   SchedulesFields,
 } from "@/component/custom";
-import { useTable, useInfo, useForm } from "@/component/hook";
+import { useTable, useInfo, useForm, useCalendar } from "@/component/hook";
 import { PageProvider, usePageContext } from "./provider";
 
 export default function Page(props) {
@@ -29,6 +30,7 @@ function PageContent() {
   const scheduleTable = useTable();
   const scheduleInfo = useInfo();
   const scheduleForm = useForm();
+  const scheduleCalendar = useCalendar();
   const { scheduleStatus } = usePageContext();
 
   const pageButton = [
@@ -57,7 +59,10 @@ function PageContent() {
               <Button
                 icon={<InfoCircleOutlined />}
                 variant="link"
-                onClick={() => scheduleInfo.open(record)}
+                onClick={() => {
+                  scheduleInfo.setParams({ id: record.id });
+                  scheduleInfo.open();
+                }}
               />
             ),
           },
@@ -84,7 +89,8 @@ function PageContent() {
       <SchedulesInfo
         infoHook={scheduleInfo}
         columns={SchedulesColumns({ scheduleStatus })}
-        dataSource={scheduleInfo.record}
+        // dataSource={scheduleInfo.record}
+        params={scheduleInfo.params}
         drawerProps={{
           title: "Thông tin lịch học",
           footer: [
@@ -116,6 +122,22 @@ function PageContent() {
       title="Quản lý lịch học"
       extra={pageButton}
       content={pageContent}
-    />
+    >
+      <ProCard boxShadow>
+        <SchedulesCalendar
+          calendarHook={scheduleCalendar}
+          params={{
+            schedule_date: [
+              scheduleCalendar.startDate,
+              scheduleCalendar.endDate,
+            ],
+          }}
+          eventClick={(clickInfo) => {
+            scheduleInfo.setParams({ id: clickInfo.event.id });
+            scheduleInfo.open();
+          }}
+        />
+      </ProCard>
+    </PageContainer>
   );
 }

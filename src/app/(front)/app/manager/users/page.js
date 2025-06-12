@@ -52,7 +52,10 @@ function PageContent() {
             width: 80,
             render: (_, record) => renderUserAvatar(record),
             onCell: (record) => ({
-              onClick: () => userInfo.open(record),
+              onClick: () => {
+                userInfo.setRecord(record);
+                userInfo.open();
+              },
             }),
             hideInDescriptions: true,
             search: false,

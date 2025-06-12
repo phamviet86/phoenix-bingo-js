@@ -30,3 +30,29 @@ export const RESPONSIVE_CONFIG = {
   xl: "dayGridMonth",
   xxl: "dayGridMonth",
 };
+
+export const VIEWS_CONFIG = {
+  dayGrid: {
+    dayHeaderFormat: {
+      weekday: "long",
+      day: "numeric",
+      month: "numeric",
+      omitCommas: true,
+    },
+  },
+  dayGridWeek: {
+    dayHeaderFormat: {
+      weekday: "short",
+      day: "numeric",
+      month: "numeric",
+      omitCommas: true,
+    },
+    weekNumbers: true,
+  },
+  dayGridMonth: {
+    dayHeaderFormat: {
+      weekday: "short",
+    },
+    weekNumbers: true,
+  },
+};

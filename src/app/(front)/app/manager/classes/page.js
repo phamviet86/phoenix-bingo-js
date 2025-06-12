@@ -44,7 +44,10 @@ export default function Page() {
               <Button
                 icon={<InfoCircleOutlined />}
                 variant="link"
-                onClick={() => classInfo.open(record)}
+                onClick={() => {
+                  classInfo.setRecord(record);
+                  classInfo.open();
+                }}
               />
             ),
           },

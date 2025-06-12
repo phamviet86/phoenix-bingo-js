@@ -60,9 +60,8 @@ export default function Page() {
             height="600px"
             eventDisplay="block"
             displayEventTime={true}
-            onDataRequest={(start, end) =>
-              fetchList("/api/sections", { section_start_date: [start, end] })
-            }
+            onDataRequest={(params) => fetchList("/api/sections", params)}
+            params={{ section_start_date: [startDate, endDate] }}
             onDataItem={{
               id: "id",
               title: "class_name",

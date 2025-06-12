@@ -113,7 +113,10 @@ function PageContent({ params }) {
                 <Button
                   icon={<InfoCircleOutlined />}
                   variant="link"
-                  onClick={() => moduleInfo.open(record)}
+                  onClick={() => {
+                    moduleInfo.setRecord(record);
+                    moduleInfo.open();
+                  }}
                 />
               ),
             },
@@ -206,7 +209,10 @@ function PageContent({ params }) {
                 <Button
                   icon={<InfoCircleOutlined />}
                   variant="link"
-                  onClick={() => lessonInfo.open(record)}
+                  onClick={() => {
+                    lessonInfo.setRecord(record);
+                    lessonInfo.open();
+                  }}
                 />
               ),
             },
