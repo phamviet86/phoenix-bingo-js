@@ -47,7 +47,7 @@ function PageContent({ params }) {
       label="Sửa"
       icon={<EditOutlined />}
       onClick={() => {
-        userForm.setInitialValues(userDesc.record);
+        userForm.setInitialValues(userDesc.dataSource);
         userForm.open();
       }}
     />,
@@ -78,7 +78,7 @@ function PageContent({ params }) {
           columns={UsersColumns({ userStatus, roleSelection })}
           params={{ id: userId }}
           onDataRequestSuccess={(result) =>
-            userDesc.setRecord(result?.data?.[0])
+            userDesc.setDataSource(result?.data?.[0])
           }
           column={{ xs: 1, sm: 1, md: 1, lg: 2, xl: 2, xxl: 3 }}
         />

@@ -118,7 +118,7 @@ function PageContent({ params }) {
       label="Sửa"
       icon={<EditOutlined />}
       onClick={() => {
-        optionForm.setInitialValues(optionDesc.record);
+        optionForm.setInitialValues(optionDesc.dataSource);
         optionForm.open();
       }}
     />,
@@ -131,7 +131,7 @@ function PageContent({ params }) {
         columns={OptionsColumns()}
         params={{ id: optionId }}
         onDataRequestSuccess={(result) =>
-          optionDesc.setRecord(result?.data?.[0])
+          optionDesc.setDataSource(result?.data?.[0])
         }
       />
       <OptionsForm

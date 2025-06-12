@@ -58,7 +58,7 @@ function PageContent({ params }) {
       label="Sửa"
       icon={<EditOutlined />}
       onClick={() => {
-        classForm.setInitialValues(classDesc.record);
+        classForm.setInitialValues(classDesc.dataSource);
         classForm.open();
       }}
     />,
@@ -71,7 +71,7 @@ function PageContent({ params }) {
         columns={ClassesColumns()}
         params={{ id: classId }}
         onDataRequestSuccess={(result) =>
-          classDesc.setRecord(result?.data?.[0])
+          classDesc.setDataSource(result?.data?.[0])
         }
       />
       <ClassesForm

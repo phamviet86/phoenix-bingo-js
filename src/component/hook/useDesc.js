@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 
 export function useDesc() {
   const descRef = useRef();
-  const [record, setRecord] = useState({});
+  const [dataSource, setDataSource] = useState({});
 
   const reload = () => {
     if (descRef.current) {
@@ -15,7 +15,7 @@ export function useDesc() {
   return {
     descRef,
     reload,
-    record,
-    setRecord,
+    dataSource,
+    setDataSource,
   };
 }
