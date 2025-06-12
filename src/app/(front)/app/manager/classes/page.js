@@ -48,7 +48,7 @@ export default function Page() {
                 icon={<InfoCircleOutlined />}
                 variant="link"
                 onClick={() => {
-                  classInfo.setRecord(record);
+                  classInfo.setDataSource(record);
                   classInfo.open();
                 }}
               />
@@ -74,13 +74,13 @@ export default function Page() {
       <ClassesInfo
         infoHook={classInfo}
         columns={ClassesColumns()}
-        dataSource={classInfo.record}
+        dataSource={classInfo.dataSource}
         drawerProps={{
           title: "Thông tin",
           extra: [
             <DetailButton
               key="detail-button"
-              id={classInfo.record.id}
+              id={classInfo.dataSource.id}
               label="Chi tiết"
               icon={<EyeOutlined />}
               variant="filled"

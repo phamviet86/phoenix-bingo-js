@@ -118,7 +118,7 @@ function PageContent({ params }) {
                   icon={<InfoCircleOutlined />}
                   variant="link"
                   onClick={() => {
-                    moduleInfo.setRecord(record);
+                    moduleInfo.setDataSource(record);
                     moduleInfo.open();
                   }}
                 />
@@ -150,7 +150,7 @@ function PageContent({ params }) {
         <ModulesInfo
           infoHook={moduleInfo}
           columns={ModulesColumns()}
-          dataSource={moduleInfo.record}
+          dataSource={moduleInfo.dataSource}
           drawerProps={{
             title: "Thông tin học phần",
             footer: [
@@ -160,7 +160,7 @@ function PageContent({ params }) {
                 onClick={() => {
                   moduleInfo.close();
                   moduleForm.setTitle("Sửa học phần");
-                  moduleForm.setInitialValues(moduleInfo.record);
+                  moduleForm.setInitialValues(moduleInfo.dataSource);
                   moduleForm.open();
                 }}
               />,
@@ -217,7 +217,7 @@ function PageContent({ params }) {
                   icon={<InfoCircleOutlined />}
                   variant="link"
                   onClick={() => {
-                    lessonInfo.setRecord(record);
+                    lessonInfo.setDataSource(record);
                     lessonInfo.open();
                   }}
                 />
@@ -247,7 +247,7 @@ function PageContent({ params }) {
         <LessonsInfo
           infoHook={lessonInfo}
           columns={LessonsColumns({ courseId })}
-          dataSource={lessonInfo.record}
+          dataSource={lessonInfo.dataSource}
           drawerProps={{
             title: "Thông tin bài giảng",
             footer: [
@@ -257,7 +257,7 @@ function PageContent({ params }) {
                 onClick={() => {
                   lessonInfo.close();
                   lessonForm.setTitle("Sửa bài giảng");
-                  lessonForm.setInitialValues(lessonInfo.record);
+                  lessonForm.setInitialValues(lessonInfo.dataSource);
                   lessonForm.open();
                 }}
               />,

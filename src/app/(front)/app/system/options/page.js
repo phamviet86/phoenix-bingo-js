@@ -49,7 +49,7 @@ export default function Page() {
                 icon={<InfoCircleOutlined />}
                 variant="link"
                 onClick={() => {
-                  optionInfo.setRecord(record);
+                  optionInfo.setDataSource(record);
                   optionInfo.open();
                 }}
               />
@@ -79,7 +79,7 @@ export default function Page() {
       <OptionsInfo
         infoHook={optionInfo}
         columns={OptionsColumns()}
-        dataSource={optionInfo.record}
+        dataSource={optionInfo.dataSource}
         drawerProps={{
           title: "Thông tin",
           extra: [
@@ -91,7 +91,7 @@ export default function Page() {
               onClick={() => {
                 optionInfo.close();
                 optionForm.setTitle("Sửa tùy chọn");
-                optionForm.setInitialValues(optionInfo.record);
+                optionForm.setInitialValues(optionInfo.dataSource);
                 optionForm.open();
               }}
             />,

@@ -126,7 +126,7 @@ function PageContent({ params }) {
                   icon={<InfoCircleOutlined />}
                   variant="link"
                   onClick={() => {
-                    sectionInfo.setRecord(record);
+                    sectionInfo.setDataSource(record);
                     sectionInfo.open();
                   }}
                 />
@@ -156,7 +156,7 @@ function PageContent({ params }) {
         <SectionsInfo
           infoHook={sectionInfo}
           columns={SectionsColumns()}
-          dataSource={sectionInfo.record}
+          dataSource={sectionInfo.dataSource}
           drawerProps={{
             title: "Thông tin",
             extra: [
@@ -168,7 +168,7 @@ function PageContent({ params }) {
                 onClick={() => {
                   sectionInfo.close();
                   sectionForm.setTitle("Sửa lộ trình");
-                  sectionForm.setInitialValues(sectionInfo.record);
+                  sectionForm.setInitialValues(sectionInfo.dataSource);
                   sectionForm.open();
                 }}
               />,
@@ -228,7 +228,7 @@ function PageContent({ params }) {
                   icon={<InfoCircleOutlined />}
                   variant="link"
                   onClick={() => {
-                    enrollmentInfo.setRecord(record);
+                    enrollmentInfo.setDataSource(record);
                     enrollmentInfo.open();
                   }}
                 />
@@ -261,7 +261,7 @@ function PageContent({ params }) {
             enrollmentType,
             enrollmentPaymentType,
           })}
-          dataSource={enrollmentInfo.record}
+          dataSource={enrollmentInfo.dataSource}
           drawerProps={{
             title: "Thông tin",
             extra: [
@@ -273,7 +273,7 @@ function PageContent({ params }) {
                 onClick={() => {
                   enrollmentInfo.close();
                   enrollmentForm.setTitle("Sửa ghi danh");
-                  enrollmentForm.setInitialValues(enrollmentInfo.record);
+                  enrollmentForm.setInitialValues(enrollmentInfo.dataSource);
                   enrollmentForm.open();
                 }}
               />,

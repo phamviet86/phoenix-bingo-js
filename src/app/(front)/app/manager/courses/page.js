@@ -58,7 +58,7 @@ function PageContent() {
                 icon={<InfoCircleOutlined />}
                 variant="link"
                 onClick={() => {
-                  courseInfo.setRecord(record);
+                  courseInfo.setDataSource(record);
                   courseInfo.open();
                 }}
               />
@@ -84,13 +84,13 @@ function PageContent() {
       <CoursesInfo
         infoHook={courseInfo}
         columns={CoursesColumns({ courseStatus })}
-        dataSource={courseInfo.record}
+        dataSource={courseInfo.dataSource}
         drawerProps={{
           title: "Thông tin",
           extra: [
             <DetailButton
               key="detail-button"
-              id={courseInfo.record.id}
+              id={courseInfo.dataSource.id}
               label="Chi tiết"
               icon={<EyeOutlined />}
               variant="filled"

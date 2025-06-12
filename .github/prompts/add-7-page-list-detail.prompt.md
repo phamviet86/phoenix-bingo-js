@@ -140,7 +140,7 @@ export default function Page() {
                 icon={<InfoCircleOutlined />}
                 variant="link"
                 onClick={() => {
-                  optionInfo.setRecord(record);
+                  optionInfo.setDataSource(record);
                   optionInfo.open();
                 }}
               />
@@ -166,13 +166,13 @@ export default function Page() {
       <OptionsInfo
         infoHook={optionInfo}
         columns={OptionsColumns()}
-        dataSource={optionInfo.record}
+        dataSource={optionInfo.dataSource}
         drawerProps={{
           title: "Thông tin tùy chọn",
           footer: [
             <DetailButton
               key="detail-button"
-              id={optionInfo.record.id}
+              id={optionInfo.dataSource.id}
               label="Chi tiết"
               icon={<EyeOutlined />}
               onClick={() => optionInfo.close()}

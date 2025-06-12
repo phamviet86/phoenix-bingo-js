@@ -56,7 +56,7 @@ function PageContent() {
             render: (_, record) => renderUserAvatar(record),
             onCell: (record) => ({
               onClick: () => {
-                userInfo.setRecord(record);
+                userInfo.setDataSource(record);
                 userInfo.open();
               },
             }),
@@ -83,13 +83,13 @@ function PageContent() {
       <UsersInfo
         infoHook={userInfo}
         columns={UsersColumns({ userStatus, roleSelection })}
-        dataSource={userInfo.record}
+        dataSource={userInfo.dataSource}
         drawerProps={{
           title: "Thông tin",
           extra: [
             <DetailButton
               key="detail-button"
-              id={userInfo.record.id}
+              id={userInfo.dataSource.id}
               label="Chi tiết"
               icon={<EyeOutlined />}
               variant="filled"

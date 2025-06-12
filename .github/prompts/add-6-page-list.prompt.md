@@ -50,7 +50,7 @@ description: "Create complete page component for entity management with table di
   - `hook.open(record)` to open forms/drawers with data
   - `hook.close()` to close forms/drawers
   - `optionTable.reload()` after successful submit
-  - `optionForm.initialValues` and `optionInfo.record` to access current data
+  - `optionForm.initialValues` and `optionInfo.dataSource` to access current data
 - Vietnamese localization patterns:
   - Breadcrumb: "Hệ thống" for system level
   - Page title: "Quản lý {Vietnamese entity name}"
@@ -140,7 +140,7 @@ export default function Page() {
                 icon={<InfoCircleOutlined />}
                 variant="link"
                 onClick={() => {
-                  optionInfo.setRecord(record);
+                  optionInfo.setDataSource(record);
                   optionInfo.open();
                 }}
               />
@@ -170,7 +170,7 @@ export default function Page() {
       <OptionsInfo
         infoHook={optionInfo}
         columns={OptionsColumns()}
-        dataSource={optionInfo.record}
+        dataSource={optionInfo.dataSource}
         drawerProps={{
           title: "Thông tin tùy chọn",
           footer: [
@@ -180,7 +180,7 @@ export default function Page() {
               onClick={() => {
                 optionInfo.close();
                 optionForm.setTitle("Sửa tùy chọn");
-                optionForm.setInitialValues(optionInfo.record);
+                optionForm.setInitialValues(optionInfo.dataSource);
                 optionForm.open();
               }}
             />,

@@ -91,7 +91,7 @@ function PageContent() {
       <SchedulesInfo
         infoHook={scheduleInfo}
         columns={SchedulesColumns({ scheduleStatus })}
-        // dataSource={scheduleInfo.record}
+        // dataSource={scheduleInfo.dataSource}
         params={scheduleInfo.params}
         drawerProps={{
           title: "Thông tin lịch học",
@@ -102,7 +102,7 @@ function PageContent() {
               onClick={() => {
                 scheduleInfo.close();
                 scheduleForm.setTitle("Sửa lịch học");
-                scheduleForm.setInitialValues(scheduleInfo.record);
+                scheduleForm.setInitialValues(scheduleInfo.dataSource);
                 scheduleForm.open();
               }}
             />,

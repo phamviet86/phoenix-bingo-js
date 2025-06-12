@@ -49,7 +49,7 @@ export default function Page() {
                 icon={<InfoCircleOutlined />}
                 variant="link"
                 onClick={() => {
-                  roleInfo.setRecord(record);
+                  roleInfo.setDataSource(record);
                   roleInfo.open();
                 }}
               />
@@ -79,7 +79,7 @@ export default function Page() {
       <RolesInfo
         infoHook={roleInfo}
         columns={RolesColumns()}
-        dataSource={roleInfo.record}
+        dataSource={roleInfo.dataSource}
         drawerProps={{
           title: "Thông tin",
           extra: [
@@ -91,7 +91,7 @@ export default function Page() {
               onClick={() => {
                 roleInfo.close();
                 roleForm.setTitle("Sửa vai trò");
-                roleForm.setInitialValues(roleInfo.record);
+                roleForm.setInitialValues(roleInfo.dataSource);
                 roleForm.open();
               }}
             />,

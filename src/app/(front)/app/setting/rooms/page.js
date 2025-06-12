@@ -49,7 +49,7 @@ export default function Page() {
                 icon={<InfoCircleOutlined />}
                 variant="link"
                 onClick={() => {
-                  roomInfo.setRecord(record);
+                  roomInfo.setDataSource(record);
                   roomInfo.open();
                 }}
               />
@@ -79,7 +79,7 @@ export default function Page() {
       <RoomsInfo
         infoHook={roomInfo}
         columns={RoomsColumns()}
-        dataSource={roomInfo.record}
+        dataSource={roomInfo.dataSource}
         drawerProps={{
           title: "Thông tin",
           extra: [
@@ -91,7 +91,7 @@ export default function Page() {
               onClick={() => {
                 roomInfo.close();
                 roomForm.setTitle("Sửa phòng học");
-                roomForm.setInitialValues(roomInfo.record);
+                roomForm.setInitialValues(roomInfo.dataSource);
                 roomForm.open();
               }}
             />,

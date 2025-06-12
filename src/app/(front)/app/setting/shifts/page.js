@@ -49,7 +49,7 @@ export default function Page() {
                 icon={<InfoCircleOutlined />}
                 variant="link"
                 onClick={() => {
-                  shiftInfo.setRecord(record);
+                  shiftInfo.setDataSource(record);
                   shiftInfo.open();
                 }}
               />
@@ -79,7 +79,7 @@ export default function Page() {
       <ShiftsInfo
         infoHook={shiftInfo}
         columns={ShiftsColumns()}
-        dataSource={shiftInfo.record}
+        dataSource={shiftInfo.dataSource}
         drawerProps={{
           title: "Thông tin",
           extra: [
@@ -91,7 +91,7 @@ export default function Page() {
               onClick={() => {
                 shiftInfo.close();
                 shiftForm.setTitle("Sửa ca học");
-                shiftForm.setInitialValues(shiftInfo.record);
+                shiftForm.setInitialValues(shiftInfo.dataSource);
                 shiftForm.open();
               }}
             />,

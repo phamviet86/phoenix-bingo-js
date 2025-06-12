@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 export function useInfo() {
   const infoRef = useRef();
   const [visible, setVisible] = useState(false);
-  const [record, setRecord] = useState({});
+  const [dataSource, setDataSource] = useState({});
   const [params, setParams] = useState({});
   const [title, setTitle] = useState("");
 
@@ -15,7 +15,7 @@ export function useInfo() {
 
   const close = () => {
     setVisible(false);
-    setRecord({});
+    setDataSource({});
     setParams({});
     setTitle("");
   };
@@ -30,8 +30,8 @@ export function useInfo() {
     infoRef,
     reload,
     visible,
-    record,
-    setRecord,
+    dataSource,
+    setDataSource,
     params,
     setParams,
     title,
