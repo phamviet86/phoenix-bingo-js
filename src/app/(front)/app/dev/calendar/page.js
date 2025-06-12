@@ -100,8 +100,27 @@ export default function Page() {
               id: "id",
               title: "class_name",
               startDate: "section_start_date",
-              endDate: "section_start_date",
               backgroundColor: "class_name",
+              extendedProps: {
+                id: "id",
+                className: "class_name",
+                sectionStartDate: "section_start_date",
+                sectionEndDate: "section_end_date",
+                sectionStatus: "section_status",
+              },
+            }}
+            eventContent={(info) => {
+              const props = info.event.extendedProps;
+              return (
+                <div>
+                  <strong>{props.className}</strong>
+                  <br />
+                  <span>
+                    {new Date(props.sectionStartDate).toLocaleDateString()} -{" "}
+                    {props.sectionStatus ? props.sectionStatus : "Ongoing"}
+                  </span>
+                </div>
+              );
             }}
           />
         </ProCard>

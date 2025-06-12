@@ -12,7 +12,6 @@ export function FullCalendar({
   onDataRequestError = undefined,
   onDataRequestSuccess = undefined,
   onDataItem = undefined,
-
   plugins = [],
   height = "auto",
   calendarHook = {},
@@ -36,12 +35,12 @@ export function FullCalendar({
   const handleDataRequest = useCallback(async () => {
     if (!onDataRequest) {
       messageApi.error("Data request handler not provided");
-      return [];
+      return;
     }
 
     if (!startDate || !endDate) {
       messageApi.error("Start date and end date must be set");
-      return [];
+      return;
     }
 
     try {
@@ -49,21 +48,17 @@ export function FullCalendar({
       let finalEvents = [];
 
       if (onDataItem) {
-        const convertedItems = convertEventItems(result.data || [], onDataItem);
-        console.log("Data request successful:", convertedItems);
-        finalEvents = convertedItems;
+        finalEvents = convertEventItems(result.data || [], onDataItem);
       } else {
         finalEvents = result.data || result || [];
       }
 
       setCalendarEvents(finalEvents);
       onDataRequestSuccess?.(result);
-      return finalEvents;
     } catch (error) {
       messageApi.error(error?.message || "Đã xảy ra lỗi");
       onDataRequestError?.(error);
       setCalendarEvents([]);
-      return [];
     } finally {
       setLoading(false);
     }
