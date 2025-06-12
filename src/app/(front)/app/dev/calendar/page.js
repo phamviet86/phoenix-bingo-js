@@ -4,37 +4,7 @@ import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button } from "@/component/common";
 import { FullCalendar } from "@/component/common/full-calendar";
 import { useCalendar } from "@/component/hook/useCalendar";
-import { fetchList, fetchPost, fetchDelete } from "@/lib/util/fetch-util";
-
-const SAMPLE_EVENTS = [
-  {
-    id: "1",
-    title: "Meeting with Team",
-    start: "2025-06-15T10:00:00",
-    end: "2025-06-15T11:00:00",
-    backgroundColor: "#1890ff",
-  },
-  {
-    id: "2",
-    title: "Project Deadline",
-    start: "2025-06-20",
-    backgroundColor: "#f5222d",
-  },
-  {
-    id: "3",
-    title: "Conference Call",
-    start: "2025-06-25T14:30:00",
-    end: "2025-06-25T15:30:00",
-    backgroundColor: "#52c41a",
-  },
-  {
-    id: "4",
-    title: "Training Session",
-    start: "2025-06-28T09:00:00",
-    end: "2025-06-28T17:00:00",
-    backgroundColor: "#722ed1",
-  },
-];
+import { fetchList } from "@/lib/util/fetch-util";
 
 export default function Page() {
   const calendarHook = useCalendar();
@@ -73,9 +43,6 @@ export default function Page() {
             ) : (
               <span>Not set</span>
             )}
-          </div>
-          <div>
-            <strong>Sample Events:</strong> {SAMPLE_EVENTS.length} events loaded
           </div>
         </ProCard>
 

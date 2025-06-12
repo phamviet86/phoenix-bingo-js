@@ -21,3 +21,12 @@ export const CALENDAR_CONFIG = {
     dayGridMonth: "Tháng",
   },
 };
+
+export const RESPONSIVE_CONFIG = {
+  xs: "dayGrid",
+  sm: "dayGrid",
+  md: "dayGrid",
+  lg: "dayGridWeek",
+  xl: "dayGridMonth",
+  xxl: "dayGridMonth",
+};

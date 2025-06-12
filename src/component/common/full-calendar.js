@@ -1,10 +1,13 @@
 // path: @/components/common/full-calendar.js
 
 import { useEffect, useCallback } from "react";
-import { message } from "antd";
+import { message, Grid } from "antd";
 import Calendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import { CALENDAR_CONFIG } from "@/component/config/calendar-config";
+import {
+  CALENDAR_CONFIG,
+  RESPONSIVE_CONFIG,
+} from "@/component/config/calendar-config";
 import { convertEventItems } from "@/lib/util/convert-util";
 
 export function FullCalendar({
@@ -14,6 +17,7 @@ export function FullCalendar({
   onDataItem = undefined,
   plugins = [],
   height = "auto",
+  responsive = RESPONSIVE_CONFIG,
   calendarHook = {},
   ...props
 }) {
@@ -29,6 +33,7 @@ export function FullCalendar({
     setCalendarEvents,
   } = calendarHook;
   const [messageApi, contextHolder] = message.useMessage();
+  const screens = useBreakpoint();
   const allPlugins = [dayGridPlugin, ...plugins];
 
   // Handlers
