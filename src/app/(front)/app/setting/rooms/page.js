@@ -28,7 +28,8 @@ export default function Page() {
       icon={<PlusOutlined />}
       onClick={() => {
         roomForm.setTitle("Tạo phòng học");
-        roomForm.open({});
+        roomForm.setRecord({});
+        roomForm.open();
       }}
     />,
   ];
@@ -66,7 +67,8 @@ export default function Page() {
                 variant="link"
                 onClick={() => {
                   roomForm.setTitle("Sửa phòng học");
-                  roomForm.open(record);
+                  roomForm.setRecord(record);
+                  roomForm.open();
                 }}
               />
             ),
@@ -89,7 +91,8 @@ export default function Page() {
               onClick={() => {
                 roomInfo.close();
                 roomForm.setTitle("Sửa phòng học");
-                roomForm.open(roomInfo.record);
+                roomForm.setRecord(roomInfo.record);
+                roomForm.open();
               }}
             />,
           ],

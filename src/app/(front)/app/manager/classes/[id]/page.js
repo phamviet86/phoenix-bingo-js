@@ -57,7 +57,10 @@ function PageContent({ params }) {
       key="edit-button"
       label="Sửa"
       icon={<EditOutlined />}
-      onClick={() => classForm.open(classDesc.record)}
+      onClick={() => {
+        classForm.setRecord(classDesc.record);
+        classForm.open();
+      }}
     />,
   ];
 
@@ -141,7 +144,8 @@ function PageContent({ params }) {
                   variant="link"
                   onClick={() => {
                     sectionForm.setTitle("Sửa lộ trình");
-                    sectionForm.open(record);
+                    sectionForm.setRecord(record);
+                    sectionForm.open();
                   }}
                 />
               ),
@@ -164,7 +168,8 @@ function PageContent({ params }) {
                 onClick={() => {
                   sectionInfo.close();
                   sectionForm.setTitle("Sửa lộ trình");
-                  sectionForm.open(sectionInfo.record);
+                  sectionForm.setRecord(sectionInfo.record);
+                  sectionForm.open();
                 }}
               />,
             ],
@@ -241,7 +246,8 @@ function PageContent({ params }) {
                   variant="link"
                   onClick={() => {
                     enrollmentForm.setTitle("Sửa ghi danh");
-                    enrollmentForm.open(record);
+                    enrollmentForm.setRecord(record);
+                    enrollmentForm.open();
                   }}
                 />
               ),
@@ -267,7 +273,8 @@ function PageContent({ params }) {
                 onClick={() => {
                   enrollmentInfo.close();
                   enrollmentForm.setTitle("Sửa ghi danh");
-                  enrollmentForm.open(enrollmentInfo.record);
+                  enrollmentForm.setRecord(enrollmentInfo.record);
+                  enrollmentForm.open();
                 }}
               />,
             ],

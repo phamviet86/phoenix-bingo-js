@@ -52,7 +52,10 @@ function PageContent({ params }) {
       key="edit-button"
       label="Sửa"
       icon={<EditOutlined />}
-      onClick={() => courseForm.open(courseDesc.record)}
+      onClick={() => {
+        courseForm.setRecord(courseDesc.record);
+        courseForm.open();
+      }}
     />,
   ];
 
@@ -96,7 +99,8 @@ function PageContent({ params }) {
             variant="filled"
             onClick={() => {
               moduleForm.setTitle("Tạo học phần");
-              moduleForm.open({ course_id: courseId });
+              moduleForm.setRecord({ course_id: courseId });
+              moduleForm.open();
             }}
           />,
         ]}
@@ -132,7 +136,8 @@ function PageContent({ params }) {
                   variant="link"
                   onClick={() => {
                     moduleForm.setTitle("Sửa học phần");
-                    moduleForm.open(record);
+                    moduleForm.setRecord(record);
+                    moduleForm.open();
                   }}
                 />
               ),
@@ -155,7 +160,8 @@ function PageContent({ params }) {
                 onClick={() => {
                   moduleInfo.close();
                   moduleForm.setTitle("Sửa học phần");
-                  moduleForm.open(moduleInfo.record);
+                  moduleForm.setRecord(moduleInfo.record);
+                  moduleForm.open();
                 }}
               />,
             ],
@@ -192,7 +198,8 @@ function PageContent({ params }) {
             variant="filled"
             onClick={() => {
               lessonForm.setTitle("Tạo bài giảng");
-              lessonForm.open({});
+              lessonForm.setRecord({});
+              lessonForm.open();
             }}
           />,
         ]}
@@ -228,7 +235,8 @@ function PageContent({ params }) {
                   variant="link"
                   onClick={() => {
                     lessonForm.setTitle("Sửa bài giảng");
-                    lessonForm.open(record);
+                    lessonForm.setRecord(record);
+                    lessonForm.open();
                   }}
                 />
               ),
@@ -249,7 +257,8 @@ function PageContent({ params }) {
                 onClick={() => {
                   lessonInfo.close();
                   lessonForm.setTitle("Sửa bài giảng");
-                  lessonForm.open(lessonInfo.record);
+                  lessonForm.setRecord(lessonInfo.record);
+                  lessonForm.open();
                 }}
               />,
             ],

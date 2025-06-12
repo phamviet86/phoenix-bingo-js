@@ -36,7 +36,10 @@ function PageContent() {
       key="create-button"
       label="Tạo mới"
       icon={<PlusOutlined />}
-      onClick={() => courseForm.open({})}
+      onClick={() => {
+        courseForm.setRecord({});
+        courseForm.open();
+      }}
     />,
   ];
 

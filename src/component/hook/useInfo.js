@@ -4,10 +4,10 @@ import { useRef, useState } from "react";
 
 export function useInfo() {
   const infoRef = useRef();
-  const [record, setRecord] = useState({});
   const [visible, setVisible] = useState(false);
-  const [title, setTitle] = useState("");
+  const [record, setRecord] = useState({});
   const [params, setParams] = useState({});
+  const [title, setTitle] = useState("");
 
   const open = () => {
     setVisible(true);
@@ -16,6 +16,8 @@ export function useInfo() {
   const close = () => {
     setVisible(false);
     setRecord({});
+    setParams({});
+    setTitle("");
   };
 
   const reload = () => {

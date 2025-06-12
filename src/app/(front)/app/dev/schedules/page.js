@@ -40,7 +40,8 @@ function PageContent() {
       icon={<PlusOutlined />}
       onClick={() => {
         scheduleForm.setTitle("Tạo lịch học");
-        scheduleForm.open({});
+        scheduleForm.setRecord({});
+        scheduleForm.open();
       }}
     />,
   ];
@@ -78,7 +79,8 @@ function PageContent() {
                 variant="link"
                 onClick={() => {
                   scheduleForm.setTitle("Sửa lịch học");
-                  scheduleForm.open(record);
+                  scheduleForm.setRecord(record);
+                  scheduleForm.open();
                 }}
               />
             ),
@@ -100,7 +102,8 @@ function PageContent() {
               onClick={() => {
                 scheduleInfo.close();
                 scheduleForm.setTitle("Sửa lịch học");
-                scheduleForm.open(scheduleInfo.record);
+                scheduleForm.setRecord(scheduleInfo.record);
+                scheduleForm.open();
               }}
             />,
           ],

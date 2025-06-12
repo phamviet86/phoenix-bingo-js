@@ -28,7 +28,8 @@ export default function Page() {
       icon={<PlusOutlined />}
       onClick={() => {
         shiftForm.setTitle("Tạo ca học");
-        shiftForm.open({});
+        shiftForm.setRecord({});
+        shiftForm.open();
       }}
     />,
   ];
@@ -66,7 +67,8 @@ export default function Page() {
                 variant="link"
                 onClick={() => {
                   shiftForm.setTitle("Sửa ca học");
-                  shiftForm.open(record);
+                  shiftForm.setRecord(record);
+                  shiftForm.open();
                 }}
               />
             ),
@@ -89,7 +91,8 @@ export default function Page() {
               onClick={() => {
                 shiftInfo.close();
                 shiftForm.setTitle("Sửa ca học");
-                shiftForm.open(shiftInfo.record);
+                shiftForm.setRecord(shiftInfo.record);
+                shiftForm.open();
               }}
             />,
           ],

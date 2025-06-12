@@ -117,7 +117,10 @@ function PageContent({ params }) {
       key="edit-button"
       label="Sửa"
       icon={<EditOutlined />}
-      onClick={() => optionForm.open(optionDesc.record)}
+      onClick={() => {
+        optionForm.setRecord(optionDesc.record);
+        optionForm.open();
+      }}
     />,
   ];
 

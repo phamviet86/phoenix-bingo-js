@@ -119,7 +119,8 @@ export default function Page() {
       icon={<PlusOutlined />}
       onClick={() => {
         optionForm.setTitle("Tạo tùy chọn");
-        optionForm.open({});
+        optionForm.setRecord({});
+        optionForm.open();
       }}
     />,
   ];
@@ -157,7 +158,8 @@ export default function Page() {
                 variant="link"
                 onClick={() => {
                   optionForm.setTitle("Sửa tùy chọn");
-                  optionForm.open(record);
+                  optionForm.setRecord(record);
+                  optionForm.open();
                 }}
               />
             ),
@@ -178,7 +180,8 @@ export default function Page() {
               onClick={() => {
                 optionInfo.close();
                 optionForm.setTitle("Sửa tùy chọn");
-                optionForm.open(optionInfo.record);
+                optionForm.setRecord(optionInfo.record);
+                optionForm.open();
               }}
             />,
           ],

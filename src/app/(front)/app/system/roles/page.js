@@ -28,7 +28,8 @@ export default function Page() {
       icon={<PlusOutlined />}
       onClick={() => {
         roleForm.setTitle("Tạo vai trò");
-        roleForm.open({});
+        roleForm.setRecord({});
+        roleForm.open();
       }}
     />,
   ];
@@ -66,7 +67,8 @@ export default function Page() {
                 variant="link"
                 onClick={() => {
                   roleForm.setTitle("Sửa vai trò");
-                  roleForm.open(record);
+                  roleForm.setRecord(record);
+                  roleForm.open();
                 }}
               />
             ),
@@ -89,7 +91,8 @@ export default function Page() {
               onClick={() => {
                 roleInfo.close();
                 roleForm.setTitle("Sửa vai trò");
-                roleForm.open(roleInfo.record);
+                roleForm.setRecord(roleInfo.record);
+                roleForm.open();
               }}
             />,
           ],

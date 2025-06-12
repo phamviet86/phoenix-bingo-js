@@ -26,7 +26,10 @@ export default function Page() {
       key="create-button"
       label="Tạo mới"
       icon={<PlusOutlined />}
-      onClick={() => classForm.open({})}
+      onClick={() => {
+        classForm.setRecord({});
+        classForm.open();
+      }}
     />,
   ];
 
