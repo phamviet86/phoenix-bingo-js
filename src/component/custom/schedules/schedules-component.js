@@ -32,7 +32,9 @@ export function SchedulesInfo(props) {
   return (
     <DrawerInfo
       {...props}
-      onDataRequest={(params) => fetchGet(`/api/schedules/${params?.id}`)}
+      onDataRequest={(params) =>
+        params?.id && fetchGet(`/api/schedules/${params?.id}`)
+      }
     />
   );
 }

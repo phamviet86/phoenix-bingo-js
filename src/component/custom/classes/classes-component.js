@@ -36,7 +36,9 @@ export function ClassesDesc(props) {
   return (
     <ProDescriptions
       {...props}
-      onDataRequest={(params) => fetchGet(`/api/classes/${params?.id}`)}
+      onDataRequest={(params) =>
+        params?.id && fetchGet(`/api/classes/${params?.id}`)
+      }
     />
   );
 }

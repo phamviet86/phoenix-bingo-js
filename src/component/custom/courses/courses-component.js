@@ -32,7 +32,9 @@ export function CoursesDesc(props) {
   return (
     <ProDescriptions
       {...props}
-      onDataRequest={(params) => fetchGet(`/api/courses/${params?.id}`)}
+      onDataRequest={(params) =>
+        params?.id && fetchGet(`/api/courses/${params?.id}`)
+      }
     />
   );
 }

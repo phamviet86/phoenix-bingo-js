@@ -45,7 +45,9 @@ export function UsersDesc(props) {
   return (
     <ProDescriptions
       {...props}
-      onDataRequest={(params) => fetchGet(`/api/users/${params?.id}`)}
+      onDataRequest={(params) =>
+        params?.id && fetchGet(`/api/users/${params?.id}`)
+      }
     />
   );
 }

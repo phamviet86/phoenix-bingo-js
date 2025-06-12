@@ -92,6 +92,9 @@ function PageContent() {
         infoHook={scheduleInfo}
         columns={SchedulesColumns({ scheduleStatus })}
         // dataSource={scheduleInfo.dataSource}
+        onDataRequestSuccess={(result) => {
+          scheduleInfo.setDataSource(result?.data?.[0]);
+        }}
         params={scheduleInfo.params}
         drawerProps={{
           title: "Thông tin lịch học",
