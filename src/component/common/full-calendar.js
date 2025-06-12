@@ -10,6 +10,13 @@ import {
 } from "@/component/config/calendar-config";
 import { convertEventItems } from "@/lib/util/convert-util";
 
+const { useBreakpoint } = Grid;
+
+function getBreakpoint(screens) {
+  const breakpoints = ["xxl", "xl", "lg", "md", "sm", "xs"];
+  return breakpoints.find((bp) => screens[bp]) || "xs";
+}
+
 export function FullCalendar({
   onDataRequest = undefined,
   onDataRequestError = undefined,
@@ -89,6 +96,31 @@ export function FullCalendar({
     },
     [setStartDate, setEndDate, setLoading]
   );
+
+  const handleView = useCallback(
+    (viewName) => {
+      const api = calendarRef.current && calendarRef.current.getApi();
+      if (api && viewName) {
+        const currentView = api.view.type;
+        // Only change view if it's different from current view
+        if (currentView !== viewName) {
+          api.changeView(viewName);
+        }
+      }
+    },
+    [calendarRef]
+  );
+
+  // set view at components mounting base on screen size
+  useEffect(() => {
+    const breakpoint = getBreakpoint(screens);
+    const viewName = responsive[breakpoint] || "dayGridMonth";
+
+    // Defer view change to avoid flushSync error during render
+    setTimeout(() => {
+      handleView(viewName);
+    }, 0);
+  }, [screens, responsive, handleView]);
 
   // Handle data request on component mount and when dates or loading state change
   useEffect(() => {
