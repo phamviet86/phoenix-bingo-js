@@ -15,11 +15,21 @@ import {
   SchedulesFields,
 } from "@/component/custom";
 import { useTable, useInfo, useForm } from "@/component/hook";
+import { PageProvider, usePageContext } from "./provider";
 
-export default function Page() {
+export default function Page(props) {
+  return (
+    <PageProvider>
+      <PageContent {...props} />
+    </PageProvider>
+  );
+}
+
+function PageContent() {
   const scheduleTable = useTable();
   const scheduleInfo = useInfo();
   const scheduleForm = useForm();
+  const { scheduleStatus } = usePageContext();
 
   const pageButton = [
     <Button
@@ -37,7 +47,7 @@ export default function Page() {
     <ProCard boxShadow>
       <SchedulesTable
         tableHook={scheduleTable}
-        columns={SchedulesColumns()}
+        columns={SchedulesColumns({ scheduleStatus })}
         leftColumns={[
           {
             width: 56,
@@ -73,7 +83,7 @@ export default function Page() {
       />
       <SchedulesInfo
         infoHook={scheduleInfo}
-        columns={SchedulesColumns()}
+        columns={SchedulesColumns({ scheduleStatus })}
         dataSource={scheduleInfo.record}
         drawerProps={{
           title: "Thông tin lịch học",
@@ -92,7 +102,7 @@ export default function Page() {
       />
       <SchedulesForm
         formHook={scheduleForm}
-        fields={SchedulesFields()}
+        fields={SchedulesFields({ scheduleStatus })}
         onDataSubmitSuccess={() => scheduleTable.reload()}
         initialValues={scheduleForm.record}
         title={scheduleForm.title}

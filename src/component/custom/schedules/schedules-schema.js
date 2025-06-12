@@ -3,9 +3,11 @@ import {
   ProFormText,
   ProFormTextArea,
   ProFormDatePicker,
+  ProFormSelect,
 } from "@ant-design/pro-form";
 
-export function SchedulesColumns() {
+export function SchedulesColumns(params) {
+  const { scheduleStatus } = params;
   return [
     {
       title: "ID",
@@ -41,13 +43,14 @@ export function SchedulesColumns() {
     {
       title: "Ngày học",
       dataIndex: "schedule_date",
-      valueType: "dateTime",
+      valueType: "date",
       sorter: { multiple: 1 },
     },
     {
       title: "Trạng thái",
       dataIndex: "schedule_status_id",
-      valueType: "text",
+      valueType: "select",
+      valueEnum: scheduleStatus?.enums,
       sorter: { multiple: 1 },
     },
     {
@@ -59,7 +62,8 @@ export function SchedulesColumns() {
   ];
 }
 
-export function SchedulesFields() {
+export function SchedulesFields(params) {
+  const { scheduleStatus } = params;
   return (
     <ProForm.Group>
       <ProFormText name="id" label="ID" hidden disabled />
@@ -91,10 +95,11 @@ export function SchedulesFields() {
         placeholder="Chọn ngày học"
         rules={[{ required: true }]}
       />
-      <ProFormText
+      <ProFormSelect
         name="schedule_status_id"
         label="Trạng thái"
         placeholder="Chọn trạng thái"
+        options={scheduleStatus?.options}
         rules={[{ required: true }]}
       />
       <ProFormTextArea

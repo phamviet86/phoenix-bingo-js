@@ -3,6 +3,7 @@ import {
   DrawerForm,
   DrawerInfo,
   ProDescriptions,
+  FullCalendar,
 } from "@/component/common";
 import { fetchList, fetchPost } from "@/lib/util/fetch-util";
 
@@ -32,4 +33,18 @@ export function SchedulesInfo(props) {
 
 export function SchedulesDesc(props) {
   return <ProDescriptions {...props} />;
+}
+
+export function SchedulesCalendar({ params = {}, ...props }) {
+  return (
+    <FullCalendar
+      {...props}
+      onDataRequest={(start, end) =>
+        fetchList("/api/schedules", {
+          schedule_date: [start, end],
+          ...params,
+        })
+      }
+    />
+  );
 }
