@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 export function useForm() {
   const formRef = useRef();
   const [visible, setVisible] = useState(false);
-  const [record, setRecord] = useState({});
+  const [initialValues, setInitialValues] = useState({});
   const [params, setParams] = useState({});
   const [title, setTitle] = useState("");
 
@@ -15,7 +15,7 @@ export function useForm() {
 
   const close = () => {
     setVisible(false);
-    setRecord({});
+    setInitialValues({});
     setParams({});
     setTitle("");
   };
@@ -31,8 +31,8 @@ export function useForm() {
     reset,
     visible,
     setVisible,
-    record,
-    setRecord,
+    initialValues,
+    setInitialValues,
     params,
     setParams,
     title,

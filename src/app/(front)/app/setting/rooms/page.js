@@ -28,7 +28,7 @@ export default function Page() {
       icon={<PlusOutlined />}
       onClick={() => {
         roomForm.setTitle("Tạo phòng học");
-        roomForm.setRecord({});
+        roomForm.setInitialValues({});
         roomForm.open();
       }}
     />,
@@ -67,7 +67,7 @@ export default function Page() {
                 variant="link"
                 onClick={() => {
                   roomForm.setTitle("Sửa phòng học");
-                  roomForm.setRecord(record);
+                  roomForm.setInitialValues(record);
                   roomForm.open();
                 }}
               />
@@ -91,7 +91,7 @@ export default function Page() {
               onClick={() => {
                 roomInfo.close();
                 roomForm.setTitle("Sửa phòng học");
-                roomForm.setRecord(roomInfo.record);
+                roomForm.setInitialValues(roomInfo.record);
                 roomForm.open();
               }}
             />,
@@ -102,7 +102,7 @@ export default function Page() {
         formHook={roomForm}
         fields={RoomsFields()}
         onDataSubmitSuccess={() => roomTable.reload()}
-        initialValues={roomForm.record}
+        initialValues={roomForm.initialValues}
         title={roomForm.title}
       />
     </ProCard>

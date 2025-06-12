@@ -38,7 +38,7 @@ function PageContent() {
       label="Tạo mới"
       icon={<PlusOutlined />}
       onClick={() => {
-        userForm.setRecord({});
+        userForm.setInitialValues({});
         userForm.open();
       }}
     />,

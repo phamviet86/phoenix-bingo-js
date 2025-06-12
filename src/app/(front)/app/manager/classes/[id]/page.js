@@ -58,7 +58,7 @@ function PageContent({ params }) {
       label="Sửa"
       icon={<EditOutlined />}
       onClick={() => {
-        classForm.setRecord(classDesc.record);
+        classForm.setInitialValues(classDesc.record);
         classForm.open();
       }}
     />,
@@ -78,7 +78,7 @@ function PageContent({ params }) {
         formHook={classForm}
         fields={ClassesFields()}
         onDataSubmitSuccess={() => classDesc.reload()}
-        initialValues={classForm.record}
+        initialValues={classForm.initialValues}
         title="Sửa lớp học"
       />
     </ProCard>
@@ -144,7 +144,7 @@ function PageContent({ params }) {
                   variant="link"
                   onClick={() => {
                     sectionForm.setTitle("Sửa lộ trình");
-                    sectionForm.setRecord(record);
+                    sectionForm.setInitialValues(record);
                     sectionForm.open();
                   }}
                 />
@@ -168,7 +168,7 @@ function PageContent({ params }) {
                 onClick={() => {
                   sectionInfo.close();
                   sectionForm.setTitle("Sửa lộ trình");
-                  sectionForm.setRecord(sectionInfo.record);
+                  sectionForm.setInitialValues(sectionInfo.record);
                   sectionForm.open();
                 }}
               />,
@@ -179,7 +179,7 @@ function PageContent({ params }) {
           formHook={sectionForm}
           fields={SectionsFields()}
           onDataSubmitSuccess={() => sectionTable.reload()}
-          initialValues={sectionForm.record}
+          initialValues={sectionForm.initialValues}
           title={sectionForm.title}
         />
       </ProCard>
@@ -246,7 +246,7 @@ function PageContent({ params }) {
                   variant="link"
                   onClick={() => {
                     enrollmentForm.setTitle("Sửa ghi danh");
-                    enrollmentForm.setRecord(record);
+                    enrollmentForm.setInitialValues(record);
                     enrollmentForm.open();
                   }}
                 />
@@ -273,7 +273,7 @@ function PageContent({ params }) {
                 onClick={() => {
                   enrollmentInfo.close();
                   enrollmentForm.setTitle("Sửa ghi danh");
-                  enrollmentForm.setRecord(enrollmentInfo.record);
+                  enrollmentForm.setInitialValues(enrollmentInfo.record);
                   enrollmentForm.open();
                 }}
               />,
@@ -287,7 +287,7 @@ function PageContent({ params }) {
             enrollmentPaymentType,
           })}
           onDataSubmitSuccess={() => enrollmentTable.reload()}
-          initialValues={enrollmentForm.record}
+          initialValues={enrollmentForm.initialValues}
           title={enrollmentForm.title}
         />
       </ProCard>

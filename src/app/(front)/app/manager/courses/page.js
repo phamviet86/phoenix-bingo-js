@@ -37,7 +37,7 @@ function PageContent() {
       label="Tạo mới"
       icon={<PlusOutlined />}
       onClick={() => {
-        courseForm.setRecord({});
+        courseForm.setInitialValues({});
         courseForm.open();
       }}
     />,

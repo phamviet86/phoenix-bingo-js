@@ -119,7 +119,7 @@ export default function Page() {
       label="Tạo mới"
       icon={<PlusOutlined />}
       onClick={() => {
-        optionForm.setRecord({});
+        optionForm.setInitialValues({});
         optionForm.open();
       }}
     />,

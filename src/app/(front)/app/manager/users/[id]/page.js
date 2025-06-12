@@ -47,7 +47,7 @@ function PageContent({ params }) {
       label="Sửa"
       icon={<EditOutlined />}
       onClick={() => {
-        userForm.setRecord(userDesc.record);
+        userForm.setInitialValues(userDesc.record);
         userForm.open();
       }}
     />,
@@ -86,7 +86,7 @@ function PageContent({ params }) {
           formHook={userForm}
           fields={UsersFields({ userStatus })}
           onDataSubmitSuccess={() => userDesc.reload()}
-          initialValues={userForm.record}
+          initialValues={userForm.initialValues}
           title="Sửa người dùng"
         />
       </ProCard>

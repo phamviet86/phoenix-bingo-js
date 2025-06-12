@@ -27,7 +27,7 @@ export default function Page() {
       label="Tạo mới"
       icon={<PlusOutlined />}
       onClick={() => {
-        classForm.setRecord({});
+        classForm.setInitialValues({});
         classForm.open();
       }}
     />,

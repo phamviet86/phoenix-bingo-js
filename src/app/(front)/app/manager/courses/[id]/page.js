@@ -53,7 +53,7 @@ function PageContent({ params }) {
       label="Sửa"
       icon={<EditOutlined />}
       onClick={() => {
-        courseForm.setRecord(courseDesc.record);
+        courseForm.setInitialValues(courseDesc.record);
         courseForm.open();
       }}
     />,
@@ -73,7 +73,7 @@ function PageContent({ params }) {
         formHook={courseForm}
         fields={CoursesFields({ courseStatus })}
         onDataSubmitSuccess={() => courseDesc.reload()}
-        initialValues={courseForm.record}
+        initialValues={courseForm.initialValues}
         title="Sửa giáo trình"
       />
     </ProCard>
@@ -99,7 +99,7 @@ function PageContent({ params }) {
             variant="filled"
             onClick={() => {
               moduleForm.setTitle("Tạo học phần");
-              moduleForm.setRecord({ course_id: courseId });
+              moduleForm.setInitialValues({ course_id: courseId });
               moduleForm.open();
             }}
           />,
@@ -136,7 +136,7 @@ function PageContent({ params }) {
                   variant="link"
                   onClick={() => {
                     moduleForm.setTitle("Sửa học phần");
-                    moduleForm.setRecord(record);
+                    moduleForm.setInitialValues(record);
                     moduleForm.open();
                   }}
                 />
@@ -160,7 +160,7 @@ function PageContent({ params }) {
                 onClick={() => {
                   moduleInfo.close();
                   moduleForm.setTitle("Sửa học phần");
-                  moduleForm.setRecord(moduleInfo.record);
+                  moduleForm.setInitialValues(moduleInfo.record);
                   moduleForm.open();
                 }}
               />,
@@ -171,7 +171,7 @@ function PageContent({ params }) {
           formHook={moduleForm}
           fields={ModulesFields()}
           onDataSubmitSuccess={() => moduleTable.reload()}
-          initialValues={moduleForm.record}
+          initialValues={moduleForm.initialValues}
           title={moduleForm.title}
         />
       </ProCard>
@@ -198,7 +198,7 @@ function PageContent({ params }) {
             variant="filled"
             onClick={() => {
               lessonForm.setTitle("Tạo bài giảng");
-              lessonForm.setRecord({});
+              lessonForm.setInitialValues({});
               lessonForm.open();
             }}
           />,
@@ -235,7 +235,7 @@ function PageContent({ params }) {
                   variant="link"
                   onClick={() => {
                     lessonForm.setTitle("Sửa bài giảng");
-                    lessonForm.setRecord(record);
+                    lessonForm.setInitialValues(record);
                     lessonForm.open();
                   }}
                 />
@@ -257,7 +257,7 @@ function PageContent({ params }) {
                 onClick={() => {
                   lessonInfo.close();
                   lessonForm.setTitle("Sửa bài giảng");
-                  lessonForm.setRecord(lessonInfo.record);
+                  lessonForm.setInitialValues(lessonInfo.record);
                   lessonForm.open();
                 }}
               />,
@@ -268,7 +268,7 @@ function PageContent({ params }) {
           formHook={lessonForm}
           fields={LessonsFields({ courseId })}
           onDataSubmitSuccess={() => lessonTable.reload()}
-          initialValues={lessonForm.record}
+          initialValues={lessonForm.initialValues}
           title={lessonForm.title}
         />
       </ProCard>

@@ -118,7 +118,7 @@ function PageContent({ params }) {
       label="Sửa"
       icon={<EditOutlined />}
       onClick={() => {
-        optionForm.setRecord(optionDesc.record);
+        optionForm.setInitialValues(optionDesc.record);
         optionForm.open();
       }}
     />,
@@ -138,7 +138,7 @@ function PageContent({ params }) {
         formHook={optionForm}
         fields={OptionsFields()}
         onDataSubmitSuccess={() => optionDesc.reload()}
-        initialValues={optionForm.record}
+        initialValues={optionForm.initialValues}
         title="Sửa giáo trình"
       />
     </ProCard>

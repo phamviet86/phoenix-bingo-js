@@ -141,6 +141,12 @@ export function SectionsFields() {
       <ProFormText name="class_id" label="ID lớp học" hidden disabled />
       <ProFormText name="module_id" label="ID Học phần" hidden disabled />
       <ProFormText
+        name="class_name"
+        label="Lớp học"
+        colProps={{ xs: 12 }}
+        disabled
+      />
+      <ProFormText
         name="course_name"
         label="Giáo trình"
         colProps={{ xs: 12 }}
@@ -149,12 +155,6 @@ export function SectionsFields() {
       <ProFormText
         name="module_name"
         label="Học phần"
-        colProps={{ xs: 12 }}
-        disabled
-      />
-      <ProFormText
-        name="class_name"
-        label="Lớp học"
         colProps={{ xs: 12 }}
         disabled
       />

@@ -28,7 +28,7 @@ export default function Page() {
       icon={<PlusOutlined />}
       onClick={() => {
         shiftForm.setTitle("Tạo ca học");
-        shiftForm.setRecord({});
+        shiftForm.setInitialValues({});
         shiftForm.open();
       }}
     />,
@@ -67,7 +67,7 @@ export default function Page() {
                 variant="link"
                 onClick={() => {
                   shiftForm.setTitle("Sửa ca học");
-                  shiftForm.setRecord(record);
+                  shiftForm.setInitialValues(record);
                   shiftForm.open();
                 }}
               />
@@ -91,7 +91,7 @@ export default function Page() {
               onClick={() => {
                 shiftInfo.close();
                 shiftForm.setTitle("Sửa ca học");
-                shiftForm.setRecord(shiftInfo.record);
+                shiftForm.setInitialValues(shiftInfo.record);
                 shiftForm.open();
               }}
             />,
@@ -102,7 +102,7 @@ export default function Page() {
         formHook={shiftForm}
         fields={ShiftsFields()}
         onDataSubmitSuccess={() => shiftTable.reload()}
-        initialValues={shiftForm.record}
+        initialValues={shiftForm.initialValues}
         title={shiftForm.title}
       />
     </ProCard>

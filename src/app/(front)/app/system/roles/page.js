@@ -28,7 +28,7 @@ export default function Page() {
       icon={<PlusOutlined />}
       onClick={() => {
         roleForm.setTitle("Tạo vai trò");
-        roleForm.setRecord({});
+        roleForm.setInitialValues({});
         roleForm.open();
       }}
     />,
@@ -67,7 +67,7 @@ export default function Page() {
                 variant="link"
                 onClick={() => {
                   roleForm.setTitle("Sửa vai trò");
-                  roleForm.setRecord(record);
+                  roleForm.setInitialValues(record);
                   roleForm.open();
                 }}
               />
@@ -91,7 +91,7 @@ export default function Page() {
               onClick={() => {
                 roleInfo.close();
                 roleForm.setTitle("Sửa vai trò");
-                roleForm.setRecord(roleInfo.record);
+                roleForm.setInitialValues(roleInfo.record);
                 roleForm.open();
               }}
             />,
@@ -102,7 +102,7 @@ export default function Page() {
         formHook={roleForm}
         fields={RolesFields()}
         onDataSubmitSuccess={() => roleTable.reload()}
-        initialValues={roleForm.record}
+        initialValues={roleForm.initialValues}
         title={roleForm.title}
       />
     </ProCard>

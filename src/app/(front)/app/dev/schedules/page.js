@@ -40,7 +40,7 @@ function PageContent() {
       icon={<PlusOutlined />}
       onClick={() => {
         scheduleForm.setTitle("Tạo lịch học");
-        scheduleForm.setRecord({});
+        scheduleForm.setInitialValues({});
         scheduleForm.open();
       }}
     />,
@@ -79,7 +79,7 @@ function PageContent() {
                 variant="link"
                 onClick={() => {
                   scheduleForm.setTitle("Sửa lịch học");
-                  scheduleForm.setRecord(record);
+                  scheduleForm.setInitialValues(record);
                   scheduleForm.open();
                 }}
               />
@@ -102,7 +102,7 @@ function PageContent() {
               onClick={() => {
                 scheduleInfo.close();
                 scheduleForm.setTitle("Sửa lịch học");
-                scheduleForm.setRecord(scheduleInfo.record);
+                scheduleForm.setInitialValues(scheduleInfo.record);
                 scheduleForm.open();
               }}
             />,
@@ -113,7 +113,7 @@ function PageContent() {
         formHook={scheduleForm}
         fields={SchedulesFields({ scheduleStatus })}
         onDataSubmitSuccess={() => scheduleTable.reload()}
-        initialValues={scheduleForm.record}
+        initialValues={scheduleForm.initialValues}
         title={scheduleForm.title}
       />
     </ProCard>
