@@ -50,48 +50,50 @@ export function FullCalendar({
   const allPlugins = [dayGridPlugin, ...plugins];
 
   // Handlers
-  const handleDataRequest = useCallback(async () => {
-    if (!onDataRequest) {
-      messageApi.error("Data request handler not provided");
-      return;
-    }
-
-    if (!startDate || !endDate) {
-      messageApi.error("Start date and end date must be set");
-      return;
-    }
-
-    try {
-      const result = await onDataRequest(params);
-      let finalEvents = [];
-
-      if (onDataItem) {
-        finalEvents = convertEventItems(result.data || [], onDataItem);
-      } else {
-        finalEvents = result.data || result || [];
+  const handleDataRequest = useCallback(
+    async (requestParams = {}) => {
+      if (!onDataRequest) {
+        messageApi.error("Data request handler not provided");
+        return;
       }
 
-      setCalendarEvents(finalEvents);
-      onDataRequestSuccess?.(result);
-    } catch (error) {
-      messageApi.error(error?.message || "Đã xảy ra lỗi");
-      onDataRequestError?.(error);
-      setCalendarEvents([]);
-    } finally {
-      setLoading(false);
-    }
-  }, [
-    onDataRequest,
-    onDataRequestSuccess,
-    onDataRequestError,
-    onDataItem,
-    params,
-    messageApi,
-    setLoading,
-    setCalendarEvents,
-    startDate,
-    endDate,
-  ]);
+      if (!startDate || !endDate) {
+        messageApi.error("Start date and end date must be set");
+        return;
+      }
+
+      try {
+        const result = await onDataRequest(requestParams);
+        let finalEvents = [];
+
+        if (onDataItem) {
+          finalEvents = convertEventItems(result.data || [], onDataItem);
+        } else {
+          finalEvents = result.data || result || [];
+        }
+
+        setCalendarEvents(finalEvents);
+        onDataRequestSuccess?.(result);
+      } catch (error) {
+        messageApi.error(error?.message || "Đã xảy ra lỗi");
+        onDataRequestError?.(error);
+        setCalendarEvents([]);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [
+      onDataRequest,
+      onDataRequestSuccess,
+      onDataRequestError,
+      onDataItem,
+      messageApi,
+      setLoading,
+      setCalendarEvents,
+      startDate,
+      endDate,
+    ]
+  );
 
   const handleDatesSet = useCallback(
     (dateInfo) => {
@@ -132,9 +134,12 @@ export function FullCalendar({
   // Handle data request on component mount and when dates or loading state change
   useEffect(() => {
     if (onDataRequest && startDate && endDate && loading) {
-      handleDataRequest();
+      // Process params here, removing current and pageSize
+      const { current, pageSize, ...processedParams } = params;
+
+      handleDataRequest(processedParams);
     }
-  }, [handleDataRequest, onDataRequest, startDate, endDate, loading]);
+  }, [handleDataRequest, onDataRequest, startDate, endDate, loading, params]);
 
   // Return the component
   return (
