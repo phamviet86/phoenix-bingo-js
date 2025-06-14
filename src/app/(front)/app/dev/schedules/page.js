@@ -1,14 +1,10 @@
 "use client";
-import { useState, useCallback, useRef, useEffect } from "react";
-import {
-  PlusOutlined,
-  EditOutlined,
-  InfoCircleOutlined,
-} from "@ant-design/icons";
+
+import { useState } from "react";
+import { PlusOutlined, EditOutlined } from "@ant-design/icons";
 import { ProCard } from "@ant-design/pro-components";
 import { PageContainer, Button } from "@/component/common";
 import {
-  SchedulesTable,
   SchedulesInfo,
   SchedulesForm,
   SchedulesCalendar,
@@ -34,6 +30,7 @@ function PageContent() {
   const scheduleInfo = useInfo();
   const scheduleForm = useForm();
   const sectionTable = useTable();
+  const [sectionsIds, setSectionsIds] = useState([]);
 
   const pageButton = [];
 
@@ -41,8 +38,20 @@ function PageContent() {
     <ProCard boxShadow>
       <ScheduleSectionsTable
         tableHook={sectionTable}
-        columns={ScheduleSectionsColumns()}
         dateRange={[scheduleCalendar.startDate, scheduleCalendar.endDate]}
+        columns={ScheduleSectionsColumns()}
+        params={{
+          section_start_date: [
+            scheduleCalendar.startDate,
+            scheduleCalendar.endDate,
+          ],
+        }}
+        onDataRequestSuccess={() => scheduleCalendar.reload()}
+        onRowsSelect={(keys) => {
+          const selectedIds = keys.map((key) => key.id);
+          setSectionsIds(selectedIds);
+          scheduleCalendar.reload();
+        }}
         rightColumns={[
           {
             width: 56,
@@ -63,7 +72,6 @@ function PageContent() {
                 }}
               />
             ),
-            responsive: ["md"],
           },
         ]}
       />
@@ -105,6 +113,7 @@ function PageContent() {
         })}
         initialValues={scheduleForm.initialValues}
         title={scheduleForm.title}
+        onDataSubmitSuccess={() => scheduleCalendar.reload()}
       />
     </ProCard>
   );
@@ -124,7 +133,7 @@ function PageContent() {
               scheduleCalendar.startDate,
               scheduleCalendar.endDate,
             ],
-            ...sectionTable.params,
+            ...(sectionsIds.length > 0 && { section_id_in: sectionsIds }),
           }}
           eventClick={(clickInfo) => {
             scheduleInfo.setParams({ id: clickInfo.event.id });
