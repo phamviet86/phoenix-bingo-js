@@ -26,7 +26,7 @@ import {
   EnrollmentsColumns,
   EnrollmentsFields,
   UsersSelectionColumns,
-  SectionsSelectionColumns,
+  SelectionSectionsColumns,
 } from "@/component/custom";
 import { useDesc, useForm, useTable, useInfo } from "@/component/hook";
 import { PageProvider, usePageContext } from "../provider";
@@ -204,7 +204,7 @@ function PageContent({ params }) {
               userStatus,
               roleSelection,
             })}
-            sectionTableColumns={SectionsSelectionColumns()}
+            sectionTableColumns={SelectionSectionsColumns()}
             classId={classId}
             onModalOkSuccess={() => enrollmentTable.reload()}
             trigger={<Button label="Thêm" color="primary" variant="filled" />}

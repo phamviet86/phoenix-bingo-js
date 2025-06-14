@@ -79,3 +79,19 @@ export function SectionsTransfer({ classId, ...props }) {
     </Modal>
   );
 }
+
+export function ScheduleSectionsTable({ dateRange, ...props }) {
+  return (
+    <ProTable
+      {...props}
+      onDataRequest={(params, sort, filter) =>
+        fetchList(
+          `/api/sections/${dateRange[0]}/${dateRange[1]}`,
+          params,
+          sort,
+          filter
+        )
+      }
+    />
+  );
+}

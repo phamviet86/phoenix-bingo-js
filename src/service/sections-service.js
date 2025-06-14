@@ -188,7 +188,7 @@ export async function deleteSectionsByClass(classId, moduleIds) {
 // Get sections in a specific date range
 export async function getSectionsInDateRange(searchParams, startDate, endDate) {
   try {
-    const ignoredSearchColumns = [];
+    const ignoredSearchColumns = ["section_start_date", "section_end_date"];
     const { whereClause, orderByClause, limitClause, queryValues } =
       parseSearchParams(searchParams, ignoredSearchColumns);
 
@@ -205,7 +205,7 @@ export async function getSectionsInDateRange(searchParams, startDate, endDate) {
       JOIN courses co ON m.course_id = co.id AND co.deleted_at IS NULL
       WHERE s.deleted_at IS NULL AND s.section_start_date <= $1 AND (s.section_end_date >= $2 OR s.section_end_date IS NULL)
       ${whereClause}
-      ${orderByClause || "ORDER BY section_start_date, section_end_date"}
+      ${orderByClause || "ORDER BY class_name, module_name"}
       ${limitClause};
     `;
 

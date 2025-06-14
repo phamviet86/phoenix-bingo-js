@@ -81,7 +81,8 @@ export function SectionsColumns() {
     },
   ];
 }
-export function SectionsSelectionColumns() {
+
+export function SelectionSectionsColumns() {
   return [
     {
       title: "Học phần",
@@ -198,4 +199,34 @@ export function SectionsFields() {
       />
     </ProForm.Group>
   );
+}
+
+export function ScheduleSectionsColumns() {
+  return [
+    {
+      title: "Học phần",
+      render: (_, record) => (
+        <Space wrap>
+          <Typography.Text strong>{record.class_name}</Typography.Text>
+          <Typography.Text>{record.module_name}</Typography.Text>
+        </Space>
+      ),
+      search: false,
+      hideInDescriptions: true,
+    },
+    {
+      title: "Lớp học",
+      dataIndex: "class_name",
+      valueType: "text",
+      sorter: { multiple: 1 },
+      hidden: true,
+    },
+    {
+      title: "Học phần",
+      dataIndex: "module_name",
+      valueType: "text",
+      sorter: { multiple: 1 },
+      hidden: true,
+    },
+  ];
 }

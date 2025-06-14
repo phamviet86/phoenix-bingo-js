@@ -10,15 +10,14 @@ export function SchedulesColumns(params) {
   const { scheduleStatus, shiftSelection, roomSelection } = params;
   return [
     {
-      title: "ID",
-      dataIndex: "id",
+      title: "Lớp học",
+      dataIndex: "class_name",
       valueType: "text",
-      search: false,
-      width: 80,
+      sorter: { multiple: 1 },
     },
     {
-      title: "Lớp học",
-      dataIndex: "section_id",
+      title: "Học phần",
+      dataIndex: "module_name",
       valueType: "text",
       sorter: { multiple: 1 },
     },
@@ -26,6 +25,12 @@ export function SchedulesColumns(params) {
       title: "Bài học",
       dataIndex: "lesson_id",
       valueType: "text",
+      sorter: { multiple: 1 },
+    },
+    {
+      title: "Ngày học",
+      dataIndex: "schedule_date",
+      valueType: "date",
       sorter: { multiple: 1 },
     },
     {
@@ -40,12 +45,6 @@ export function SchedulesColumns(params) {
       dataIndex: "room_id",
       valueType: "select",
       valueEnum: roomSelection?.enums,
-      sorter: { multiple: 1 },
-    },
-    {
-      title: "Ngày học",
-      dataIndex: "schedule_date",
-      valueType: "date",
       sorter: { multiple: 1 },
     },
     {
@@ -71,6 +70,19 @@ export function SchedulesFields(params) {
       <ProFormText name="id" label="ID" hidden disabled />
       <ProFormText name="section_id" label="ID lộ trình" hidden disabled />
       <ProFormText name="lesson_id" label="ID bài học" hidden disabled />
+
+      <ProFormText
+        name="class_name"
+        label="Lớp học"
+        disabled
+        colProps={{ xs: 12 }}
+      />
+      <ProFormText
+        name="module_name"
+        label="Học phần"
+        disabled
+        colProps={{ xs: 12 }}
+      />
 
       <ProFormDatePicker
         name="schedule_date"

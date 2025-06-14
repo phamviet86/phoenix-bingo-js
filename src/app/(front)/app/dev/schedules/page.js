@@ -1,5 +1,5 @@
 "use client";
-
+import { useState, useCallback, useRef, useEffect } from "react";
 import {
   PlusOutlined,
   EditOutlined,
@@ -14,6 +14,8 @@ import {
   SchedulesCalendar,
   SchedulesColumns,
   SchedulesFields,
+  ScheduleSectionsTable,
+  ScheduleSectionsColumns,
 } from "@/component/custom";
 import { useTable, useInfo, useForm, useCalendar } from "@/component/hook";
 import { PageProvider, usePageContext } from "./provider";
@@ -27,55 +29,20 @@ export default function Page(props) {
 }
 
 function PageContent() {
-  const scheduleTable = useTable();
+  const { scheduleStatus, shiftSelection, roomSelection } = usePageContext();
+  const scheduleCalendar = useCalendar();
   const scheduleInfo = useInfo();
   const scheduleForm = useForm();
-  const scheduleCalendar = useCalendar();
-  const { scheduleStatus, shiftSelection, roomSelection } = usePageContext();
+  const sectionTable = useTable();
 
-  const pageButton = [
-    <Button
-      key="create-button"
-      label="Tạo mới"
-      icon={<PlusOutlined />}
-      onClick={() => {
-        scheduleForm.setTitle("Tạo lịch học");
-        scheduleForm.setInitialValues({});
-        scheduleForm.open();
-      }}
-    />,
-  ];
+  const pageButton = [];
 
   const pageContent = (
     <ProCard boxShadow>
-      <SchedulesTable
-        tableHook={scheduleTable}
-        columns={SchedulesColumns({
-          scheduleStatus,
-          shiftSelection,
-          roomSelection,
-        })}
-        onDataRequestSuccess={() => scheduleCalendar.reload()}
-        params={{
-          schedule_date: [scheduleCalendar.startDate, scheduleCalendar.endDate],
-        }}
-        leftColumns={[
-          {
-            width: 56,
-            align: "center",
-            search: false,
-            render: (_, record) => (
-              <Button
-                icon={<InfoCircleOutlined />}
-                variant="link"
-                onClick={() => {
-                  scheduleInfo.setParams({ id: record.id });
-                  scheduleInfo.open();
-                }}
-              />
-            ),
-          },
-        ]}
+      <ScheduleSectionsTable
+        tableHook={sectionTable}
+        columns={ScheduleSectionsColumns()}
+        dateRange={[scheduleCalendar.startDate, scheduleCalendar.endDate]}
         rightColumns={[
           {
             width: 56,
@@ -83,11 +50,15 @@ function PageContent() {
             search: false,
             render: (_, record) => (
               <Button
-                icon={<EditOutlined />}
+                icon={<PlusOutlined />}
                 variant="link"
                 onClick={() => {
-                  scheduleForm.setTitle("Sửa lịch học");
-                  scheduleForm.setInitialValues(record);
+                  scheduleForm.setTitle("Thêm lịch học");
+                  scheduleForm.setInitialValues({
+                    section_id: record.id,
+                    class_name: record.class_name,
+                    module_name: record.module_name,
+                  });
                   scheduleForm.open();
                 }}
               />
@@ -109,10 +80,12 @@ function PageContent() {
         params={scheduleInfo.params}
         drawerProps={{
           title: "Thông tin lịch học",
-          footer: [
+          extra: [
             <Button
               key="edit-button"
               label="Sửa"
+              icon={<EditOutlined />}
+              variant="filled"
               onClick={() => {
                 scheduleInfo.close();
                 scheduleForm.setTitle("Sửa lịch học");
@@ -130,10 +103,6 @@ function PageContent() {
           shiftSelection,
           roomSelection,
         })}
-        onDataSubmitSuccess={() => {
-          scheduleTable.reload();
-          scheduleCalendar.reload();
-        }}
         initialValues={scheduleForm.initialValues}
         title={scheduleForm.title}
       />
@@ -150,7 +119,13 @@ function PageContent() {
       <ProCard boxShadow>
         <SchedulesCalendar
           calendarHook={scheduleCalendar}
-          params={scheduleTable.params}
+          params={{
+            schedule_date: [
+              scheduleCalendar.startDate,
+              scheduleCalendar.endDate,
+            ],
+            ...sectionTable.params,
+          }}
           eventClick={(clickInfo) => {
             scheduleInfo.setParams({ id: clickInfo.event.id });
             scheduleInfo.open();

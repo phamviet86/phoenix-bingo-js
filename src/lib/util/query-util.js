@@ -229,7 +229,7 @@ export function parseSearchParams(searchParams, ignoredSearchColumns = []) {
   let orderBy = "";
   let limit = "";
   const queryValues = [];
-  let paramIndex = 1;
+  let paramIndex = ignoredSearchColumns.length + 1;
 
   Object.entries(params).forEach(([key, value]) => {
     const baseKey = key.replace(
