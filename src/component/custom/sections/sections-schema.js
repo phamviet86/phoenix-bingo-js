@@ -204,11 +204,16 @@ export function SectionsFields() {
 export function ScheduleSectionsColumns() {
   return [
     {
-      title: "Học phần",
+      title: "Lớp học",
       render: (_, record) => (
-        <Space wrap>
-          <Typography.Text strong>{record.class_name}</Typography.Text>
-          <Typography.Text>{record.module_name}</Typography.Text>
+        <Space direction="vertical" size={0}>
+          <Space wrap>
+            <Typography.Text strong>{record.class_name}</Typography.Text>
+            <Typography.Text>{record.module_name}</Typography.Text>
+          </Space>
+          <Typography.Text type="secondary">
+            {record.course_name}
+          </Typography.Text>
         </Space>
       ),
       search: false,
@@ -222,11 +227,43 @@ export function ScheduleSectionsColumns() {
       hidden: true,
     },
     {
+      title: "Giáo trình",
+      dataIndex: "course_name",
+      valueType: "text",
+      sorter: { multiple: 1 },
+      hidden: true,
+    },
+    {
       title: "Học phần",
       dataIndex: "module_name",
       valueType: "text",
       sorter: { multiple: 1 },
       hidden: true,
+    },
+    {
+      title: "Trạng thái",
+      dataIndex: "section_status",
+      valueType: "select",
+      valueEnum: SECTION_STATUS,
+      sorter: { multiple: 1 },
+      search: false,
+      responsive: ["lg"],
+    },
+    {
+      title: "Bắt đầu",
+      dataIndex: "section_start_date",
+      valueType: "date",
+      sorter: { multiple: 1 },
+      search: false,
+      responsive: ["md"],
+    },
+    {
+      title: "Kết thúc",
+      dataIndex: "section_end_date",
+      valueType: "date",
+      sorter: { multiple: 1 },
+      search: false,
+      responsive: ["md"],
     },
   ];
 }
