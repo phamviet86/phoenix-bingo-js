@@ -38,10 +38,10 @@ function PageContent() {
     <ProCard boxShadow>
       <SchedulesCalendar
         calendarHook={scheduleCalendar}
+        // hiển thị lịch học trong khoảng thời gian đã chọn (thông qua calendar: startDate, endDate)
         params={{
           schedule_date: [scheduleCalendar.startDate, scheduleCalendar.endDate],
           ...(sectionsIds.length > 0 && { section_id_in: sectionsIds }),
-          ...sectionTable.params,
         }}
         eventClick={(clickInfo) => {
           scheduleInfo.setParams({ id: clickInfo.event.id });
@@ -101,6 +101,7 @@ function PageContent() {
         <SectionsTable
           tableHook={sectionTable}
           columns={ScheduleSectionsColumns()}
+          // hiển thị các lớp học có lịch học trong khoảng thời gian đã chọn (dựa vào calendar: startDate, endDate)
           params={{
             section_start_date_lte: scheduleCalendar.endDate,
             or: {
