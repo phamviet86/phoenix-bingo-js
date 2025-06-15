@@ -26,6 +26,12 @@
  * - age: "_lt 65" -> age_lt=65
  * - price: "_gte 1000" -> price_gte=1000
  * - status: "_e active" -> status_e=active
+ *
+ * ## Toán tử OR
+ *
+ * Để thực hiện truy vấn OR, sử dụng key đặc biệt "or" với object chứa các điều kiện:
+ * - or: { age_gt: 18, status_e: "active" } -> (age > 18 OR status = 'active')
+ * - Chỉ hỗ trợ 1 tầng OR, không lồng nhau
  */
 
 /**  
@@ -52,6 +58,12 @@ const sampleParams = {
   score: "_gte 80",
   rating: "_lt 5",
   category: "_e premium",
+
+  // toán tử OR (chỉ 1 tầng)
+  or: {
+    section_end_date_gte: "2024-01-01",
+    section_end_date_null: true,
+  },
 };
 
 const sampleSort = {
@@ -117,14 +129,24 @@ function parseSuffixValue(value) {
  *   - current, pageSize: giữ nguyên cho phân trang
  *   - Chuỗi có định dạng "_hậu_tố giá_trị": "_lt 65" -> key_lt=65
  *   - Key có hậu tố sẵn: giữ nguyên (ví dụ: age_gt, price_lte)
+ *   - Key "or": object chứa các điều kiện OR (chỉ 1 tầng)
  *   - Không có hậu tố: chuyển đổi thành _like (tìm kiếm mờ)
  * @param {Object} sort - Các cặp key-value cho sắp xếp, ví dụ { createdAt: 'descend', age: 'ascend' }
  * @param {Object} filter - Các cặp key-value cho lọc, tất cả key đều được chuyển thành _in
  * @returns {string} Chuỗi truy vấn URL
  *
  * @example
- * buildSearchParams({ name: 'John', id: 1, age: '_lt 65', startDate: ['2024-01-01','2024-12-31'], scoreGt: 18, current: 2, pageSize: 10 }, { createdAt: 'descend' }, { status: ['active','inactive'] })
- * // => name_like=John&id_e=1&age_lt=65&startDate_gte=2024-01-01&startDate_lte=2024-12-31&scoreGt=18&current=2&pageSize=10&status_in=active,inactive&sort=-createdAt
+ * buildSearchParams({ 
+ *   name: 'John', 
+ *   id: 1, 
+ *   age: '_lt 65', 
+ *   startDate: ['2024-01-01','2024-12-31'], 
+ *   scoreGt: 18, 
+ *   current: 2, 
+ *   pageSize: 10,
+ *   or: { section_end_date_gte: '2024-01-01', section_end_date_null: true }
+ * }, { createdAt: 'descend' }, { status: ['active','inactive'] })
+ * // => name_like=John&id_e=1&age_lt=65&startDate_gte=2024-01-01&startDate_lte=2024-12-31&scoreGt=18&current=2&pageSize=10&or=section_end_date_gte:2024-01-01,section_end_date_null:true&status_in=active,inactive&sort=-createdAt
  */
 export function buildSearchParams(params = {}, sort = {}, filter = {}) {
   const searchParams = new URLSearchParams();
@@ -226,8 +248,13 @@ export function buildSearchParams(params = {}, sort = {}, filter = {}) {
  * @returns {{ whereClause: string, orderByClause: string, limitClause: string, queryValues: any[] }}
  *
  * @example
- * parseSearchParamsParameterized(new URLSearchParams('name_like=John&id_e=1&current=2&pageSize=10'), ['age'])
- * // => { whereClause: "WHERE unaccent(name) ILIKE unaccent('%$1%') AND id = $2", orderByClause: '', limitClause: 'LIMIT 10 OFFSET 10', queryValues: ['John', 1] }
+ * parseSearchParams(new URLSearchParams('name_like=John&age_gt=18&or=status_e:active,role_e:admin&sort=-createdAt&current=2&pageSize=10'))
+ * // => {
+ * //   whereClause: " AND name ILIKE $1 AND age > $2 AND (status = $3 OR role = $4)",
+ * //   orderByClause: " ORDER BY createdAt DESC",
+ * //   limitClause: " LIMIT 10 OFFSET 10",
+ * //   queryValues: ['%John%', 18, 'active', 'admin']
+ * // }
  */
 export function parseSearchParams(searchParams, ignoredSearchColumns = []) {
   const params =
