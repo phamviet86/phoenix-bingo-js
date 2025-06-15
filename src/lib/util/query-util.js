@@ -132,6 +132,16 @@ export function buildSearchParams(params = {}, sort = {}, filter = {}) {
   // Xử lý params
   Object.entries(params).forEach(([key, value]) => {
     if (value === undefined || value === null || value === "") return;
+    // Xử lý nhóm OR (chỉ 1 tầng)
+    if (key === "or" && typeof value === "object" && value !== null) {
+      // Ví dụ value = { age_gt: 18, status_e: "active", ... }
+      const orValue = Object.entries(value)
+        .map(([k, v]) => `${k}:${v}`)
+        .join(",");
+      searchParams.append("or", orValue);
+      return;
+    }
+
     let paramKey = key;
     let paramValue = value;
 
@@ -220,74 +230,98 @@ export function buildSearchParams(params = {}, sort = {}, filter = {}) {
  * // => { whereClause: "WHERE unaccent(name) ILIKE unaccent('%$1%') AND id = $2", orderByClause: '', limitClause: 'LIMIT 10 OFFSET 10', queryValues: ['John', 1] }
  */
 export function parseSearchParams(searchParams, ignoredSearchColumns = []) {
-  // searchParams: instance của URLSearchParams hoặc object
   const params =
     searchParams instanceof URLSearchParams
       ? Object.fromEntries(searchParams.entries())
       : { ...searchParams };
+
   const where = [];
+  const orWhere = [];
   let orderBy = "";
   let limit = "";
   const queryValues = [];
   let paramIndex = ignoredSearchColumns.length + 1;
 
-  Object.entries(params).forEach(([key, value]) => {
+  // Helper xử lý 1 key-value param, trả về mệnh đề sql và đẩy vào queryValues
+  const handleClause = (key, value, targetArray) => {
     const baseKey = key.replace(
       /(_like|_nlike|_e|_ne|_gt|_gte|_lt|_lte|_in|_nin|_null|_nnull)$/,
       ""
     );
     if (ignoredSearchColumns.includes(baseKey)) return;
     if (key.endsWith("_like")) {
-      where.push(`unaccent(${baseKey}) ILIKE unaccent($${paramIndex})`);
+      targetArray.push(`unaccent(${baseKey}) ILIKE unaccent($${paramIndex})`);
       queryValues.push(`%${value}%`);
       paramIndex++;
     } else if (key.endsWith("_nlike")) {
-      where.push(`unaccent(${baseKey}) NOT ILIKE unaccent($${paramIndex})`);
+      targetArray.push(
+        `unaccent(${baseKey}) NOT ILIKE unaccent($${paramIndex})`
+      );
       queryValues.push(`%${value}%`);
       paramIndex++;
     } else if (key.endsWith("_e")) {
-      where.push(`${baseKey} = $${paramIndex}`);
+      targetArray.push(`${baseKey} = $${paramIndex}`);
       queryValues.push(value);
       paramIndex++;
     } else if (key.endsWith("_ne")) {
-      where.push(`${baseKey} <> $${paramIndex}`);
+      targetArray.push(`${baseKey} <> $${paramIndex}`);
       queryValues.push(value);
       paramIndex++;
     } else if (key.endsWith("_gt")) {
-      where.push(`${baseKey} > $${paramIndex}`);
+      targetArray.push(`${baseKey} > $${paramIndex}`);
       queryValues.push(value);
       paramIndex++;
     } else if (key.endsWith("_gte")) {
-      where.push(`${baseKey} >= $${paramIndex}`);
+      targetArray.push(`${baseKey} >= $${paramIndex}`);
       queryValues.push(value);
       paramIndex++;
     } else if (key.endsWith("_lt")) {
-      where.push(`${baseKey} < $${paramIndex}`);
+      targetArray.push(`${baseKey} < $${paramIndex}`);
       queryValues.push(value);
       paramIndex++;
     } else if (key.endsWith("_lte")) {
-      where.push(`${baseKey} <= $${paramIndex}`);
+      targetArray.push(`${baseKey} <= $${paramIndex}`);
       queryValues.push(value);
       paramIndex++;
     } else if (key.endsWith("_in")) {
       const arr = value.split(",");
       const placeholders = arr.map(() => `$${paramIndex++}`);
-      where.push(`${baseKey} IN (${placeholders.join(",")})`);
+      targetArray.push(`${baseKey} IN (${placeholders.join(",")})`);
       queryValues.push(...arr);
     } else if (key.endsWith("_nin")) {
       const arr = value.split(",");
       const placeholders = arr.map(() => `$${paramIndex++}`);
-      where.push(`${baseKey} NOT IN (${placeholders.join(",")})`);
+      targetArray.push(`${baseKey} NOT IN (${placeholders.join(",")})`);
       queryValues.push(...arr);
     } else if (key.endsWith("_null")) {
-      if (value === "true" || value === true) where.push(`${baseKey} IS NULL`);
+      if (value === "true" || value === true)
+        targetArray.push(`${baseKey} IS NULL`);
     } else if (key.endsWith("_nnull")) {
       if (value === "true" || value === true)
-        where.push(`${baseKey} IS NOT NULL`);
-    } else if (key === "current" || key === "pageSize") {
-      // xử lý bên dưới
+        targetArray.push(`${baseKey} IS NOT NULL`);
     }
+  };
+
+  // Duyệt tất cả params thường
+  Object.entries(params).forEach(([key, value]) => {
+    if (key === "or") return; // skip or
+    if (key === "current" || key === "pageSize") return; // skip paging
+    handleClause(key, value, where);
   });
+
+  // Duyệt params OR nếu có
+  if (params.or) {
+    // or param dạng: status_e:active,deleted_at_null:true,age_gt:18
+    const orParts = typeof params.or === "string" ? params.or.split(",") : [];
+    orParts.forEach((part) => {
+      const idx = part.indexOf(":");
+      if (idx > 0) {
+        const orKey = part.slice(0, idx);
+        const orValue = part.slice(idx + 1);
+        handleClause(orKey, orValue, orWhere);
+      }
+    });
+  }
 
   // Xử lý sort
   if (params.sort) {
@@ -309,8 +343,17 @@ export function parseSearchParams(searchParams, ignoredSearchColumns = []) {
     limit = `LIMIT ${params.pageSize}`;
   }
 
+  // Tổ hợp where
+  let whereClause = "";
+  if (where.length || orWhere.length) {
+    whereClause = " AND ";
+    if (where.length) whereClause += where.join(" AND ");
+    if (where.length && orWhere.length) whereClause += " AND ";
+    if (orWhere.length) whereClause += `(${orWhere.join(" OR ")})`;
+  }
+
   return {
-    whereClause: where.length ? ` AND ${where.join(" AND ")}` : "",
+    whereClause,
     orderByClause: orderBy,
     limitClause: limit,
     queryValues,

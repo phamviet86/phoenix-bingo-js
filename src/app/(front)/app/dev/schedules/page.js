@@ -3,14 +3,14 @@
 import { useState } from "react";
 import { PlusOutlined, EditOutlined } from "@ant-design/icons";
 import { ProCard } from "@ant-design/pro-components";
-import { PageContainer, ResponsiveCard, Button } from "@/component/common";
+import { PageContainer, Button } from "@/component/common";
 import {
   SchedulesInfo,
   SchedulesForm,
   SchedulesCalendar,
   SchedulesColumns,
   SchedulesFields,
-  ScheduleSectionsTable,
+  SectionsTable,
   ScheduleSectionsColumns,
 } from "@/component/custom";
 import { useTable, useInfo, useForm, useCalendar } from "@/component/hook";
@@ -98,12 +98,15 @@ function PageContent() {
     label: "Lớp học",
     children: (
       <ProCard boxShadow title="Danh sách lớp">
-        <ScheduleSectionsTable
+        <SectionsTable
           tableHook={sectionTable}
-          dateRange={[scheduleCalendar.startDate, scheduleCalendar.endDate]}
           columns={ScheduleSectionsColumns()}
           params={{
             section_start_date_lte: scheduleCalendar.endDate,
+            or: {
+              section_end_date_gte: scheduleCalendar.startDate,
+              section_end_date_null: true,
+            },
           }}
           onDataRequestSuccess={() => scheduleCalendar.reload()}
           onRowsSelect={(keys) => {
