@@ -64,6 +64,16 @@ const sampleParams = {
     section_end_date_gte: "2024-01-01",
     section_end_date_null: true,
   },
+
+  // nhiều toán tử OR (hỗ trợ nhiều nhóm OR)
+  or_1: {
+    age_gt: 18,
+    status_e: "active",
+  },
+  or_2: {
+    role_e: "admin",
+    department_e: "IT",
+  },
 };
 
 const sampleSort = {
@@ -121,6 +131,15 @@ function parseSuffixValue(value) {
 }
 
 /**
+ * Kiểm tra xem key có phải là OR key không (or, or_1, or_2, ...)
+ * @param {string} key - Key cần kiểm tra
+ * @returns {boolean} - True nếu là OR key
+ */
+function isOrKey(key) {
+  return key === "or" || /^or_\d+$/.test(key);
+}
+
+/**
  * Chuyển đổi các đối tượng params, sort và filter thành chuỗi truy vấn URL cho tìm kiếm API.
  *
  * @param {Object} params - Các cặp key-value cho tìm kiếm. Hậu tố sẽ được tự động thêm nếu thiếu:
@@ -129,24 +148,26 @@ function parseSuffixValue(value) {
  *   - current, pageSize: giữ nguyên cho phân trang
  *   - Chuỗi có định dạng "_hậu_tố giá_trị": "_lt 65" -> key_lt=65
  *   - Key có hậu tố sẵn: giữ nguyên (ví dụ: age_gt, price_lte)
- *   - Key "or": object chứa các điều kiện OR (chỉ 1 tầng)
+ *   - Key "or": object chứa các điều kiện OR (chỉ 1 tầng) - backward compatibility
+ *   - Key "or_1", "or_2", ...: object chứa các điều kiện OR (nhiều nhóm OR)
  *   - Không có hậu tố: chuyển đổi thành _like (tìm kiếm mờ)
  * @param {Object} sort - Các cặp key-value cho sắp xếp, ví dụ { createdAt: 'descend', age: 'ascend' }
  * @param {Object} filter - Các cặp key-value cho lọc, tất cả key đều được chuyển thành _in
  * @returns {string} Chuỗi truy vấn URL
  *
  * @example
- * buildSearchParams({ 
- *   name: 'John', 
- *   id: 1, 
- *   age: '_lt 65', 
- *   startDate: ['2024-01-01','2024-12-31'], 
- *   scoreGt: 18, 
- *   current: 2, 
+ * buildSearchParams({
+ *   name: 'John',
+ *   id: 1,
+ *   age: '_lt 65',
+ *   startDate: ['2024-01-01','2024-12-31'],
+ *   scoreGt: 18,
+ *   current: 2,
  *   pageSize: 10,
- *   or: { section_end_date_gte: '2024-01-01', section_end_date_null: true }
+ *   or_1: { section_end_date_gte: '2024-01-01', section_end_date_null: true },
+ *   or_2: { role_e: 'admin', department_e: 'IT' }
  * }, { createdAt: 'descend' }, { status: ['active','inactive'] })
- * // => name_like=John&id_e=1&age_lt=65&startDate_gte=2024-01-01&startDate_lte=2024-12-31&scoreGt=18&current=2&pageSize=10&or=section_end_date_gte:2024-01-01,section_end_date_null:true&status_in=active,inactive&sort=-createdAt
+ * // => name_like=John&id_e=1&age_lt=65&startDate_gte=2024-01-01&startDate_lte=2024-12-31&scoreGt=18&current=2&pageSize=10&or_1=section_end_date_gte:2024-01-01,section_end_date_null:true&or_2=role_e:admin,department_e:IT&status_in=active,inactive&sort=-createdAt
  */
 export function buildSearchParams(params = {}, sort = {}, filter = {}) {
   const searchParams = new URLSearchParams();
@@ -154,13 +175,14 @@ export function buildSearchParams(params = {}, sort = {}, filter = {}) {
   // Xử lý params
   Object.entries(params).forEach(([key, value]) => {
     if (value === undefined || value === null || value === "") return;
-    // Xử lý nhóm OR (chỉ 1 tầng)
-    if (key === "or" && typeof value === "object" && value !== null) {
+
+    // Xử lý nhóm OR (hỗ trợ or, or_1, or_2, ...)
+    if (isOrKey(key) && typeof value === "object" && value !== null) {
       // Ví dụ value = { age_gt: 18, status_e: "active", ... }
       const orValue = Object.entries(value)
         .map(([k, v]) => `${k}:${v}`)
         .join(",");
-      searchParams.append("or", orValue);
+      searchParams.append(key, orValue);
       return;
     }
 
@@ -248,12 +270,12 @@ export function buildSearchParams(params = {}, sort = {}, filter = {}) {
  * @returns {{ whereClause: string, orderByClause: string, limitClause: string, queryValues: any[] }}
  *
  * @example
- * parseSearchParams(new URLSearchParams('name_like=John&age_gt=18&or=status_e:active,role_e:admin&sort=-createdAt&current=2&pageSize=10'))
+ * parseSearchParams(new URLSearchParams('name_like=John&age_gt=18&or_1=status_e:active,role_e:admin&or_2=department_e:IT,level_gt:5&sort=-createdAt&current=2&pageSize=10'))
  * // => {
- * //   whereClause: " AND name ILIKE $1 AND age > $2 AND (status = $3 OR role = $4)",
+ * //   whereClause: " AND name ILIKE $1 AND age > $2 AND (status = $3 OR role = $4) AND (department = $5 OR level > $6)",
  * //   orderByClause: " ORDER BY createdAt DESC",
  * //   limitClause: " LIMIT 10 OFFSET 10",
- * //   queryValues: ['%John%', 18, 'active', 'admin']
+ * //   queryValues: ['%John%', 18, 'active', 'admin', 'IT', 5]
  * // }
  */
 export function parseSearchParams(searchParams, ignoredSearchColumns = []) {
@@ -263,7 +285,7 @@ export function parseSearchParams(searchParams, ignoredSearchColumns = []) {
       : { ...searchParams };
 
   const where = [];
-  const orWhere = [];
+  const orGroups = []; // Mảng chứa các nhóm OR
   let orderBy = "";
   let limit = "";
   const queryValues = [];
@@ -331,24 +353,31 @@ export function parseSearchParams(searchParams, ignoredSearchColumns = []) {
 
   // Duyệt tất cả params thường
   Object.entries(params).forEach(([key, value]) => {
-    if (key === "or") return; // skip or
+    if (isOrKey(key)) return; // skip or keys
     if (key === "current" || key === "pageSize") return; // skip paging
     handleClause(key, value, where);
   });
 
-  // Duyệt params OR nếu có
-  if (params.or) {
-    // or param dạng: status_e:active,deleted_at_null:true,age_gt:18
-    const orParts = typeof params.or === "string" ? params.or.split(",") : [];
-    orParts.forEach((part) => {
-      const idx = part.indexOf(":");
-      if (idx > 0) {
-        const orKey = part.slice(0, idx);
-        const orValue = part.slice(idx + 1);
-        handleClause(orKey, orValue, orWhere);
+  // Duyệt params OR nếu có (hỗ trợ or, or_1, or_2, ...)
+  Object.entries(params).forEach(([key, value]) => {
+    if (isOrKey(key) && value) {
+      const orWhere = [];
+      // or param dạng: status_e:active,deleted_at_null:true,age_gt:18
+      const orParts = typeof value === "string" ? value.split(",") : [];
+      orParts.forEach((part) => {
+        const idx = part.indexOf(":");
+        if (idx > 0) {
+          const orKey = part.slice(0, idx);
+          const orValue = part.slice(idx + 1);
+          handleClause(orKey, orValue, orWhere);
+        }
+      });
+
+      if (orWhere.length > 0) {
+        orGroups.push(`(${orWhere.join(" OR ")})`);
       }
-    });
-  }
+    }
+  });
 
   // Xử lý sort
   if (params.sort) {
@@ -372,11 +401,11 @@ export function parseSearchParams(searchParams, ignoredSearchColumns = []) {
 
   // Tổ hợp where
   let whereClause = "";
-  if (where.length || orWhere.length) {
+  if (where.length || orGroups.length) {
     whereClause = " AND ";
     if (where.length) whereClause += where.join(" AND ");
-    if (where.length && orWhere.length) whereClause += " AND ";
-    if (orWhere.length) whereClause += `(${orWhere.join(" OR ")})`;
+    if (where.length && orGroups.length) whereClause += " AND ";
+    if (orGroups.length) whereClause += orGroups.join(" AND ");
   }
 
   return {
