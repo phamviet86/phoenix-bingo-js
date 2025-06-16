@@ -79,6 +79,28 @@ export function SectionsColumns() {
       },
       responsive: ["lg"],
     },
+    {
+      title: "Chờ",
+      dataIndex: "pending_count",
+      valueType: "digit",
+      sorter: { multiple: 1 },
+      search: false,
+      responsive: ["xl"],
+    },
+    {
+      title: "Đã học",
+      dataIndex: "completed_count",
+      valueType: "digit",
+      search: false,
+      responsive: ["xl"],
+    },
+    {
+      title: "Nghỉ",
+      dataIndex: "absent_count",
+      valueType: "digit",
+      search: false,
+      responsive: ["xl"],
+    },
   ];
 }
 
@@ -246,7 +268,6 @@ export function ScheduleSectionsColumns() {
       valueType: "select",
       valueEnum: SECTION_STATUS,
       sorter: { multiple: 1 },
-      search: false,
       responsive: ["lg"],
     },
     {
@@ -264,6 +285,28 @@ export function ScheduleSectionsColumns() {
       sorter: { multiple: 1 },
       search: false,
       responsive: ["md"],
+    },
+    {
+      title: "Chờ",
+      dataIndex: "pending_count",
+      valueType: "digit",
+      sorter: { multiple: 1 },
+      search: false,
+      responsive: ["lg"],
+    },
+    {
+      title: "Đã học",
+      dataIndex: "completed_count",
+      valueType: "digit",
+      search: false,
+      responsive: ["lg"],
+    },
+    {
+      title: "Nghỉ",
+      dataIndex: "absent_count",
+      valueType: "digit",
+      search: false,
+      responsive: ["lg"],
     },
   ];
 }

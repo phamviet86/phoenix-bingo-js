@@ -11,7 +11,7 @@ export async function getSections(searchParams) {
 
     const sqlValue = [...queryValues];
     const sqlText = `
-      SELECT s.id, s.class_id, s.module_id, s.section_start_date, s.section_end_date, s.section_fee, s.section_total_fee, s.section_status,
+      SELECT s.id, s.class_id, s.module_id, s.section_start_date, s.section_end_date, s.section_fee, s.section_total_fee, s.section_status, pending_count, completed_count, absent_count,
         c.class_name, c.class_code,
         m.module_name,
         co.course_name, co.course_status_id,
@@ -35,7 +35,7 @@ export async function getSections(searchParams) {
 export async function getSection(id) {
   try {
     return await sql`
-      SELECT s.id, s.class_id, s.module_id, s.section_start_date, s.section_end_date, s.section_fee, s.section_total_fee, s.section_status,
+      SELECT s.id, s.class_id, s.module_id, s.section_start_date, s.section_end_date, s.section_fee, s.section_total_fee, s.section_status, pending_count, completed_count, absent_count,
         c.class_name, c.class_code,
         m.module_name,
         co.course_name, co.course_status_id
@@ -118,7 +118,7 @@ export async function getSectionsByClass(searchParams, classId) {
 
     const sqlValue = [classId, ...queryValues];
     const sqlText = `
-      SELECT s.id, s.class_id, s.module_id, s.section_start_date, s.section_end_date, s.section_fee, s.section_total_fee, s.section_status,
+      SELECT s.id, s.class_id, s.module_id, s.section_start_date, s.section_end_date, s.section_fee, s.section_total_fee, s.section_status, pending_count, completed_count, absent_count,
         c.class_name, c.class_code,
         m.module_name,
         co.course_name, co.course_status_id,
@@ -180,36 +180,6 @@ export async function deleteSectionsByClass(classId, moduleIds) {
 
     const queryValues = [classId, ...moduleIds];
     return await sql.query(queryText, queryValues);
-  } catch (error) {
-    throw new Error(error.message);
-  }
-}
-
-// Get sections in a specific date range
-export async function getSectionsInDateRange(searchParams, startDate, endDate) {
-  try {
-    const ignoredSearchColumns = ["section_start_date", "section_end_date"];
-    const { whereClause, orderByClause, limitClause, queryValues } =
-      parseSearchParams(searchParams, ignoredSearchColumns);
-
-    const sqlValue = [endDate, startDate, ...queryValues];
-    const sqlText = `
-      SELECT s.id, s.class_id, s.module_id, s.section_start_date, s.section_end_date, s.section_fee, s.section_total_fee, s.section_status,
-        c.class_name, c.class_code,
-        m.module_name,
-        co.course_name, co.course_status_id,
-        COUNT(*) OVER() AS total
-      FROM sections_view s
-      JOIN classes c ON s.class_id = c.id AND c.deleted_at IS NULL
-      JOIN modules m ON s.module_id = m.id AND m.deleted_at IS NULL
-      JOIN courses co ON m.course_id = co.id AND co.deleted_at IS NULL
-      WHERE s.deleted_at IS NULL AND s.section_start_date <= $1 AND (s.section_end_date >= $2 OR s.section_end_date IS NULL)
-      ${whereClause}
-      ${orderByClause || "ORDER BY class_name, module_name"}
-      ${limitClause};
-    `;
-
-    return await sql.query(sqlText, sqlValue);
   } catch (error) {
     throw new Error(error.message);
   }

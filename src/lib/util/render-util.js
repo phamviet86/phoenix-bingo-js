@@ -6,8 +6,6 @@ import {
   formatDateYYYYMMDD,
   formatDateMMDD,
   formatTimeHHMM,
-  formatMoneyVND,
-  formatPercentage,
 } from "@/lib/util/format-util";
 import { COLOR_ENUM } from "@/component/config/enum-config";
 
@@ -107,7 +105,7 @@ export function renderTimeRange(start, end) {
 
 // Table's column render
 export function renderUser(record, statusEnum) {
-  const { user_name, user_desc, user_status_id, role_names } = record;
+  const { user_name, user_desc, user_status_id } = record;
   return (
     <Space direction="vertical" size={4} wrap>
       {user_name && (
@@ -157,91 +155,32 @@ export function renderUserContact(record) {
   );
 }
 
-export function renderLesson(record) {
-  const { lesson_name, lesson_no, lesson_desc } = record;
-  return (
-    <Space direction="vertical" size={4}>
-      <Space size={4}>
-        {lesson_no && <Text>{`${lesson_no}. `}</Text>}
-        <Text>{lesson_name}</Text>
-      </Space>
-      <Text type="secondary">{renderTextArea(lesson_desc)}</Text>
-    </Space>
-  );
-}
+// time, class_name, module_name, status_color
+export function renderScheduleShort(info) {
+  const { shift_start_time, class_code, module_name, schedule_status_color } =
+    info.event.extendedProps;
+  const { status, color } = COLOR_ENUM[schedule_status_color];
 
-export function renderResourceEndpoint(record, methodEnum) {
-  const { resource_endpoint, resource_method } = record;
-  return (
-    <Space>
-      <Text>{resource_endpoint}</Text>
-      {renderTagFromEnum(resource_method, methodEnum)}
-    </Space>
-  );
-}
+  const styles = {
+    text: {
+      fontSize: "1em",
+    },
+    time: {
+      fontSize: "1em",
+      fontWeight: 700,
+    },
+  };
 
-export function renderSectionModule(record, statusEnum) {
-  const { course_name, module_name, section_status } = record;
+  // return the information in a row in order time, class_name, module_name
   return (
-    <Space direction="vertical" size={4}>
-      <Space>
-        <Text strong>{module_name}</Text>
-        <Text type="secondary">{course_name}</Text>
-      </Space>
-      {renderTagFromEnum(section_status, statusEnum)}
-    </Space>
-  );
-}
-
-export function renderSectionFee(record) {
-  const { section_fee, section_total_fee } = record;
-  return (
-    <Space direction="vertical" size={4}>
-      <Text>{`Buổi: ${formatMoneyVND(section_fee)}`}</Text>
-      <Text>{`Khoá: ${formatMoneyVND(section_total_fee)}`}</Text>
-    </Space>
-  );
-}
-
-export function renderEnrollment(record, typeEnum, statusEnum) {
-  const { user_name, enrollment_type_id, enrollment_status } = record;
-  return (
-    <Space direction="vertical" size={4}>
-      <Text strong>{user_name}</Text>
-      <Space>
-        {renderTagFromEnum(enrollment_type_id, typeEnum)}
-        {renderTagFromEnum(enrollment_status, statusEnum)}
-      </Space>
-    </Space>
-  );
-}
-
-export function renderEnrollmentPayment(record, paymentTypeEnum) {
-  const {
-    enrollment_payment_type_id,
-    enrollment_payment_amount,
-    enrollment_payment_discount,
-  } = record;
-  return (
-    <Space direction="vertical" size={4}>
-      <Text>{`Số tiền: ${formatMoneyVND(enrollment_payment_amount)}`}</Text>
-      {renderTagFromEnum(enrollment_payment_type_id, paymentTypeEnum)}
-      {enrollment_payment_discount > 0 && (
-        <Text>{`CK: ${formatPercentage(enrollment_payment_discount)}`}</Text>
-      )}
-    </Space>
-  );
-}
-
-export function renderScheduleTime(record) {
-  const { shift_name, shift_start_time, shift_end_time } = record;
-  return (
-    <Space size={4}>
-      <Text>{shift_name}</Text>
-      <Text type="secondary">
-        {`(${formatTimeHHMM(shift_start_time)} - ${formatTimeHHMM(
-          shift_end_time
-        )})`}
+    <Space size={4} wrap>
+      <Badge status={status ? status : color} />
+      <Text style={styles.time} strong>
+        {formatTimeHHMM(shift_start_time)}
+      </Text>
+      <Text style={styles.text}>{class_code}</Text>
+      <Text style={styles.text} type="secondary">
+        {module_name}
       </Text>
     </Space>
   );
