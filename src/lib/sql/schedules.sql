@@ -14,3 +14,15 @@ CREATE TABLE schedules (
 );
 CREATE TRIGGER update_record BEFORE
 UPDATE ON schedules FOR EACH ROW EXECUTE FUNCTION set_updated_at();
+
+
+DROP VIEW IF EXISTS schedules_summary_view CASCADE;
+CREATE OR REPLACE VIEW schedules_summary_view AS
+SELECT 
+    section_id,
+    COUNT(CASE WHEN schedule_status_id = 12 THEN 1 END) AS pending_count,
+    COUNT(CASE WHEN schedule_status_id = 13 THEN 1 END) AS completed_count,
+    COUNT(CASE WHEN schedule_status_id = 14 THEN 1 END) AS absent_count,
+    COUNT(*) AS total_count
+FROM schedules 
+GROUP BY section_id;
