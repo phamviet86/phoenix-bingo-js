@@ -157,73 +157,7 @@ export function SelectionSectionsColumns() {
   ];
 }
 
-export function SectionsFields() {
-  return (
-    <ProForm.Group>
-      <ProFormText name="id" label="ID" hidden disabled />
-      <ProFormText name="class_id" label="ID lớp học" hidden disabled />
-      <ProFormText name="module_id" label="ID Học phần" hidden disabled />
-      <ProFormText
-        name="class_name"
-        label="Lớp học"
-        colProps={{ xs: 12 }}
-        disabled
-      />
-      <ProFormText
-        name="course_name"
-        label="Giáo trình"
-        colProps={{ xs: 12 }}
-        disabled
-      />
-      <ProFormText
-        name="module_name"
-        label="Học phần"
-        colProps={{ xs: 12 }}
-        disabled
-      />
-      <ProFormText
-        name="section_status"
-        label="Trạng thái"
-        colProps={{ xs: 12 }}
-        disabled
-      />
-      <ProFormDatePicker
-        name="section_start_date"
-        label="Ngày bắt đầu"
-        placeholder="Chọn ngày bắt đầu"
-        width="100%"
-        colProps={{ xs: 12 }}
-      />
-      <ProFormDatePicker
-        name="section_end_date"
-        label="Ngày kết thúc"
-        placeholder="Chọn ngày kết thúc"
-        width="100%"
-        colProps={{ xs: 12 }}
-      />
-      <ProFormMoney
-        name="section_fee"
-        label="Học phí"
-        placeholder="Nhập học phí"
-        locale="vn-VN"
-        width="100%"
-        colProps={{ xs: 12 }}
-        precision={0}
-      />
-      <ProFormMoney
-        name="section_total_fee"
-        label="Tổng học phí"
-        placeholder="Nhập tổng học phí"
-        locale="vn-VN"
-        width="100%"
-        colProps={{ xs: 12 }}
-        precision={0}
-      />
-    </ProForm.Group>
-  );
-}
-
-export function ScheduleSectionsColumns() {
+export function SectionsSummaryColumns() {
   return [
     {
       title: "Lớp học",
@@ -309,4 +243,70 @@ export function ScheduleSectionsColumns() {
       responsive: ["lg"],
     },
   ];
+}
+
+export function SectionsFields() {
+  return (
+    <ProForm.Group>
+      <ProFormText name="id" label="ID" hidden disabled />
+      <ProFormText name="class_id" label="ID lớp học" hidden disabled />
+      <ProFormText name="module_id" label="ID Học phần" hidden disabled />
+      <ProFormText
+        name="class_name"
+        label="Lớp học"
+        colProps={{ xs: 12 }}
+        disabled
+      />
+      <ProFormText
+        name="course_name"
+        label="Giáo trình"
+        colProps={{ xs: 12 }}
+        disabled
+      />
+      <ProFormText
+        name="module_name"
+        label="Học phần"
+        colProps={{ xs: 12 }}
+        disabled
+      />
+      <ProFormText
+        name="section_status"
+        label="Trạng thái"
+        colProps={{ xs: 12 }}
+        disabled
+      />
+      <ProFormDatePicker
+        name="section_start_date"
+        label="Ngày bắt đầu"
+        placeholder="Chọn ngày bắt đầu"
+        width="100%"
+        colProps={{ xs: 12 }}
+      />
+      <ProFormDatePicker
+        name="section_end_date"
+        label="Ngày kết thúc"
+        placeholder="Chọn ngày kết thúc"
+        width="100%"
+        colProps={{ xs: 12 }}
+      />
+      <ProFormMoney
+        name="section_fee"
+        label="Học phí"
+        placeholder="Nhập học phí"
+        locale="vn-VN"
+        width="100%"
+        colProps={{ xs: 12 }}
+        precision={0}
+      />
+      <ProFormMoney
+        name="section_total_fee"
+        label="Tổng học phí"
+        placeholder="Nhập tổng học phí"
+        locale="vn-VN"
+        width="100%"
+        colProps={{ xs: 12 }}
+        precision={0}
+      />
+    </ProForm.Group>
+  );
 }

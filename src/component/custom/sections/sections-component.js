@@ -79,3 +79,23 @@ export function SectionsTransfer({ classId, ...props }) {
     </Modal>
   );
 }
+
+export function SectionsSummaryTable({ dateRange, ...props }) {
+  const { startDate, endDate } = dateRange || {};
+
+  return (
+    <ProTable
+      {...props}
+      onDataRequest={(params, sort, filter) =>
+        fetchList(`/api/sections/${startDate}/${endDate}`, params, sort, filter)
+      }
+      params={{
+        section_start_date_lte: endDate,
+        or: {
+          section_end_date_gte: startDate,
+          section_end_date_null: true,
+        },
+      }}
+    />
+  );
+}

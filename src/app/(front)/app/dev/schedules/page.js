@@ -10,8 +10,8 @@ import {
   SchedulesCalendar,
   SchedulesColumns,
   SchedulesFields,
-  SectionsTable,
-  ScheduleSectionsColumns,
+  SectionsSummaryTable,
+  SectionsSummaryColumns,
 } from "@/component/custom";
 import { useTable, useInfo, useForm, useCalendar } from "@/component/hook";
 import { PageProvider, usePageContext } from "./provider";
@@ -98,16 +98,14 @@ function PageContent() {
     label: "Lớp học",
     children: (
       <ProCard boxShadow title="Danh sách lớp">
-        <SectionsTable
+        <SectionsSummaryTable
           tableHook={sectionTable}
-          columns={ScheduleSectionsColumns()}
+          columns={SectionsSummaryColumns()}
+          // columns={SchedulesSummaryColumns()}
           // hiển thị các lớp học có lịch học trong khoảng thời gian đã chọn (dựa vào calendar: startDate, endDate)
-          params={{
-            section_start_date_lte: scheduleCalendar.endDate,
-            or: {
-              section_end_date_gte: scheduleCalendar.startDate,
-              section_end_date_null: true,
-            },
+          dateRange={{
+            startDate: scheduleCalendar.startDate,
+            endDate: scheduleCalendar.endDate,
           }}
           onDataRequestSuccess={() => scheduleCalendar.reload()}
           onRowsSelect={(keys) => {

@@ -1,4 +1,7 @@
+DROP VIEW IF EXISTS schedules_view CASCADE;
+DROP VIEW IF EXISTS schedules_summary CASCADE;
 DROP TABLE IF EXISTS schedules CASCADE;
+
 CREATE TABLE schedules (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -15,14 +18,23 @@ CREATE TABLE schedules (
 CREATE TRIGGER update_record BEFORE
 UPDATE ON schedules FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
+DROP VIEW IF EXISTS schedules_view CASCADE;
+CREATE OR REPLACE VIEW schedules_view AS
+SELECT 
+  s.*,
+  CASE WHEN schedule_status_id = 13 THEN 1 END AS schedule_pending,
+  CASE WHEN schedule_status_id = 14 THEN 1 END AS schedule_completed,
+  CASE WHEN schedule_status_id = 15 THEN 1 END AS schedule_absent
+FROM schedules s;
 
-DROP VIEW IF EXISTS schedules_summary_view CASCADE;
-CREATE OR REPLACE VIEW schedules_summary_view AS
+
+DROP VIEW IF EXISTS schedules_summary CASCADE;
+CREATE OR REPLACE VIEW schedules_summary AS
 SELECT 
     section_id,
-    COUNT(CASE WHEN schedule_status_id = 12 THEN 1 END) AS pending_count,
-    COUNT(CASE WHEN schedule_status_id = 13 THEN 1 END) AS completed_count,
-    COUNT(CASE WHEN schedule_status_id = 14 THEN 1 END) AS absent_count,
+    COUNT(CASE WHEN schedule_status_id = 13 THEN 1 END) AS pending_count,
+    COUNT(CASE WHEN schedule_status_id = 14 THEN 1 END) AS completed_count,
+    COUNT(CASE WHEN schedule_status_id = 15 THEN 1 END) AS absent_count,
     COUNT(*) AS total_count
 FROM schedules 
 GROUP BY section_id;

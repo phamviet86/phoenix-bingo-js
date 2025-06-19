@@ -31,18 +31,5 @@ SELECT
     WHEN s.section_start_date IS NOT NULL AND s.section_end_date IS NOT NULL AND NOW() >= s.section_start_date AND NOW() < s.section_end_date THEN 'Đang học'
     WHEN s.section_end_date IS NOT NULL AND NOW() >= s.section_end_date THEN 'Đã học xong'
     ELSE 'Chưa có lịch'
-  END AS section_status,
-  COALESCE(sc.pending_count, 0) as pending_count,
-  COALESCE(sc.completed_count, 0) as completed_count,
-  COALESCE(sc.absent_count, 0) as absent_count
-FROM sections s
-LEFT JOIN (
-  SELECT
-    section_id,
-    COUNT(CASE WHEN schedule_status_id = 13 THEN 1 END) as pending_count,
-    COUNT(CASE WHEN schedule_status_id = 14 THEN 1 END) as completed_count,
-    COUNT(CASE WHEN schedule_status_id = 15 THEN 1 END) as absent_count
-  FROM schedules
-  WHERE deleted_at IS NULL
-  GROUP BY section_id
-) sc ON s.id = sc.section_id;
+  END AS section_status
+FROM sections s;

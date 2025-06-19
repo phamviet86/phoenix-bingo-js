@@ -11,15 +11,17 @@ export async function getSections(searchParams) {
 
     const sqlValue = [...queryValues];
     const sqlText = `
-      SELECT s.id, s.class_id, s.module_id, s.section_start_date, s.section_end_date, s.section_fee, s.section_total_fee, s.section_status, pending_count, completed_count, absent_count,
+      SELECT s.id, s.class_id, s.module_id, s.section_start_date, s.section_end_date, s.section_fee, s.section_total_fee, s.section_status,
         c.class_name, c.class_code,
         m.module_name,
         co.course_name, co.course_status_id,
+        ss.pending_count, ss.completed_count, ss.absent_count,
         COUNT(*) OVER() AS total
       FROM sections_view s
       JOIN classes c ON s.class_id = c.id AND c.deleted_at IS NULL
       JOIN modules m ON s.module_id = m.id AND m.deleted_at IS NULL
       JOIN courses co ON m.course_id = co.id AND co.deleted_at IS NULL
+      LEFT JOIN schedules_summary ss ON s.id = ss.section_id
       WHERE s.deleted_at IS NULL
       ${whereClause}
       ${orderByClause || "ORDER BY section_start_date, section_end_date"}
@@ -35,14 +37,16 @@ export async function getSections(searchParams) {
 export async function getSection(id) {
   try {
     return await sql`
-      SELECT s.id, s.class_id, s.module_id, s.section_start_date, s.section_end_date, s.section_fee, s.section_total_fee, s.section_status, pending_count, completed_count, absent_count,
+      SELECT s.id, s.class_id, s.module_id, s.section_start_date, s.section_end_date, s.section_fee, s.section_total_fee, s.section_status, 
         c.class_name, c.class_code,
         m.module_name,
-        co.course_name, co.course_status_id
+        co.course_name, co.course_status_id,
+        ss.pending_count, ss.completed_count, ss.absent_count
       FROM sections_view s
       JOIN classes c ON s.class_id = c.id AND c.deleted_at IS NULL
       JOIN modules m ON s.module_id = m.id AND m.deleted_at IS NULL
       JOIN courses co ON m.course_id = co.id AND co.deleted_at IS NULL
+      LEFT JOIN schedules_summary ss ON s.id = ss.section_id
       WHERE s.deleted_at IS NULL AND s.id = ${id};
     `;
   } catch (error) {
@@ -180,6 +184,39 @@ export async function deleteSectionsByClass(classId, moduleIds) {
 
     const queryValues = [classId, ...moduleIds];
     return await sql.query(queryText, queryValues);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function getSectionSummary(searchParams, startDate, endDate) {
+  try {
+    const ignoredSearchColumns = ["start_date", "end_date"];
+    const { whereClause, orderByClause, limitClause, queryValues } =
+      parseSearchParams(searchParams, ignoredSearchColumns);
+
+    const sqlValue = [startDate, endDate, ...queryValues];
+    const sqlText = `
+      SELECT 
+        s.id, s.section_start_date, s.section_end_date, s.section_status,
+        c.class_name, c.class_code, 
+        m.module_name, 
+        COUNT(sv.schedule_pending) AS pending_count,
+        COUNT(sv.schedule_completed) AS completed_count,
+        COUNT(sv.schedule_absent) AS absent_count,
+        COUNT(*) OVER() AS total
+      FROM sections_view s
+      JOIN classes c ON s.class_id = c.id AND c.deleted_at IS NULL
+      JOIN modules m ON s.module_id = m.id AND m.deleted_at IS NULL
+      LEFT JOIN schedules_view sv ON s.id = sv.section_id AND sv.deleted_at IS NULL AND sv.schedule_date >= $1 AND sv.schedule_date < $2
+      WHERE s.deleted_at IS NULL 
+      ${whereClause}
+      GROUP BY s.id, s.section_start_date, s.section_end_date, s.section_status, c.class_name, c.class_code, m.module_name
+      ${orderByClause || "ORDER BY class_name, module_name"}
+      ${limitClause};
+    `;
+
+    return await sql.query(sqlText, sqlValue);
   } catch (error) {
     throw new Error(error.message);
   }
