@@ -32,8 +32,6 @@ export function FullCalendar({
   },
   params = {},
   calendarHook = {},
-  navLinks = false,
-  weekNumberClick = undefined,
   ...props
 }) {
   const {

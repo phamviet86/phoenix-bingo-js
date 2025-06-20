@@ -129,3 +129,43 @@ export async function deleteSchedule(id) {
     throw new Error(error.message);
   }
 }
+
+// Duplicate multiple schedules by their IDs, incrementing schedule_date by 7 days
+export async function duplicateSchedules(ids) {
+  try {
+    const placeholders = ids.map((_, index) => `$${index + 1}`).join(", ");
+
+    const queryText = `
+      INSERT INTO schedules (section_id, shift_id, schedule_date)
+      SELECT section_id, shift_id, schedule_date + INTERVAL '7 days'
+      FROM schedules
+      WHERE id IN (${placeholders}) AND deleted_at IS NULL
+      RETURNING id, section_id, lesson_id, shift_id, room_id, schedule_date, schedule_status_id, schedule_desc;
+    `;
+    const queryValues = ids;
+
+    return await sql.query(queryText, queryValues);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+// Soft-delete multiple schedules by their IDs
+export async function deleteSchedules(ids) {
+  try {
+    const placeholders = ids.map((_, index) => `$${index + 1}`).join(", ");
+
+    const queryText = `
+      UPDATE schedules
+      SET deleted_at = NOW()
+      WHERE deleted_at IS NULL 
+        AND id IN (${placeholders})
+      RETURNING id, section_id, lesson_id, shift_id, room_id, schedule_date, schedule_status_id, schedule_desc;
+    `;
+    const queryValues = ids;
+
+    return await sql.query(queryText, queryValues);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}

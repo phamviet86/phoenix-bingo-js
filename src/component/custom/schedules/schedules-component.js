@@ -4,6 +4,8 @@ import {
   DrawerInfo,
   ProDescriptions,
   FullCalendar,
+  Transfer,
+  Modal,
 } from "@/component/common";
 import { fetchList, fetchPost, fetchGet } from "@/lib/util/fetch-util";
 import { VIEWS_CONFIG } from "@/component/config/calendar-config";
@@ -80,5 +82,48 @@ export function SchedulesCalendar(props) {
         },
       }}
     />
+  );
+}
+
+export function SchedulesTransfer(props) {
+  return (
+    <Modal {...props} title="Sao chép lịch học" footer={false}>
+      <Transfer
+        onSourceRequest={() => fetchList("/api/schedules", {})}
+        onAddTarget={(keys) =>
+          fetchPost(`/api/schedules/transfer`, {
+            ids: keys,
+          })
+        }
+        onTargetRequest={() => fetchList("/api/schedules", {})}
+        onRemoveTarget={(keys) =>
+          fetchDelete(`/api/schedules/transfer`, {
+            ids: keys,
+          })
+        }
+        onSourceItem={{
+          key: "section_id",
+          date: "schedule_date",
+          time: "shift_start_time",
+          class: "class_code",
+          module: "module_name",
+        }}
+        onTargetItem={{
+          key: "section_id",
+          date: "schedule_date",
+          time: "shift_start_time",
+          class: "class_code",
+          module: "module_name",
+        }}
+        titles={["Học phần", "Đã gán"]}
+        operations={["Thêm lịch", "Xóa lịch"]}
+        listStyle={{
+          width: "100%",
+          height: "100%",
+          minHeight: "200px",
+        }}
+        render={(item) => `${item.class} - ${item.module}`}
+      />
+    </Modal>
   );
 }

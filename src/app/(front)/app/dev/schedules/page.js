@@ -8,6 +8,7 @@ import {
   SchedulesInfo,
   SchedulesForm,
   SchedulesCalendar,
+  SchedulesTransfer,
   SchedulesColumns,
   SchedulesFields,
   SectionsSummaryTable,
@@ -31,6 +32,7 @@ function PageContent() {
   const scheduleForm = useForm();
   const sectionTable = useTable();
   const [sectionsIds, setSectionsIds] = useState([]);
+  const [scheduleTransferVisible, setScheduleTransferVisible] = useState(false);
 
   const pageButton = [];
 
@@ -47,8 +49,11 @@ function PageContent() {
           scheduleInfo.setParams({ id: clickInfo.event.id });
           scheduleInfo.open();
         }}
+        navLinkWeekClick={(startDate) => {
+          console.log("Week start date:", startDate);
+          setScheduleTransferVisible(true);
+        }}
       />
-
       <SchedulesInfo
         infoHook={scheduleInfo}
         columns={SchedulesColumns({
@@ -88,6 +93,14 @@ function PageContent() {
         initialValues={scheduleForm.initialValues}
         title={scheduleForm.title}
         onDataSubmitSuccess={() => scheduleCalendar.reload()}
+      />
+      <SchedulesTransfer
+        open={scheduleTransferVisible}
+        onOk={() => {
+          setScheduleTransferVisible(false);
+          scheduleCalendar.reload();
+        }}
+        onCancel={() => setScheduleTransferVisible(false)}
       />
     </ProCard>
   );
