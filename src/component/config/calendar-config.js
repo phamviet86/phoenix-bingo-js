@@ -12,7 +12,7 @@ export const CALENDAR_CONFIG = {
   eventBackgroundColor: "transparent",
   eventBorderColor: "transparent",
   firstDay: 7,
-  titleFormat: { year: "numeric", month: "long", day: "2-digit" },
+  titleFormat: { year: "numeric", month: "short", day: "2-digit" },
   eventTimeFormat: { hour: "2-digit", minute: "2-digit", hour12: false },
   buttonText: {
     today: "Hôm nay",

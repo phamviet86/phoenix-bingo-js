@@ -86,6 +86,11 @@ export function SectionsColumns() {
       sorter: { multiple: 1 },
       search: false,
       responsive: ["xl"],
+      render: (text) => (
+        <Typography.Text type="secondary" strong>
+          {text}
+        </Typography.Text>
+      ),
     },
     {
       title: "Đã học",
@@ -93,6 +98,11 @@ export function SectionsColumns() {
       valueType: "digit",
       search: false,
       responsive: ["xl"],
+      render: (text) => (
+        <Typography.Text type="success" strong>
+          {text}
+        </Typography.Text>
+      ),
     },
     {
       title: "Nghỉ",
@@ -100,6 +110,11 @@ export function SectionsColumns() {
       valueType: "digit",
       search: false,
       responsive: ["xl"],
+      render: (text) => (
+        <Typography.Text type="danger" strong>
+          {text}
+        </Typography.Text>
+      ),
     },
   ];
 }
@@ -201,6 +216,7 @@ export function SectionsSummaryColumns() {
       dataIndex: "section_status",
       valueType: "select",
       valueEnum: SECTION_STATUS,
+      filters: true,
       sorter: { multiple: 1 },
       responsive: ["lg"],
     },
@@ -227,6 +243,11 @@ export function SectionsSummaryColumns() {
       sorter: { multiple: 1 },
       search: false,
       responsive: ["lg"],
+      render: (text) => (
+        <Typography.Text type="secondary" strong>
+          {text}
+        </Typography.Text>
+      ),
     },
     {
       title: "Đã học",
@@ -234,6 +255,11 @@ export function SectionsSummaryColumns() {
       valueType: "digit",
       search: false,
       responsive: ["lg"],
+      render: (text) => (
+        <Typography.Text type="success" strong>
+          {text}
+        </Typography.Text>
+      ),
     },
     {
       title: "Nghỉ",
@@ -241,6 +267,11 @@ export function SectionsSummaryColumns() {
       valueType: "digit",
       search: false,
       responsive: ["lg"],
+      render: (text) => (
+        <Typography.Text type="danger" strong>
+          {text}
+        </Typography.Text>
+      ),
     },
   ];
 }

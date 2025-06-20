@@ -26,7 +26,7 @@ export function FullCalendar({
   height = "auto",
   responsive = RESPONSIVE_CONFIG,
   headerToolbar = {
-    // center: "title",
+    center: "title",
     left: "prev,next today",
     right: "dayGrid,dayGridWeek,dayGridMonth",
   },
