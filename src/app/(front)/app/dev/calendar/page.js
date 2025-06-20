@@ -88,6 +88,12 @@ export default function Page() {
                 </div>
               );
             }}
+            navLinks={true}
+            weekNumberClick={(weekStart) => {
+              // console.log("week start", weekStart);
+              console.log("week start", weekStart.toISOString());
+            }}
+            weekNumbers={true}
           />
         </ProCard>
       </ProCard>

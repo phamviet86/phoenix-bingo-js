@@ -32,6 +32,8 @@ export function FullCalendar({
   },
   params = {},
   calendarHook = {},
+  navLinks = false,
+  weekNumberClick = undefined,
   ...props
 }) {
   const {
@@ -154,6 +156,8 @@ export function FullCalendar({
         height={height}
         datesSet={handleDatesSet}
         events={calendarEvents}
+        weekNumbers={true}
+        navLinks={true}
       />
     </>
   );

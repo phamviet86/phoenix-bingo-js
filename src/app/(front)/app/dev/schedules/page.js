@@ -101,7 +101,6 @@ function PageContent() {
         <SectionsSummaryTable
           tableHook={sectionTable}
           columns={SectionsSummaryColumns()}
-          // columns={SchedulesSummaryColumns()}
           // hiển thị các lớp học có lịch học trong khoảng thời gian đã chọn (dựa vào calendar: startDate, endDate)
           dateRange={{
             startDate: scheduleCalendar.startDate,

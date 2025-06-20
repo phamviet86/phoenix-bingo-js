@@ -90,7 +90,7 @@ export function SectionsSummaryTable({ dateRange, ...props }) {
         fetchList(`/api/sections/${startDate}/${endDate}`, params, sort, filter)
       }
       params={{
-        section_start_date_lte: endDate,
+        section_start_date_lt: endDate,
         or: {
           section_end_date_gte: startDate,
           section_end_date_null: true,
