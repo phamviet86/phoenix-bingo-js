@@ -122,7 +122,7 @@ export async function getSectionsByClass(searchParams, classId) {
 
     const sqlValue = [classId, ...queryValues];
     const sqlText = `
-      SELECT s.id, s.class_id, s.module_id, s.section_start_date, s.section_end_date, s.section_fee, s.section_total_fee, s.section_status, pending_count, completed_count, absent_count,
+      SELECT s.id, s.class_id, s.module_id, s.section_start_date, s.section_end_date, s.section_fee, s.section_total_fee, s.section_status, 
         c.class_name, c.class_code,
         m.module_name,
         co.course_name, co.course_status_id,

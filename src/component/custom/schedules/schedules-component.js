@@ -1,3 +1,4 @@
+import { Modal } from "antd";
 import {
   ProTable,
   DrawerForm,
@@ -5,9 +6,13 @@ import {
   ProDescriptions,
   FullCalendar,
   Transfer,
-  Modal,
 } from "@/component/common";
-import { fetchList, fetchPost, fetchGet } from "@/lib/util/fetch-util";
+import {
+  fetchList,
+  fetchPost,
+  fetchGet,
+  fetchDelete,
+} from "@/lib/util/fetch-util";
 import { VIEWS_CONFIG } from "@/component/config/calendar-config";
 import { renderScheduleShort } from "@/lib/util/render-util";
 
@@ -85,31 +90,47 @@ export function SchedulesCalendar(props) {
   );
 }
 
-export function SchedulesTransfer(props) {
+export function SchedulesTransfer({ dateRange = undefined, ...props }) {
+  if (!dateRange) {
+    return null;
+  }
+
+  const { date1, date2, date3 } = dateRange;
   return (
-    <Modal {...props} title="Sao chép lịch học" footer={false}>
+    <Modal {...props} title="Sao chép lịch học" footer={false} width={800}>
       <Transfer
-        onSourceRequest={() => fetchList("/api/schedules", {})}
+        onSourceRequest={() =>
+          fetchList("/api/schedules", {
+            schedule_date_gte: date1,
+            schedule_date_lt: date2,
+          })
+        }
+        onTargetRequest={() =>
+          fetchList("/api/schedules", {
+            source_id_nnull: true,
+            schedule_date_gte: date2,
+            schedule_date_lt: date3,
+          })
+        }
         onAddTarget={(keys) =>
           fetchPost(`/api/schedules/transfer`, {
             ids: keys,
           })
         }
-        onTargetRequest={() => fetchList("/api/schedules", {})}
         onRemoveTarget={(keys) =>
           fetchDelete(`/api/schedules/transfer`, {
             ids: keys,
           })
         }
         onSourceItem={{
-          key: "section_id",
+          key: "id",
           date: "schedule_date",
           time: "shift_start_time",
           class: "class_code",
           module: "module_name",
         }}
         onTargetItem={{
-          key: "section_id",
+          key: "source_id",
           date: "schedule_date",
           time: "shift_start_time",
           class: "class_code",

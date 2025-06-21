@@ -404,3 +404,32 @@ export function convertEventItems(data = [], eventProps = {}) {
     return eventItem;
   });
 }
+
+export function convertIsoDate(startDate, days = 0) {
+  // Handle various input formats
+  let date;
+
+  if (startDate instanceof Date) {
+    // Already a Date object
+    date = new Date(startDate);
+  } else if (typeof startDate === "string") {
+    // Try to parse string - could be ISO, locale format, etc.
+    date = new Date(startDate);
+  } else if (typeof startDate === "number") {
+    // Unix timestamp
+    date = new Date(startDate);
+  } else {
+    // Invalid input
+    console.error("Invalid startDate format:", startDate);
+    return null;
+  }
+
+  // Check if date is valid
+  if (isNaN(date.getTime())) {
+    console.error("Invalid date created from:", startDate);
+    return null;
+  }
+
+  date.setDate(date.getDate() + days);
+  return date.toISOString().split("T")[0];
+}

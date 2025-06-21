@@ -7,6 +7,7 @@ CREATE TABLE schedules (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW(),
   deleted_at TIMESTAMPTZ DEFAULT NULL,
+  source_id UUID DEFAULT NULL,
   section_id UUID NOT NULL,
   lesson_id UUID DEFAULT NULL,
   shift_id UUID NOT NULL,

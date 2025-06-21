@@ -1,7 +1,7 @@
 import {
   duplicateSchedules,
-  deleteSchedules,
-} from "@/service/sections-service";
+  deleteSchedulesBySource,
+} from "@/service/schedules-service";
 import { buildApiResponse } from "@/lib/util/response-util";
 
 export async function POST(request) {
@@ -31,7 +31,7 @@ export async function DELETE(request) {
     if (!Array.isArray(ids) || ids.length === 0)
       return buildApiResponse(400, false, "Thiếu thông tin bắt buộc");
 
-    const result = await deleteSchedules(ids);
+    const result = await deleteSchedulesBySource(ids);
 
     if (!result || !result.length)
       return buildApiResponse(404, false, "Không tìm thấy lịch học để xóa");

@@ -16,6 +16,7 @@ import {
 } from "@/component/custom";
 import { useTable, useInfo, useForm, useCalendar } from "@/component/hook";
 import { PageProvider, usePageContext } from "./provider";
+import { convertIsoDate } from "@/lib/util/convert-util";
 
 export default function Page(props) {
   return (
@@ -32,7 +33,9 @@ function PageContent() {
   const scheduleForm = useForm();
   const sectionTable = useTable();
   const [sectionsIds, setSectionsIds] = useState([]);
-  const [scheduleTransferVisible, setScheduleTransferVisible] = useState(false);
+  const [schedulesTransferVisible, setSchedulesTransferVisible] =
+    useState(true);
+  const [transferStartDate, setTransferStartDate] = useState(null);
 
   const pageButton = [];
 
@@ -50,8 +53,12 @@ function PageContent() {
           scheduleInfo.open();
         }}
         navLinkWeekClick={(startDate) => {
-          console.log("Week start date:", startDate);
-          setScheduleTransferVisible(true);
+          setTransferStartDate({
+            date1: convertIsoDate(startDate),
+            date2: convertIsoDate(startDate, 7),
+            date3: convertIsoDate(startDate, 14),
+          });
+          setSchedulesTransferVisible(true);
         }}
       />
       <SchedulesInfo
@@ -92,15 +99,24 @@ function PageContent() {
         })}
         initialValues={scheduleForm.initialValues}
         title={scheduleForm.title}
-        onDataSubmitSuccess={() => scheduleCalendar.reload()}
+        onDataSubmitSuccess={() => {
+          scheduleCalendar.reload();
+          sectionTable.reload();
+        }}
       />
       <SchedulesTransfer
-        open={scheduleTransferVisible}
+        open={schedulesTransferVisible}
         onOk={() => {
-          setScheduleTransferVisible(false);
+          setSchedulesTransferVisible(false);
           scheduleCalendar.reload();
+          sectionTable.reload();
         }}
-        onCancel={() => setScheduleTransferVisible(false)}
+        onCancel={() => {
+          setSchedulesTransferVisible(false);
+          scheduleCalendar.reload();
+          sectionTable.reload();
+        }}
+        dateRange={transferStartDate}
       />
     </ProCard>
   );
@@ -140,6 +156,7 @@ function PageContent() {
                       section_id: record.id,
                       class_name: record.class_name,
                       module_name: record.module_name,
+                      schedule_status_id: 13,
                     });
                     scheduleForm.open();
                   }}

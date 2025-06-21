@@ -12,7 +12,7 @@ export async function getSchedules(searchParams) {
     const sqlValue = [...queryValues];
     const sqlText = `
       SELECT 
-        s.id, s.section_id, s.lesson_id, s.shift_id, s.room_id, s.schedule_date, s.schedule_status_id, s.schedule_desc,
+        s.id, s.section_id, s.lesson_id, s.shift_id, s.room_id, s.schedule_date, s.schedule_status_id, s.schedule_desc, s.source_id,
         sh.shift_start_time, sh.shift_end_time, sh.shift_name,
         o.option_color AS schedule_status_color,
         c.class_name, c.class_code, 
@@ -47,7 +47,7 @@ export async function getSchedule(id) {
   try {
     return await sql`
       SELECT 
-        s.id, s.section_id, s.lesson_id, s.shift_id, s.room_id, s.schedule_date, s.schedule_status_id, s.schedule_desc,
+        s.id, s.section_id, s.lesson_id, s.shift_id, s.room_id, s.schedule_date, s.schedule_status_id, s.schedule_desc, s.source_id,
         sh.shift_start_time, sh.shift_end_time, sh.shift_name,
         o.option_color AS schedule_status_color,
         c.class_name, c.class_code, 
@@ -136,11 +136,11 @@ export async function duplicateSchedules(ids) {
     const placeholders = ids.map((_, index) => `$${index + 1}`).join(", ");
 
     const queryText = `
-      INSERT INTO schedules (section_id, shift_id, schedule_date)
-      SELECT section_id, shift_id, schedule_date + INTERVAL '7 days'
+      INSERT INTO schedules (source_id, section_id, shift_id, schedule_date, schedule_status_id)
+      SELECT id, section_id, shift_id, schedule_date + INTERVAL '7 days', 13 
       FROM schedules
       WHERE id IN (${placeholders}) AND deleted_at IS NULL
-      RETURNING id, section_id, lesson_id, shift_id, room_id, schedule_date, schedule_status_id, schedule_desc;
+      RETURNING id, source_id, section_id, lesson_id, shift_id, room_id, schedule_date, schedule_status_id, schedule_desc;
     `;
     const queryValues = ids;
 
@@ -150,8 +150,8 @@ export async function duplicateSchedules(ids) {
   }
 }
 
-// Soft-delete multiple schedules by their IDs
-export async function deleteSchedules(ids) {
+// Soft-delete multiple schedules by their source IDs
+export async function deleteSchedulesBySource(ids) {
   try {
     const placeholders = ids.map((_, index) => `$${index + 1}`).join(", ");
 
@@ -159,7 +159,7 @@ export async function deleteSchedules(ids) {
       UPDATE schedules
       SET deleted_at = NOW()
       WHERE deleted_at IS NULL 
-        AND id IN (${placeholders})
+        AND source_id IN (${placeholders})
       RETURNING id, section_id, lesson_id, shift_id, room_id, schedule_date, schedule_status_id, schedule_desc;
     `;
     const queryValues = ids;
