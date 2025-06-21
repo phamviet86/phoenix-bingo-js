@@ -1,3 +1,5 @@
+-- table: lớp học
+
 DROP VIEW IF EXISTS classes_view CASCADE;
 DROP TABLE IF EXISTS classes CASCADE;
 

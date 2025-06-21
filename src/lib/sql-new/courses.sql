@@ -1,4 +1,5 @@
--- khóa học
+-- table: khóa học
+
 DROP TABLE IF EXISTS courses CASCADE;
 CREATE TABLE courses (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

@@ -1,4 +1,5 @@
--- giáo trình
+-- table: giáo trình
+
 DROP TABLE IF EXISTS syllabuses CASCADE;
 CREATE TABLE syllabuses (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
